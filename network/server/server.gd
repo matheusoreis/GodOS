@@ -13,12 +13,20 @@ func start_server() -> void:
 	if error != Error.OK:
 		return
 
-	_enet.peer_connected.connect(_peer_connected)
-	_enet.peer_disconnected.connect(_peer_disconnected)
+	_enet.peer_connected.connect(
+		_peer_connected
+	)
+
+	_enet.peer_disconnected.connect(
+		_peer_disconnected
+	)
+
+	print("Servidor iniciado com sucesso na porta:", Constants.connection_port)
 
 
 func _setup_enet() -> Error:
 	_enet = ENetMultiplayerPeer.new()
+
 	var error: Error = _enet.create_server(
 		Constants.connection_port,
 		Constants.max_connections
@@ -29,9 +37,7 @@ func _setup_enet() -> Error:
 		_enet = null
 		return error
 
-	print("Servidor iniciado com sucesso na porta:", Constants.connection_port)
 	multiplayer.multiplayer_peer = _enet
-
 	return Error.OK
 
 

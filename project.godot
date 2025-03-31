@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 
 Constants="*res://network/constants.gd"
 Globals="*res://network/globals.gd"
+Server="*res://network/server/server.gd"
 
 [rendering]
 

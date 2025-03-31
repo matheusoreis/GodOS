@@ -1,12 +1,11 @@
 extends Node
 
 
-signal connected_to_server()
-signal connection_failed()
-signal server_disconnected()
-
-
 var _enet: ENetMultiplayerPeer
+
+
+func _ready() -> void:
+	start_client()
 
 
 func start_client() -> void:
@@ -15,15 +14,15 @@ func start_client() -> void:
 		return
 
 	multiplayer.connected_to_server.connect(
-		func(): connected_to_server.emit()
+		_connected_to_server
 	)
 
 	multiplayer.connection_failed.connect(
-		func(): connection_failed.emit()
+		_connection_failed
 	)
 
 	multiplayer.server_disconnected.connect(
-		func(): server_disconnected.emit()
+		_server_disconnected
 	)
 
 
@@ -40,3 +39,15 @@ func _setup_enet() -> Error:
 
 	multiplayer.multiplayer_peer = _enet
 	return Error.OK
+
+
+func _connected_to_server() -> void:
+	print("Cliente conectado ao servidor!")
+
+
+func _connection_failed() -> void:
+	print("Falha ao se conectar no servidor!")
+
+
+func _server_disconnected() -> void:
+	print("Falha na conexão com o servidor, servidor fechado!")

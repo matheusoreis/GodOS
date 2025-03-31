@@ -1,11 +1,11 @@
 extends Node
 
 
-signal peer_connected(id: int)
-signal peer_disconnected(id: int)
-
-
 var _enet: ENetMultiplayerPeer
+
+
+func _ready() -> void:
+	start_server()
 
 
 func start_server() -> void:
@@ -20,8 +20,6 @@ func start_server() -> void:
 	_enet.peer_disconnected.connect(
 		_peer_disconnected
 	)
-
-	print("Servidor iniciado com sucesso na porta:", Constants.connection_port)
 
 
 func _setup_enet() -> Error:
@@ -38,6 +36,7 @@ func _setup_enet() -> Error:
 		return error
 
 	multiplayer.multiplayer_peer = _enet
+	print("Servidor iniciado com sucesso na porta:", Constants.connection_port)
 	return Error.OK
 
 
@@ -52,7 +51,6 @@ func _peer_connected(pid: int) -> void:
 	}
 
 	print("Nova conexão ao servidor com o ip: ", peer.get_remote_address())
-	peer_connected.emit(pid)
 
 
 func _peer_disconnected(pid: int) -> void:
@@ -66,4 +64,3 @@ func _peer_disconnected(pid: int) -> void:
 	Globals.connections.erase(pid)
 
 	print("Conexão com o ip: ", connection_peer.get_remote_address(), ", deixando o servidor!")
-	peer_disconnected.emit(pid)

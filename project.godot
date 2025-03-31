@@ -19,7 +19,12 @@ config/icon="res://icon.svg"
 
 Constants="*res://network/constants.gd"
 Globals="*res://network/globals.gd"
-Server="*res://network/server/server.gd"
+
+[file_customization]
+
+folder_colors={
+"res://network/": "red"
+}
 
 [rendering]
 

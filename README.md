@@ -10,3 +10,26 @@ O GodOS é uma base para quem quer criar seu próprio MMORPG usando a Godot. A i
 
  - [Enet Multiplayer Peer](https://docs.godotengine.org/en/stable/classes/class_enetmultiplayerpeer.html)
  - [High Level Multiplayer](https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html)
+
+## Autores
+
+- [@matheusoreis](https://www.github.com/matheusoreis)
+
+## Roadmap
+- [X] Servidor
+- [X] Cliente
+- [ ] Lista de Servidores
+- [ ] Acessar
+- [ ] Cadastrar
+- [ ] Carregar os mapas no servidor
+- [ ] Criação do personagem
+- [ ] Acessar o personagem
+- [ ] Jogador
+- [ ] Monstros
+- [ ] Npcs
+- [ ] Combate Simples
+- [ ] Chat Local
+- [ ] Chat Global
+- [ ] Chat Privado
+- [ ] Amigos
+- [ ] Inventário

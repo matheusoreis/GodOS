@@ -10,3 +10,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wupir")
+
+[node name="Game" type="Node2D" parent="."]
+
+[node name="MenuInterface" type="CanvasLayer" parent="."]
+
+[node name="GameInterface" type="CanvasLayer" parent="."]
+
+[node name="SharedInterface" type="CanvasLayer" parent="."]

@@ -12,16 +12,14 @@ extends CharacterBody2D
 
 
 func _physics_process(delta: float) -> void:
+	if multiplayer.is_server():
+		move_and_slide()
 
-
-	#if multiplayer.is_server():
-	move_and_slide()
-
-	#if velocity != Vector2.ZERO:
-		#_last_direction = velocity.normalized()
-		#_play_walking_animation()
-	#else:
-		#_play_stopped_animation()
+		if velocity != Vector2.ZERO:
+			_last_direction = velocity.normalized()
+			_play_walking_animation()
+		else:
+			_play_stopped_animation()
 
 
 func _play_walking_animation() -> void:

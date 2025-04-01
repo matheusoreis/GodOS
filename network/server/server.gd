@@ -27,7 +27,7 @@ func _setup_enet() -> Error:
 
 	var error: Error = _enet.create_server(
 		Constants.connection_port,
-		Constants.max_connections
+		Constants.max_connections,
 	)
 
 	if error != Error.OK:

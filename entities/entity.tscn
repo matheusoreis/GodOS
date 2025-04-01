@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cifc4wlxr00wc"]
+
+[ext_resource type="Script" uid="uid://cwhdsoqutyjkn" path="res://entities/entity.gd" id="1_jm4vq"]
+
+[node name="Entity" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_animation")]
+script = ExtResource("1_jm4vq")
+_sprite = NodePath("Sprite")
+_animation = NodePath("Animation")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="."]

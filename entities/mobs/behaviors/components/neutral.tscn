@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp8qcm32km4xg"]
+
+[ext_resource type="Script" uid="uid://llo2mkjljvkt" path="res://entities/mobs/behaviors/components/neutral.gd" id="1_pp2g1"]
+
+[node name="Neutral" type="Node2D"]
+script = ExtResource("1_pp2g1")

@@ -4,10 +4,6 @@ extends Node
 var _enet: ENetMultiplayerPeer
 
 
-func _ready() -> void:
-	start_client()
-
-
 func start_client() -> void:
 	var error: Error = _setup_enet()
 	if error != Error.OK:

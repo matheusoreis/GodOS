@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cifc4wlxr00wc"]
 
-[ext_resource type="Script" uid="uid://cwhdsoqutyjkn" path="res://game/entities/entity.gd" id="1_jm4vq"]
-[ext_resource type="Script" uid="uid://d34goraatax4u" path="res://utils/state_machine/machine.gd" id="2_vssi4"]
-[ext_resource type="PackedScene" uid="uid://cim12buoi67eg" path="res://game/entities/states/stopped/stopped.tscn" id="3_o078u"]
-[ext_resource type="PackedScene" uid="uid://nekaaedv6j7p" path="res://game/entities/states/walking/walking.tscn" id="4_hauie"]
+[ext_resource type="Script" uid="uid://cwhdsoqutyjkn" path="res://core/entities/entity.gd" id="1_jm4vq"]
+[ext_resource type="Script" uid="uid://d34goraatax4u" path="res://core/entities/states/machine.gd" id="2_vssi4"]
+[ext_resource type="PackedScene" uid="uid://cim12buoi67eg" path="res://core/entities/states/stopped/stopped.tscn" id="3_o078u"]
+[ext_resource type="PackedScene" uid="uid://nekaaedv6j7p" path="res://core/entities/states/walking/walking.tscn" id="4_hauie"]
 
 [node name="Entity" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_animation")]
 script = ExtResource("1_jm4vq")

@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://c4fdhjpcs47f2"]
-
-[ext_resource type="PackedScene" uid="uid://p1t0p2bka7dh" path="res://game/entities/categories/monsters/slime/slime.tscn" id="1_jhn1c"]
-[ext_resource type="Script" uid="uid://carfcymsethrx" path="res://game/entities/categories/monsters/slime/variants/green/green.gd" id="2_3rgjf"]
-
-[node name="SlimeGreen" instance=ExtResource("1_jhn1c")]
-script = ExtResource("2_3rgjf")

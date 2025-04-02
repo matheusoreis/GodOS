@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cim12buoi67eg"]
 
-[ext_resource type="Script" uid="uid://di4alev5o78lg" path="res://game/entities/states/stopped/stopped.gd" id="1_l3anj"]
+[ext_resource type="Script" uid="uid://di4alev5o78lg" path="res://core/entities/states/stopped/stopped.gd" id="1_l3anj"]
 
 [node name="Stopped" type="Node"]
 script = ExtResource("1_l3anj")

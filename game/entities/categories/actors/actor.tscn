@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0gr6it81a36q"]
-
-[ext_resource type="PackedScene" uid="uid://cifc4wlxr00wc" path="res://game/entities/entity.tscn" id="1_oawin"]
-[ext_resource type="Script" uid="uid://dcua8g1nciyj6" path="res://game/entities/categories/actors/actor.gd" id="2_a10js"]
-
-[node name="Actor" instance=ExtResource("1_oawin")]
-script = ExtResource("2_a10js")

@@ -2,6 +2,11 @@ class_name Client
 extends Node
 
 
+signal connected_to_server()
+signal connection_failed()
+signal server_disconnected()
+
+
 var _enet: ENetMultiplayerPeer
 
 
@@ -40,11 +45,14 @@ func _setup_enet() -> Error:
 
 func _connected_to_server() -> void:
 	print("Cliente conectado ao servidor!")
+	connected_to_server.emit()
 
 
 func _connection_failed() -> void:
 	print("Falha ao se conectar no servidor!")
+	connection_failed.emit()
 
 
 func _server_disconnected() -> void:
 	print("Falha na conexão com o servidor, servidor fechado!")
+	server_disconnected.emit()

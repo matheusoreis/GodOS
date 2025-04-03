@@ -33,7 +33,7 @@ theme_override_constants/margin_bottom = 5
 
 [node name="title" type="Label" parent="content/top_bar/margin"]
 layout_mode = 2
-text = "Cadastrar"
+text = "Acessar"
 
 [node name="close" type="Button" parent="content/top_bar/margin"]
 visible = false

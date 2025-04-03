@@ -24,16 +24,9 @@ _animation = NodePath("Animation")
 
 [node name="Speed" parent="Attributes" instance=ExtResource("6_wjt14")]
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_vssi4")
-initial_state = NodePath("Stopped")
 
-[node name="Stopped" parent="StateMachine" node_paths=PackedStringArray("_entity", "_sprite", "_animation") instance=ExtResource("3_o078u")]
-_entity = NodePath("../..")
-_sprite = NodePath("../../Sprite")
-_animation = NodePath("../../Animation")
+[node name="Stopped" parent="StateMachine" instance=ExtResource("3_o078u")]
 
-[node name="Walking" parent="StateMachine" node_paths=PackedStringArray("_entity", "_sprite", "_animation") instance=ExtResource("4_hauie")]
-_entity = NodePath("../..")
-_sprite = NodePath("../../Sprite")
-_animation = NodePath("../../Animation")
+[node name="Walking" parent="StateMachine" instance=ExtResource("4_hauie")]

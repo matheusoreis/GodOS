@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2cjfjy2gu0rg"]
+
+[ext_resource type="Script" uid="uid://cbtok0qmr1vcb" path="res://core/entities/attributes/defense/defense.gd" id="1_r3qi1"]
+
+[node name="Defense" type="Node2D"]
+script = ExtResource("1_r3qi1")

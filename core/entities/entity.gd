@@ -7,11 +7,15 @@ extends CharacterBody2D
 @export var _animation: AnimationPlayer
 @export var _state_machine: StateMachine
 
-@export_group("Variables")
-@export var _move_speed: float = 50
 
-@export_group("Properties")
-@export var _entity_name: String
+@export_group("Variables")
+@export var identifier: String
+
+
+@export_group("Attributes")
+@onready var health: Health = $Attributes/Health
+@onready var speed: Speed = $Attributes/Speed
+
 
 var last_direction: Vector2
 var direction: Vector2 = Vector2.DOWN

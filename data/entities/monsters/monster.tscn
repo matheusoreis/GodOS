@@ -1,0 +1,16 @@
+[gd_scene load_steps=6 format=3 uid="uid://d4b57qjnloy0n"]
+
+[ext_resource type="PackedScene" uid="uid://cifc4wlxr00wc" path="res://core/entities/entity.tscn" id="1_247fp"]
+[ext_resource type="Script" uid="uid://x66bkwtjvoi0" path="res://data/entities/monsters/monster.gd" id="2_4nf3c"]
+[ext_resource type="PackedScene" uid="uid://bjbadumc6ifi5" path="res://core/entities/components/aggro/aggro.tscn" id="3_73dax"]
+[ext_resource type="PackedScene" uid="uid://123qu2q8h0ms" path="res://core/entities/attributes/damage/damage.tscn" id="3_wt77b"]
+[ext_resource type="PackedScene" uid="uid://b2cjfjy2gu0rg" path="res://core/entities/attributes/defense/defense.tscn" id="4_73dax"]
+
+[node name="Monster" instance=ExtResource("1_247fp")]
+script = ExtResource("2_4nf3c")
+
+[node name="Aggro" parent="." index="3" instance=ExtResource("3_73dax")]
+
+[node name="Damage" parent="Attributes" index="2" instance=ExtResource("3_wt77b")]
+
+[node name="Defense" parent="Attributes" index="3" instance=ExtResource("4_73dax")]

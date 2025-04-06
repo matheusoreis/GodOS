@@ -45,11 +45,23 @@ script = ExtResource("3_t5imi")
 [node name="Game" type="Node2D" parent="."]
 
 [node name="MenuInterface" type="CanvasLayer" parent="."]
+visible = false
 follow_viewport_enabled = true
 script = ExtResource("4_xf3if")
 
-[node name="actors_list" parent="MenuInterface" instance=ExtResource("5_8ye5a")]
-script = null
+[node name="actor_list" parent="MenuInterface" instance=ExtResource("5_8ye5a")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -245.0
+offset_top = -132.0
+offset_right = 245.0
+offset_bottom = 132.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="sign_up" parent="MenuInterface" instance=ExtResource("5_dm40k")]
 visible = false
@@ -66,7 +78,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="sign_in" parent="MenuInterface" instance=ExtResource("6_8ye5a")]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

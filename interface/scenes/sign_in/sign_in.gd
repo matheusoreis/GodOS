@@ -7,7 +7,7 @@ extends Interface
 @onready var _close_button: Button = $content/top_bar/margin/close
 @onready var _email_line: LineEdit = $content/margin/content/inputs/email
 @onready var _password_line: LineEdit = $content/margin/content/inputs/password
-@onready var _confirm_button: Button = $content/margin/content/buttons/confirm
+@onready var _access_button: Button = $content/margin/content/buttons/confirm
 @onready var _sign_up_button: Button = $content/margin/content/buttons/sign_up
 
 @export_group("Variables")
@@ -19,17 +19,36 @@ var email_regex: String = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
 func _ready() -> void:
 	super()
 
+	# Garante que o cliente está configurado
 	if not _client:
 		return
 
-	_confirm_button.pressed.connect(
-		_on_sign_in_pressed
+	# Conecta o sinal de "pressionado" do botão de acessar
+	_access_button.pressed.connect(
+		func():
+			var email_text = _email_line.text
+			var password_text = _password_line.text
+
+			if email_text.is_empty() || password_text.is_empty():
+				print("Por favor, preencha todos os campos.")
+				return
+
+			_access_button.disabled = true
+			_sign_up_button.disabled = true
+			_close_button.disabled = true
+
+			# Envia a requisição de login para o servidor
+			_request_login.rpc_id(1, email_text, password_text)
 	)
 
+	# Conecta o sinal de "pressionado" do botão de cadastrar
 	_sign_up_button.pressed.connect(
-		_on_sign_up_pressed
+		func():
+			WindowManager.hide_interface("sign_in")
+			WindowManager.show_interface("sign_up")
 	)
 
+	# Valida a senha enquanto o usuário digita
 	_password_line.text_changed.connect(
 		func(new_text: String):
 			_password_line.add_theme_color_override(
@@ -37,6 +56,7 @@ func _ready() -> void:
 			)
 	)
 
+	# Valida o e-mail enquanto o usuário digita
 	_email_line.text_changed.connect(
 		func(new_text: String):
 			var is_valid = RegEx.create_from_string(email_regex).search(new_text) != null
@@ -45,48 +65,31 @@ func _ready() -> void:
 			)
 	)
 
+	# Ativa os botões quando o cliente conectar ao servidor
 	_client.connected_to_server.connect(
 		func():
-			_confirm_button.disabled = false
+			_access_button.disabled = false
 			_sign_up_button.disabled = false
 	)
 
+	# Desativa os botões se falhar a conexão
 	_client.connection_failed.connect(
 		func():
-			_confirm_button.disabled = true
+			_access_button.disabled = true
 			_sign_up_button.disabled = true
 	)
 
+	# Desativa ao servidor se desconectar
 	_client.server_disconnected.connect(
 		func():
-			_confirm_button.disabled = true
+			_access_button.disabled = true
 			_sign_up_button.disabled = true
 	)
-
-
-func _on_sign_in_pressed() -> void:
-	var _email_line_text = _email_line.text
-	var _password_line_text = _password_line.text
-
-	if _email_line_text.is_empty() || _password_line_text.is_empty():
-		print("Por favor, preencha todos os campos.")
-		return
-
-	_confirm_button.disabled = true
-	_sign_up_button.disabled = true
-	_close_button.disabled = true
-
-	_request_login.rpc_id(1, _email_line_text, _password_line_text, Constants.version)
-
-
-func _on_sign_up_pressed() -> void:
-	WindowManager.hide_interface("sign_in")
-	WindowManager.show_interface("sign_up")
 
 
 func _reset_ui() -> void:
 	_close_button.disabled = false
-	_confirm_button.disabled = false
+	_access_button.disabled = false
 	_sign_up_button.disabled = false
 
 	_email_line.clear()
@@ -94,15 +97,18 @@ func _reset_ui() -> void:
 
 
 @rpc("any_peer", "call_remote")
-func _request_login(email: String, password: String, version: Vector3i) -> void:
+func _request_login(email: String, password: String) -> void:
+	# Obtém o id do peer do jogador que solicitou a função
 	var sender_id: int = multiplayer.get_remote_sender_id()
 	var error_messages: Array[String] = []
 
-	if version != Constants.version:
+	# Verifica se a versão do cliente está correta
+	if Constants.version != Constants.version:
 		error_messages.append("O seu cliente está desatualizado!")
 		_on_login_failed.rpc_id(sender_id, error_messages)
 		return
 
+	# Monta endpoint, headers e body da requisição
 	var endpoint = Env.backend_endpoint + "auth/sign-in"
 	var headers := {
 		"Content-Type": "application/json",
@@ -113,26 +119,34 @@ func _request_login(email: String, password: String, version: Vector3i) -> void:
 		"password": password,
 	}
 
+	# Faz a requisição para o backend
 	var result := await Fetch.fetch_json(HTTPClient.METHOD_POST, endpoint, body, headers)
 	var status_code = result[1]
 	var response_data = result[2]
 
+	# Se falhou, envia os erros pro cliente
 	if status_code != 201:
 		error_messages.append_array(Fetch.format_errors(response_data))
+		# Chama a função de erro no cliente (sender_id)
 		_on_login_failed.rpc_id(sender_id, error_messages)
 		return
 
+	# Verifica se o usuário já está logado com esse sender_id
 	if Globals.users.has(sender_id):
 		error_messages.append("Você já está autenticado no servidor!")
+		# Informa ao cliente que o login foi mal-sucedido
 		_on_login_failed.rpc_id(sender_id, error_messages)
 		return
 
+	# Verifica se outro usuário com mesmo ID já está conectado
 	for existing_user in Globals.users.values():
 		if existing_user["id"] == response_data["id"]:
 			error_messages.append("Essa conta já está conectada ao servidor por outro dispositivo!")
+			# Informa ao cliente que o login foi mal-sucedido
 			_on_login_failed.rpc_id(sender_id, error_messages)
 			return
 
+	# Cria e armazena o dicionário do usuário
 	var user: Dictionary = {
 		"id": response_data["id"],
 		"email": response_data["email"],
@@ -141,14 +155,20 @@ func _request_login(email: String, password: String, version: Vector3i) -> void:
 		"created_at": response_data["created_at"],
 		"updated_at": response_data["updated_at"],
 	}
+	Globals.users[sender_id] = user
 
+	# Solicita a lista de personagens
+	var actor_list_ui: ActorsListUi = WindowManager.get_interface("actor_list")
+	actor_list_ui.request_actors(sender_id)
+
+	# Informa ao cliente que o login foi bem-sucedido
 	_on_login_success.rpc_id(sender_id, "Sucesso ao acessar o jogo!")
 
 
 @rpc("authority", "call_local")
 func _on_login_success(message: String) -> void:
 	WindowManager.hide_interface("sign_in")
-	WindowManager.show_interface("sign_up")
+	WindowManager.show_interface("actor_list")
 
 	ShowNotification.show([message])
 	_reset_ui()

@@ -5,7 +5,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvaoj"]
 
-[node name="actors_list" type="PanelContainer" node_paths=PackedStringArray("slots_location")]
+[node name="actor_list" type="PanelContainer" node_paths=PackedStringArray("slots_location")]
 custom_minimum_size = Vector2(250, 180)
 offset_right = 490.0
 offset_bottom = 264.0
@@ -19,7 +19,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 script = ExtResource("2_bbbv2")
-target_node = NodePath("../..")
+_target_node = NodePath("../..")
 
 [node name="margin" type="MarginContainer" parent="content/top_bar"]
 layout_mode = 2

@@ -11,10 +11,14 @@ extends Control
 @onready var _start_server_button: Button = $Boot/Server
 @onready var menu_interface: CanvasLayer = $MenuInterface
 @onready var game_interface: CanvasLayer = $GameInterface
+@onready var _game: Node2D = $Game
 
 @export_group("Variables")
 @export var minimize_server: bool = false
 @export var is_release: bool = false
+
+@export_group("Loaders")
+@export var _map_scenes: Array[PackedScene]
 
 
 func _ready() -> void:
@@ -50,6 +54,7 @@ func _setup_boot_ui() -> void:
 					get_tree().root.mode = Window.MODE_MINIMIZED
 
 				_server.start_server()
+				_load_data()
 		)
 
 		# TODO: Fazer a tela de desconexão.
@@ -69,3 +74,26 @@ func _start_client_in_release() -> void:
 		_boot.queue_free()
 
 	_client.start_client()
+
+
+func _load_data() -> void:
+	_load_maps()
+
+
+func _load_maps() -> void:
+	Globals.maps.clear()
+
+	if _map_scenes.is_empty():
+		return
+
+	for scene in _map_scenes:
+		var map_instance: Map = scene.instantiate()
+		var scene_path = scene.resource_path
+		var scene_file = scene_path.get_file()
+		var scene_name = scene_file.get_basename()
+
+		map_instance.id = scene_name
+		map_instance.name = scene_name
+
+		Globals.maps[scene_name] = map_instance
+		_game.add_child(map_instance)

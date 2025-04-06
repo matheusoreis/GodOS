@@ -7,12 +7,8 @@ extends CharacterBody2D
 @export var _animation: AnimationPlayer
 @export var _state_machine: StateMachine
 
-
-@export_group("Variables")
-@export var identifier: String
-
-
 @export_group("Attributes")
+@export var identifier: String
 @onready var health: Health = $Attributes/Health
 @onready var speed: Speed = $Attributes/Speed
 

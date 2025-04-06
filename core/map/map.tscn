@@ -21,4 +21,4 @@ script = ExtResource("1_wh6pk")
 
 [node name="03" type="TileMapLayer" parent="objects"]
 
-[node name="spawn" type="Node2D" parent="."]
+[node name="spawns" type="Node2D" parent="."]

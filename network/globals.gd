@@ -4,4 +4,4 @@ extends Node
 var connections: Dictionary = {}
 var users: Dictionary = {}
 
-var worlds: Dictionary = {}
+var maps: Dictionary = {}

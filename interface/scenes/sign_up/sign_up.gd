@@ -105,11 +105,13 @@ func _request_sign_up(email: String, password: String, re_password: String) -> v
 	# Verifica se a versão do cliente está correta
 	if Constants.version != Constants.version:
 		error_messages.append("O seu cliente está desatualizado!")
+		# Informa ao cliente que o cliente está desatualizado
 		_on_sign_up_failed.rpc_id(sender_id, error_messages)
 		return
 
 	if password != re_password:
 		error_messages.append("As senhas informadas não são iguais.")
+		# Informa ao cliente que as senhas não estão corretas
 		_on_sign_up_failed.rpc_id(sender_id, error_messages)
 		return
 
@@ -133,7 +135,7 @@ func _request_sign_up(email: String, password: String, re_password: String) -> v
 	# Se falhou, envia os erros pro cliente
 	if status_code != 201:
 		error_messages.append_array(Fetch.format_errors(response_data))
-		# Chama a função de erro no cliente (sender_id)
+		# Informa ao cliente que a requisição foi mal-sucedida
 		_on_sign_up_failed.rpc_id(sender_id, error_messages)
 		return
 

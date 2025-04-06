@@ -113,14 +113,14 @@ func _request_sign_in(email: String, password: String) -> void:
 	# Se falhou, envia os erros pro cliente
 	if status_code != 201:
 		error_messages.append_array(Fetch.format_errors(response_data))
-		# Chama a função de erro no cliente (sender_id)
+		# Informa ao cliente que a requisição foi mal-sucedida
 		_on_sign_up_failed.rpc_id(sender_id, error_messages)
 		return
 
 	# Verifica se o usuário já está logado com esse sender_id
 	if Globals.users.has(sender_id):
 		error_messages.append("Você já está autenticado no servidor!")
-		# Informa ao cliente que o login foi mal-sucedido
+		# Informa ao cliente que o sign in foi mal-sucedido
 		_on_sign_up_failed.rpc_id(sender_id, error_messages)
 		return
 
@@ -128,7 +128,7 @@ func _request_sign_in(email: String, password: String) -> void:
 	for existing_user in Globals.users.values():
 		if existing_user["id"] == response_data["id"]:
 			error_messages.append("Essa conta já está conectada ao servidor por outro dispositivo!")
-			# Informa ao cliente que o login foi mal-sucedido
+			# Informa ao cliente que o sign in foi mal-sucedido
 			_on_sign_up_failed.rpc_id(sender_id, error_messages)
 			return
 
@@ -147,7 +147,7 @@ func _request_sign_in(email: String, password: String) -> void:
 	var actor_list_ui: ActorsListUi = WindowManager.get_interface("actor_list")
 	actor_list_ui.request_actors(sender_id)
 
-	# Informa ao cliente que o login foi bem-sucedido
+	# Informa ao cliente que o sign in foi bem-sucedido
 	_on_sign_in_success.rpc_id(sender_id, "Sucesso ao acessar o jogo!")
 
 

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfmml5byoke6g"]
+
+[ext_resource type="Script" uid="uid://b12eu1ivkbxdo" path="res://interface/scenes/actor_list/create_slot/actor_list_create_slot.gd" id="1_fjrf8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_my3hm"]
+
+[node name="actor_create_slot" type="PanelContainer"]
+custom_minimum_size = Vector2(150, 0)
+script = ExtResource("1_fjrf8")
+
+[node name="content" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+alignment = 2
+
+[node name="create" type="Button" parent="content"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_my3hm")
+text = "Novo"

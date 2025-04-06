@@ -1,46 +1,60 @@
 class_name Main
 extends Control
 
+@export_group("Network")
+@onready var _client: Client = $Network/Client
+@onready var _server: Server = $Network/Server
 
 @export_group("Objects")
-@export var boot: VBoxContainer
-@export var start_client_button: Button
-@export var start_server_button: Button
-
-@export_group("Scenes")
-@export var client: PackedScene
-@export var server: PackedScene
+@onready var _boot: VBoxContainer = $Boot
+@onready var _start_client_button: Button = $Boot/Client
+@onready var _start_server_button: Button = $Boot/Server
+@onready var _menu_interface: CanvasLayer = $MenuInterface
+@onready var _game_interface: CanvasLayer = $GameInterface
 
 @export_group("Variables")
-@export var minimize: bool = false
+@export var minimize_server: bool = false
+@export var is_release: bool = false
 
 
 func _ready() -> void:
-	if not boot:
-		return
+	if is_release:
+		_start_client_in_release()
+	else:
+		_setup_boot_ui()
 
-	if not start_client_button:
-		return
 
-	if not start_server_button:
-		return
+func _setup_boot_ui() -> void:
+	if _boot:
+		_boot.visible = true
 
-	start_client_button.pressed.connect(
-		func():
-			var scene: Control = client.instantiate()
-			scene.name = "main"
+	if _start_client_button:
+		_start_client_button.pressed.connect(
+			func():
+				if _boot:
+					_boot.queue_free()
 
-			get_tree().root.add_child(scene)
-			queue_free()
-	)
+				_menu_interface.visible = true
+				_game_interface.visible = false
 
-	start_server_button.pressed.connect(
-		func():
-			if minimize:
-				get_tree().root.mode = Window.MODE_MINIMIZED
+				_client.start_client()
+		)
 
-			var scene: Control = server.instantiate()
-			scene.name = "main"
-			get_tree().root.add_child(scene)
-			queue_free()
-	)
+	if _start_server_button:
+		_start_server_button.pressed.connect(
+			func():
+				if _boot:
+					_boot.queue_free()
+
+				if minimize_server:
+					get_tree().root.mode = Window.MODE_MINIMIZED
+
+				_server.start_server()
+		)
+
+
+func _start_client_in_release() -> void:
+	if _boot:
+		_boot.queue_free()
+
+	_client.start_client()

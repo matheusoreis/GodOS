@@ -1,10 +1,10 @@
 extends CanvasLayer
 
 
-var interfaces: Array[Control]
+var interfaces: Array[Interface]
 
 
-func add_interface(interface: Control) -> void:
+func add_interface(interface: Interface) -> void:
 	if interface:
 		interfaces.append(interface)
 
@@ -25,7 +25,7 @@ func hide_interface(interface_name: String) -> void:
 			break
 
 
-func get_interface(interface_name: String) -> Control:
+func get_interface(interface_name: String) -> Interface:
 	for interface in interfaces:
 		if interface and interface.name == interface_name:
 			return interface

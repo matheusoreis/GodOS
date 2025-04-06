@@ -1,11 +1,8 @@
+class_name Server
 extends Node
 
 
 var _enet: ENetMultiplayerPeer
-
-
-func _ready() -> void:
-	start_server()
 
 
 func start_server() -> void:

@@ -73,8 +73,8 @@ func _on_confirm_button_pressed() -> void:
 
 
 func _on_back_button_pressed() -> void:
-	WindowManager.hide_interface("sign_in")
-	WindowManager.show_interface("sign_up")
+	WindowManager.hide_interface("sign_up")
+	WindowManager.show_interface("sign_in")
 
 
 func reset_ui() -> void:

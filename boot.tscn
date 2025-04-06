@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://d18ldc2cod1aq"]
+[gd_scene load_steps=8 format=3 uid="uid://d18ldc2cod1aq"]
 
 [ext_resource type="Script" uid="uid://c7kuc5hw51ss0" path="res://boot.gd" id="1_t5imi"]
-[ext_resource type="PackedScene" uid="uid://diqjl01dfj113" path="res://network/client/client.tscn" id="2_segco"]
-[ext_resource type="PackedScene" uid="uid://cb2psn0bv8d7r" path="res://network/server/server.tscn" id="3_m6jb1"]
+[ext_resource type="Script" uid="uid://d36lv11v4qcuh" path="res://network/client/client.gd" id="2_xf3if"]
+[ext_resource type="Script" uid="uid://c18qkktlyuo7x" path="res://network/server/server.gd" id="3_t5imi"]
+[ext_resource type="Script" uid="uid://cdg06phditacs" path="res://network/client/menu_interface.gd" id="4_xf3if"]
+[ext_resource type="PackedScene" uid="uid://t8v3t52kyhyw" path="res://interface/scenes/actor_list/actors_list.tscn" id="5_8ye5a"]
+[ext_resource type="PackedScene" uid="uid://ddno1bfbpvnbh" path="res://interface/scenes/sign_up/sign_up.tscn" id="5_dm40k"]
+[ext_resource type="PackedScene" uid="uid://diwjlpst5v714" path="res://interface/scenes/sign_in/sign_in.tscn" id="6_8ye5a"]
 
-[node name="Main" type="Control" node_paths=PackedStringArray("boot", "start_client_button", "start_server_button")]
+[node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,13 +16,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t5imi")
-boot = NodePath("Boot")
-start_client_button = NodePath("Boot/Client")
-start_server_button = NodePath("Boot/Server")
-client = ExtResource("2_segco")
-server = ExtResource("3_m6jb1")
+minimize_server = true
 
 [node name="Boot" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 14.0
 offset_top = 15.0
@@ -32,3 +33,55 @@ text = "Start Client"
 [node name="Server" type="Button" parent="Boot"]
 layout_mode = 2
 text = "Start Server"
+
+[node name="Network" type="Node" parent="."]
+
+[node name="Client" type="Node" parent="Network"]
+script = ExtResource("2_xf3if")
+
+[node name="Server" type="Node" parent="Network"]
+script = ExtResource("3_t5imi")
+
+[node name="Game" type="Node2D" parent="."]
+
+[node name="MenuInterface" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+script = ExtResource("4_xf3if")
+
+[node name="actors_list" parent="MenuInterface" instance=ExtResource("5_8ye5a")]
+script = null
+
+[node name="sign_up" parent="MenuInterface" instance=ExtResource("5_dm40k")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -125.5
+offset_right = 125.0
+offset_bottom = 125.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="sign_in" parent="MenuInterface" instance=ExtResource("6_8ye5a")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -110.0
+offset_right = 125.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameInterface" type="CanvasLayer" parent="."]
+visible = false
+follow_viewport_enabled = true
+
+[node name="SharedInterface" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true

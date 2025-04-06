@@ -11,7 +11,6 @@ extends Interface
 @onready var _confirm_button: Button = $content/margin/content/buttons/confirm
 @onready var _back_button: Button = $content/margin/content/buttons/back
 
-
 @export_group("Variables")
 @export var min_password_length: int = 6
 

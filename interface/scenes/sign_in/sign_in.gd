@@ -7,7 +7,7 @@ extends Interface
 @onready var _close_button: Button = $content/top_bar/margin/close
 @onready var _email_line: LineEdit = $content/margin/content/inputs/email
 @onready var _password_line: LineEdit = $content/margin/content/inputs/password
-@onready var _access_button: Button = $content/margin/content/buttons/confirm
+@onready var _confirm_button: Button = $content/margin/content/buttons/confirm
 @onready var _sign_up_button: Button = $content/margin/content/buttons/sign_up
 
 @export_group("Variables")
@@ -23,8 +23,8 @@ func _ready() -> void:
 	if not _client:
 		return
 
-	# Conecta o sinal de "pressionado" do botão de acessar
-	_access_button.pressed.connect(
+	# Conecta o sinal de "pressionado" do botão de confirmar
+	_confirm_button.pressed.connect(
 		func():
 			var email_text = _email_line.text
 			var password_text = _password_line.text
@@ -33,12 +33,12 @@ func _ready() -> void:
 				print("Por favor, preencha todos os campos.")
 				return
 
-			_access_button.disabled = true
+			_confirm_button.disabled = true
 			_sign_up_button.disabled = true
 			_close_button.disabled = true
 
-			# Envia a requisição de login para o servidor
-			_request_login.rpc_id(1, email_text, password_text)
+			# Envia a requisição de sign in para o servidor
+			_request_sign_in.rpc_id(1, email_text, password_text)
 	)
 
 	# Conecta o sinal de "pressionado" do botão de cadastrar
@@ -46,14 +46,6 @@ func _ready() -> void:
 		func():
 			WindowManager.hide_interface("sign_in")
 			WindowManager.show_interface("sign_up")
-	)
-
-	# Valida a senha enquanto o usuário digita
-	_password_line.text_changed.connect(
-		func(new_text: String):
-			_password_line.add_theme_color_override(
-				"font_color", Color.RED if new_text.length() < min_password_length else Color.WHITE
-			)
 	)
 
 	# Valida o e-mail enquanto o usuário digita
@@ -65,31 +57,25 @@ func _ready() -> void:
 			)
 	)
 
+	# Valida a senha enquanto o usuário digita
+	_password_line.text_changed.connect(
+		func(new_text: String):
+			_password_line.add_theme_color_override(
+				"font_color", Color.RED if new_text.length() < min_password_length else Color.WHITE
+			)
+	)
+
 	# Ativa os botões quando o cliente conectar ao servidor
 	_client.connected_to_server.connect(
 		func():
-			_access_button.disabled = false
+			_confirm_button.disabled = false
 			_sign_up_button.disabled = false
-	)
-
-	# Desativa os botões se falhar a conexão
-	_client.connection_failed.connect(
-		func():
-			_access_button.disabled = true
-			_sign_up_button.disabled = true
-	)
-
-	# Desativa ao servidor se desconectar
-	_client.server_disconnected.connect(
-		func():
-			_access_button.disabled = true
-			_sign_up_button.disabled = true
 	)
 
 
 func _reset_ui() -> void:
 	_close_button.disabled = false
-	_access_button.disabled = false
+	_confirm_button.disabled = false
 	_sign_up_button.disabled = false
 
 	_email_line.clear()
@@ -97,7 +83,7 @@ func _reset_ui() -> void:
 
 
 @rpc("any_peer", "call_remote")
-func _request_login(email: String, password: String) -> void:
+func _request_sign_in(email: String, password: String) -> void:
 	# Obtém o id do peer do jogador que solicitou a função
 	var sender_id: int = multiplayer.get_remote_sender_id()
 	var error_messages: Array[String] = []
@@ -105,7 +91,7 @@ func _request_login(email: String, password: String) -> void:
 	# Verifica se a versão do cliente está correta
 	if Constants.version != Constants.version:
 		error_messages.append("O seu cliente está desatualizado!")
-		_on_login_failed.rpc_id(sender_id, error_messages)
+		_on_sign_up_failed.rpc_id(sender_id, error_messages)
 		return
 
 	# Monta endpoint, headers e body da requisição
@@ -128,14 +114,14 @@ func _request_login(email: String, password: String) -> void:
 	if status_code != 201:
 		error_messages.append_array(Fetch.format_errors(response_data))
 		# Chama a função de erro no cliente (sender_id)
-		_on_login_failed.rpc_id(sender_id, error_messages)
+		_on_sign_up_failed.rpc_id(sender_id, error_messages)
 		return
 
 	# Verifica se o usuário já está logado com esse sender_id
 	if Globals.users.has(sender_id):
 		error_messages.append("Você já está autenticado no servidor!")
 		# Informa ao cliente que o login foi mal-sucedido
-		_on_login_failed.rpc_id(sender_id, error_messages)
+		_on_sign_up_failed.rpc_id(sender_id, error_messages)
 		return
 
 	# Verifica se outro usuário com mesmo ID já está conectado
@@ -143,7 +129,7 @@ func _request_login(email: String, password: String) -> void:
 		if existing_user["id"] == response_data["id"]:
 			error_messages.append("Essa conta já está conectada ao servidor por outro dispositivo!")
 			# Informa ao cliente que o login foi mal-sucedido
-			_on_login_failed.rpc_id(sender_id, error_messages)
+			_on_sign_up_failed.rpc_id(sender_id, error_messages)
 			return
 
 	# Cria e armazena o dicionário do usuário
@@ -162,11 +148,11 @@ func _request_login(email: String, password: String) -> void:
 	actor_list_ui.request_actors(sender_id)
 
 	# Informa ao cliente que o login foi bem-sucedido
-	_on_login_success.rpc_id(sender_id, "Sucesso ao acessar o jogo!")
+	_on_sign_in_success.rpc_id(sender_id, "Sucesso ao acessar o jogo!")
 
 
 @rpc("authority", "call_local")
-func _on_login_success(message: String) -> void:
+func _on_sign_in_success(message: String) -> void:
 	WindowManager.hide_interface("sign_in")
 	WindowManager.show_interface("actor_list")
 
@@ -175,6 +161,6 @@ func _on_login_success(message: String) -> void:
 
 
 @rpc("authority", "call_local")
-func _on_login_failed(messages: Array[String]) -> void:
+func _on_sign_up_failed(messages: Array[String]) -> void:
 	ShowNotification.show(messages)
 	_reset_ui()

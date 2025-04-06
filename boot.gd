@@ -52,6 +52,17 @@ func _setup_boot_ui() -> void:
 				_server.start_server()
 		)
 
+		# TODO: Fazer a tela de desconexão.
+		_client.connection_failed.connect(
+			func():
+				pass
+		)
+
+		_client.server_disconnected.connect(
+			func():
+				pass
+		)
+
 
 func _start_client_in_release() -> void:
 	if _boot:

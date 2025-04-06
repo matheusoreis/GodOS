@@ -20,9 +20,10 @@ config/icon="res://icon.svg"
 Constants="*res://network/constants.gd"
 Globals="*res://network/globals.gd"
 WindowManager="*res://interface/utils/window_manager.gd"
+Env="*res://env.gd"
 Fetch="*res://network/fetch.gd"
 ShowNotification="*res://interface/utils/show_notification.gd"
-Env="*res://env.gd"
+ShowConfirmation="*res://interface/utils/show_confirmation.gd"
 
 [input]
 

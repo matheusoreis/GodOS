@@ -1,22 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://don3s64avvg34"]
+[gd_scene load_steps=5 format=3 uid="uid://d1xj14a4547pr"]
 
-[ext_resource type="Script" uid="uid://b4qhaymm10l16" path="res://interface/scenes/notification/notification.gd" id="1_sskvo"]
-[ext_resource type="Script" uid="uid://dkwgs508acv18" path="res://interface/utils/draggable_window.gd" id="2_ltbjw"]
+[ext_resource type="Script" uid="uid://677y2iy1cjqv" path="res://interface/scenes/confirmation/confirmation.gd" id="1_1i2gl"]
+[ext_resource type="Script" uid="uid://dkwgs508acv18" path="res://interface/utils/draggable_window.gd" id="2_7juy0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61t8k"]
 bg_color = Color(0.133333, 0.133333, 0.133333, 0.74902)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbywh"]
 
-[node name="notification" type="Panel" node_paths=PackedStringArray("message_label")]
+[node name="confirmation" type="Panel" node_paths=PackedStringArray("_message_label", "confirm_button", "_back_button")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_61t8k")
-script = ExtResource("1_sskvo")
-message_label = NodePath("panel/content/margin/content/message")
+script = ExtResource("1_1i2gl")
+_message_label = NodePath("panel/content/margin/content/message")
+confirm_button = NodePath("panel/content/margin/content/buttons/confirm")
+_back_button = NodePath("panel/content/margin/content/buttons/back")
 
 [node name="panel" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(250, 0)
@@ -40,7 +42,7 @@ layout_mode = 2
 [node name="top_bar" type="HBoxContainer" parent="panel/content"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-script = ExtResource("2_ltbjw")
+script = ExtResource("2_7juy0")
 _target_node = NodePath("../../..")
 
 [node name="margin" type="MarginContainer" parent="panel/content/top_bar"]
@@ -53,9 +55,10 @@ theme_override_constants/margin_bottom = 5
 
 [node name="title" type="Label" parent="panel/content/top_bar/margin"]
 layout_mode = 2
-text = "Atenção"
+text = "Confirmação"
 
 [node name="close" type="Button" parent="panel/content/top_bar/margin"]
+visible = false
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -87,5 +90,8 @@ layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
 text = "Confirmar"
 
-[connection signal="pressed" from="panel/content/top_bar/margin/close" to="." method="_on_close_pressed"]
-[connection signal="pressed" from="panel/content/margin/content/buttons/confirm" to="." method="_on_confirm_pressed"]
+[node name="back" type="Button" parent="panel/content/margin/content/buttons"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
+text = "Cancelar"

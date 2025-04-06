@@ -9,8 +9,8 @@ extends Control
 @onready var _boot: VBoxContainer = $Boot
 @onready var _start_client_button: Button = $Boot/Client
 @onready var _start_server_button: Button = $Boot/Server
-@onready var _menu_interface: CanvasLayer = $MenuInterface
-@onready var _game_interface: CanvasLayer = $GameInterface
+@onready var menu_interface: CanvasLayer = $MenuInterface
+@onready var game_interface: CanvasLayer = $GameInterface
 
 @export_group("Variables")
 @export var minimize_server: bool = false
@@ -34,8 +34,8 @@ func _setup_boot_ui() -> void:
 				if _boot:
 					_boot.queue_free()
 
-				_menu_interface.visible = true
-				_game_interface.visible = false
+				menu_interface.visible = true
+				game_interface.visible = false
 
 				_client.start_client()
 		)

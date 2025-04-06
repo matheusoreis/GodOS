@@ -3,7 +3,9 @@ extends Interface
 
 
 @export_group("Objects")
+@onready var _main: Main = $"../.."
 @onready var _client: Client = $"../../Network/Client"
+
 @onready var _close_button: Button = $content/top_bar/margin/close
 @onready var _email_line: LineEdit = $content/margin/content/inputs/email
 @onready var _password_line: LineEdit = $content/margin/content/inputs/password
@@ -132,35 +134,29 @@ func _request_sign_in(email: String, password: String) -> void:
 			_on_sign_up_failed.rpc_id(sender_id, error_messages)
 			return
 
-	# Cria e armazena o dicionário do usuário
-	var user: Dictionary = {
-		"id": response_data["id"],
-		"email": response_data["email"],
-		"max_actors": response_data["max_actors"],
-		"last_login": response_data["last_login"],
-		"created_at": response_data["created_at"],
-		"updated_at": response_data["updated_at"],
-	}
-	Globals.users[sender_id] = user
+	if not "id" in response_data:
+		error_messages.append("Erro ao recuperar os dados do banco de dados.")
+		_on_sign_up_failed.rpc_id(sender_id, error_messages)
+		return
 
-	# Solicita a lista de personagens
-	var actor_list_ui: ActorsListUi = WindowManager.get_interface("actor_list")
-	actor_list_ui.request_actors(sender_id)
-
-	# Informa ao cliente que o sign in foi bem-sucedido
-	_on_sign_in_success.rpc_id(sender_id, "Sucesso ao acessar o jogo!")
+	Globals.users[sender_id] = response_data
+	_on_sign_in_success.rpc_id(sender_id, "Sucesso ao acessar o jogo!", response_data)
 
 
 @rpc("authority", "call_local")
-func _on_sign_in_success(message: String) -> void:
-	WindowManager.hide_interface("sign_in")
-	WindowManager.show_interface("actor_list")
-
+func _on_sign_in_success(message: String, user: Dictionary) -> void:
 	ShowNotification.show([message])
-	_reset_ui()
+
+	WindowManager.hide_interface("sign_in")
+
+	if user["actor"] == null:
+		WindowManager.show_interface("create_actor")
+		return
+
+	_main.menu_interface.hide()
+	_main.game_interface.show()
 
 
 @rpc("authority", "call_local")
 func _on_sign_up_failed(messages: Array[String]) -> void:
 	ShowNotification.show(messages)
-	_reset_ui()

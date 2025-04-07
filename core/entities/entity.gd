@@ -3,12 +3,12 @@ extends CharacterBody2D
 
 
 @export_group("Objects")
-@export var _sprite: Sprite2D
-@export var _animation: AnimationPlayer
-@export var _state_machine: StateMachine
+@onready var _sprite: Sprite2D = $Sprite
+@onready var _animation: AnimationPlayer = $Animation
+@onready var _state_machine: StateMachine = $StateMachine
+@onready var _identifier: Identifier = $Identifier
 
 @export_group("Attributes")
-@export var identifier: String
 @onready var health: Health = $Attributes/Health
 @onready var speed: Speed = $Attributes/Speed
 

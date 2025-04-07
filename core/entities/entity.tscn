@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cifc4wlxr00wc"]
+[gd_scene load_steps=11 format=3 uid="uid://cifc4wlxr00wc"]
 
 [ext_resource type="Script" uid="uid://cwhdsoqutyjkn" path="res://core/entities/entity.gd" id="1_jm4vq"]
 [ext_resource type="Script" uid="uid://d34goraatax4u" path="res://core/entities/states/machine.gd" id="2_vssi4"]
+[ext_resource type="PackedScene" uid="uid://b5u72vg58xi23" path="res://core/entities/components/identifier/identifier.tscn" id="2_wjt14"]
 [ext_resource type="PackedScene" uid="uid://cim12buoi67eg" path="res://core/entities/states/stopped/stopped.tscn" id="3_o078u"]
 [ext_resource type="PackedScene" uid="uid://nekaaedv6j7p" path="res://core/entities/states/walking/walking.tscn" id="4_hauie"]
 [ext_resource type="PackedScene" uid="uid://bdmigxvw8ea7o" path="res://core/entities/attributes/health/health.tscn" id="5_xgxsm"]
@@ -32,6 +33,8 @@ _animation = NodePath("Animation")
 [node name="Animation" type="AnimationPlayer" parent="."]
 
 [node name="Collision" type="CollisionShape2D" parent="."]
+
+[node name="Identifier" parent="." instance=ExtResource("2_wjt14")]
 
 [node name="Attributes" type="Node2D" parent="."]
 

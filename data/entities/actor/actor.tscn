@@ -1,19 +1,39 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3srj8230ue1i"]
+[gd_scene load_steps=10 format=3 uid="uid://b3srj8230ue1i"]
 
 [ext_resource type="PackedScene" uid="uid://cifc4wlxr00wc" path="res://core/entities/entity.tscn" id="1_fv6yu"]
 [ext_resource type="Script" uid="uid://3akr7u3of3g5" path="res://data/entities/actor/actor.gd" id="2_wd4qw"]
+[ext_resource type="Texture2D" uid="uid://uf1h82lv0ist" path="res://assets/characters/1.png" id="3_np3kb"]
 [ext_resource type="PackedScene" uid="uid://bv3rmt6g4e1cw" path="res://core/entities/components/camera/camera.tscn" id="4_4urmt"]
 [ext_resource type="PackedScene" uid="uid://da4nfd31kc6yy" path="res://core/entities/components/controller/controller.tscn" id="5_5s5wg"]
 [ext_resource type="PackedScene" uid="uid://123qu2q8h0ms" path="res://core/entities/attributes/damage/damage.tscn" id="5_okncp"]
 [ext_resource type="PackedScene" uid="uid://b2cjfjy2gu0rg" path="res://core/entities/attributes/defense/defense.tscn" id="6_np3kb"]
 [ext_resource type="PackedScene" uid="uid://dvcym4yox5lko" path="res://core/entities/attributes/mana/mana.tscn" id="7_djc46"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_np3kb"]
+size = Vector2(18, 22)
+
 [node name="Actor" instance=ExtResource("1_fv6yu")]
 script = ExtResource("2_wd4qw")
 
-[node name="Camera" parent="." index="3" instance=ExtResource("4_4urmt")]
+[node name="Sprite" parent="." index="0"]
+position = Vector2(0, -19)
+texture = ExtResource("3_np3kb")
+hframes = 4
+vframes = 4
 
-[node name="Controller" parent="." index="4" instance=ExtResource("5_5s5wg")]
+[node name="Collision" parent="." index="2"]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_np3kb")
+
+[node name="Controller" parent="." index="3" instance=ExtResource("5_5s5wg")]
+
+[node name="Camera" parent="." index="4" instance=ExtResource("4_4urmt")]
+
+[node name="Identifier" parent="." index="5"]
+offset_left = -57.0
+offset_top = -65.0
+offset_right = 57.0
+offset_bottom = -42.0
 
 [node name="Damage" parent="Attributes" index="2" instance=ExtResource("5_okncp")]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b5u72vg58xi23"]
 
-[ext_resource type="Script" uid="uid://bfxmn2h1vlm88" path="res://core/entities/components/identifier/identifier.gd" id="1_5ykkl"]
+[ext_resource type="Script" uid="uid://bfxmn2h1vlm88" path="res://system/components/identifier/identifier.gd" id="1_5ykkl"]
 
 [sub_resource type="SystemFont" id="SystemFont_5ykkl"]
 multichannel_signed_distance_field = true

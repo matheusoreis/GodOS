@@ -1,13 +1,40 @@
-[gd_scene load_steps=6 format=3 uid="uid://d4b57qjnloy0n"]
+[gd_scene load_steps=6 format=3 uid="uid://bkemy11grvnck"]
 
 [ext_resource type="PackedScene" uid="uid://cifc4wlxr00wc" path="res://system/entities/entity.tscn" id="1_247fp"]
-[ext_resource type="Script" uid="uid://x66bkwtjvoi0" path="res://system/entities/monster/monster.gd" id="2_4nf3c"]
 [ext_resource type="PackedScene" uid="uid://bjbadumc6ifi5" path="res://system/components/aggro/aggro.tscn" id="3_73dax"]
 [ext_resource type="PackedScene" uid="uid://123qu2q8h0ms" path="res://system/attributes/damage/damage.tscn" id="3_wt77b"]
 [ext_resource type="PackedScene" uid="uid://b2cjfjy2gu0rg" path="res://system/attributes/defense/defense.tscn" id="4_73dax"]
 
+[sub_resource type="GDScript" id="GDScript_t8ani"]
+script/source = "class_name Monster
+extends Entity
+
+
+@export_group(\"Objects\")
+@onready var aggro: Aggro = $Aggro
+
+
+@export_group(\"Attributes\")
+@onready var damage: Damage = $Attributes/Damage
+@onready var defense: Defense = $Attributes/Defense
+
+
+func _ready() -> void:
+	if aggro:
+		aggro.entered.connect(_on_actor_entered)
+		aggro.exited.connect(_on_actor_exited)
+
+
+func _on_actor_entered(actor: Actor) -> void:
+	print(\"Actor entrou no aggro!\")
+
+
+func _on_actor_exited(actor: Actor) -> void:
+	print(\"Actor saiu do aggro!\")
+"
+
 [node name="Monster" instance=ExtResource("1_247fp")]
-script = ExtResource("2_4nf3c")
+script = SubResource("GDScript_t8ani")
 
 [node name="Aggro" parent="." index="3" instance=ExtResource("3_73dax")]
 

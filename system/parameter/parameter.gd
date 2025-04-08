@@ -1,3 +1,4 @@
+class_name Parameter
 extends Node2D
 
 signal changed(value: int)

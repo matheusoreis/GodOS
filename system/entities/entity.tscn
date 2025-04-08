@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cifc4wlxr00wc"]
+[gd_scene load_steps=11 format=3 uid="uid://cifc4wlxr00wc"]
 
 [ext_resource type="Script" uid="uid://cwhdsoqutyjkn" path="res://system/entities/entity.gd" id="1_jm4vq"]
 [ext_resource type="Script" uid="uid://d34goraatax4u" path="res://system/states/machine.gd" id="2_vssi4"]
@@ -33,22 +33,24 @@ _animation = NodePath("Animation")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 
-[node name="Attributes" type="Node" parent="."]
+[node name="Identifier" parent="." instance=ExtResource("2_wjt14")]
+
+[node name="Attributes" type="Node2D" parent="."]
 
 [node name="Health" parent="Attributes" instance=ExtResource("5_xgxsm")]
 
 [node name="Speed" parent="Attributes" instance=ExtResource("6_wjt14")]
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node2D" parent="."]
 script = ExtResource("2_vssi4")
 
 [node name="Stopped" parent="StateMachine" instance=ExtResource("3_o078u")]
 
 [node name="Walking" parent="StateMachine" instance=ExtResource("4_hauie")]
 
-[node name="Multiplayer" type="Node" parent="."]
+[node name="Multiplayer" type="Node2D" parent="."]
 
-[node name="Synchronizers" type="Node" parent="Multiplayer"]
+[node name="Synchronizers" type="Node2D" parent="Multiplayer"]
 
 [node name="PositionSynchronizer" type="MultiplayerSynchronizer" parent="Multiplayer/Synchronizers"]
 root_path = NodePath("../../..")
@@ -62,4 +64,4 @@ replication_config = SubResource("SceneReplicationConfig_wjt14")
 root_path = NodePath("../../..")
 replication_config = SubResource("SceneReplicationConfig_l51jc")
 
-[node name="Spawners" type="Node" parent="Multiplayer"]
+[node name="Spawners" type="Node2D" parent="Multiplayer"]

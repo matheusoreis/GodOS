@@ -17,13 +17,17 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Constants="*res://network/constants.gd"
-Globals="*res://network/globals.gd"
-WindowManager="*res://interface/utils/window_manager.gd"
+Constants="*res://system/constants.gd"
+Globals="*res://system/globals.gd"
+WindowManager="*res://system/interfaces/utils/window_manager.gd"
 Env="*res://env.gd"
-Fetch="*res://network/fetch.gd"
-ShowNotification="*res://interface/utils/show_notification.gd"
-ShowConfirmation="*res://interface/utils/show_confirmation.gd"
+Fetch="*res://system/fetch.gd"
+ShowNotification="*res://system/interfaces/utils/show_notification.gd"
+ShowConfirmation="*res://system/interfaces/utils/show_confirmation.gd"
+
+[display]
+
+mouse_cursor/custom_image="uid://dkq3afbkhw3x5"
 
 [input]
 

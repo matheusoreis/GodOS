@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://cifc4wlxr00wc"]
+
+[ext_resource type="Script" uid="uid://cwhdsoqutyjkn" path="res://system/entities/entity.gd" id="1_jm4vq"]
+[ext_resource type="Script" uid="uid://d34goraatax4u" path="res://system/states/machine.gd" id="2_vssi4"]
+[ext_resource type="PackedScene" uid="uid://cim12buoi67eg" path="res://database/states/stopped/stopped.tscn" id="3_o078u"]
+[ext_resource type="PackedScene" uid="uid://nekaaedv6j7p" path="res://database/states/walking/walking.tscn" id="4_hauie"]
+[ext_resource type="PackedScene" uid="uid://bdmigxvw8ea7o" path="res://system/attributes/health/health.tscn" id="5_xgxsm"]
+[ext_resource type="PackedScene" uid="uid://d27fv8cyrdk3k" path="res://system/attributes/speed/speed.tscn" id="6_wjt14"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xgxsm"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wjt14"]
+properties/0/path = NodePath("../../Animation:current_animation")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_l51jc"]
+properties/0/path = NodePath("Sprite:flip_h")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="Entity" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_animation")]
+script = ExtResource("1_jm4vq")
+_sprite = NodePath("Sprite")
+_animation = NodePath("Animation")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+[node name="Attributes" type="Node" parent="."]
+
+[node name="Health" parent="Attributes" instance=ExtResource("5_xgxsm")]
+
+[node name="Speed" parent="Attributes" instance=ExtResource("6_wjt14")]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_vssi4")
+
+[node name="Stopped" parent="StateMachine" instance=ExtResource("3_o078u")]
+
+[node name="Walking" parent="StateMachine" instance=ExtResource("4_hauie")]
+
+[node name="Multiplayer" type="Node" parent="."]
+
+[node name="Synchronizers" type="Node" parent="Multiplayer"]
+
+[node name="PositionSynchronizer" type="MultiplayerSynchronizer" parent="Multiplayer/Synchronizers"]
+root_path = NodePath("../../..")
+replication_config = SubResource("SceneReplicationConfig_xgxsm")
+
+[node name="AnimationSynchronizer" type="MultiplayerSynchronizer" parent="Multiplayer/Synchronizers"]
+root_path = NodePath("../../..")
+replication_config = SubResource("SceneReplicationConfig_wjt14")
+
+[node name="SpriteSynchronizer" type="MultiplayerSynchronizer" parent="Multiplayer/Synchronizers"]
+root_path = NodePath("../../..")
+replication_config = SubResource("SceneReplicationConfig_l51jc")
+
+[node name="Spawners" type="Node" parent="Multiplayer"]

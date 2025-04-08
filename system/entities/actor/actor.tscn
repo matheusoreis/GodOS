@@ -1,0 +1,13 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3srj8230ue1i"]
+
+[ext_resource type="PackedScene" uid="uid://cifc4wlxr00wc" path="res://system/entities/entity.tscn" id="1_fv6yu"]
+[ext_resource type="Script" uid="uid://3akr7u3of3g5" path="res://system/entities/actor/actor.gd" id="2_wd4qw"]
+[ext_resource type="PackedScene" uid="uid://bv3rmt6g4e1cw" path="res://system/components/camera/camera.tscn" id="4_4urmt"]
+[ext_resource type="PackedScene" uid="uid://da4nfd31kc6yy" path="res://system/components/controller/controller.tscn" id="5_5s5wg"]
+
+[node name="Actor" instance=ExtResource("1_fv6yu")]
+script = ExtResource("2_wd4qw")
+
+[node name="Camera" parent="." index="3" instance=ExtResource("4_4urmt")]
+
+[node name="Controller" parent="." index="4" instance=ExtResource("5_5s5wg")]

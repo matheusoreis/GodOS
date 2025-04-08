@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d27fv8cyrdk3k"]
+
+[ext_resource type="Script" uid="uid://rk7ylxcvf1gg" path="res://system/attributes/speed/speed.gd" id="1_asjbd"]
+
+[node name="Speed" type="Node2D"]
+script = ExtResource("1_asjbd")

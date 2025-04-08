@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjbadumc6ifi5"]
+
+[ext_resource type="Script" uid="uid://cr4p3mrhrbvj1" path="res://system/components/aggro/aggro.gd" id="1_vuo1v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a74qa"]
+
+[node name="Aggro" type="Area2D"]
+script = ExtResource("1_vuo1v")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_a74qa")

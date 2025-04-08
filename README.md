@@ -20,15 +20,5 @@ O GodOS é uma base para quem quer criar seu próprio MMORPG usando a Godot. A i
 - [X] Cliente
 - [X] Acessar
 - [X] Cadastrar
-- [ ] Carregar os mapas no servidor
-- [ ] Criação do personagem
-- [ ] Acessar o personagem
-- [ ] Jogador
-- [ ] Monstros
-- [ ] Npcs
-- [ ] Combate Simples
-- [ ] Chat Local
-- [ ] Chat Global
-- [ ] Chat Privado
-- [ ] Amigos
-- [ ] Inventário
+- [ ] Criar Peronsagem
+- [ ] Acessar o Personagem

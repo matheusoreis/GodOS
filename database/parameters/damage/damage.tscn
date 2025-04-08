@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dd1cv4xt8l5p6"]
+
+[ext_resource type="PackedScene" uid="uid://cpxtethif8l1r" path="res://system/parameter/parameter.tscn" id="1_idyf7"]
+[ext_resource type="Script" uid="uid://dxf2utnteknc5" path="res://database/parameters/damage/damage.gd" id="2_yia2s"]
+
+[node name="Damage" instance=ExtResource("1_idyf7")]
+script = ExtResource("2_yia2s")

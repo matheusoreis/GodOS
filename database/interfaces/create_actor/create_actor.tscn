@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bin5n7dhd8wp8"]
 
 [ext_resource type="Script" uid="uid://bs458dgdyyhhr" path="res://database/interfaces/create_actor/create_actor.gd" id="1_emwqj"]
-[ext_resource type="Script" uid="uid://dkwgs508acv18" path="res://system/interfaces/utils/draggable_window.gd" id="2_p4yor"]
+[ext_resource type="Script" uid="uid://dkwgs508acv18" path="res://system/interface/utils/draggable_window.gd" id="2_p4yor"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbywh"]
 

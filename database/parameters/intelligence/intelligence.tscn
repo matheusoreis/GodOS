@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccmoaliq6v0if"]
+
+[ext_resource type="PackedScene" uid="uid://cpxtethif8l1r" path="res://system/parameter/parameter.tscn" id="1_dk6yn"]
+[ext_resource type="Script" uid="uid://cs1oiogg0uis3" path="res://database/parameters/intelligence/intelligence.gd" id="2_rsvd0"]
+
+[node name="Intelligence" instance=ExtResource("1_dk6yn")]
+script = ExtResource("2_rsvd0")

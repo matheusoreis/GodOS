@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://yekk38oep0nn"]
+
+[ext_resource type="PackedScene" uid="uid://cpxtethif8l1r" path="res://system/parameter/parameter.tscn" id="1_j3cr4"]
+[ext_resource type="Script" uid="uid://d015v10lry5hl" path="res://database/parameters/agility/agility.gd" id="2_7gcdv"]
+
+[node name="Agility" instance=ExtResource("1_j3cr4")]
+script = ExtResource("2_7gcdv")

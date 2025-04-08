@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://dka0jers8ieix"]
+
+[ext_resource type="PackedScene" uid="uid://cifc4wlxr00wc" path="res://system/entity/entity.tscn" id="1_fv6yu"]
+[ext_resource type="Script" uid="uid://ciffi0drenl6l" path="res://system/entity/actor/actor.gd" id="2_5qq0d"]
+[ext_resource type="PackedScene" uid="uid://nekaaedv6j7p" path="res://database/states/walking/walking.tscn" id="2_liwb0"]
+[ext_resource type="PackedScene" uid="uid://di4sb1ogcvkty" path="res://database/parameters/health/health.tscn" id="2_tvnoa"]
+[ext_resource type="PackedScene" uid="uid://ch4gxw34mb7ck" path="res://database/parameters/mana/mana.tscn" id="3_4fk77"]
+[ext_resource type="PackedScene" uid="uid://dd1cv4xt8l5p6" path="res://database/parameters/damage/damage.tscn" id="4_xnosv"]
+[ext_resource type="PackedScene" uid="uid://bxuncec6w5ykl" path="res://database/parameters/defense/defense.tscn" id="5_ea1p0"]
+[ext_resource type="PackedScene" uid="uid://yekk38oep0nn" path="res://database/parameters/agility/agility.tscn" id="6_wktlj"]
+[ext_resource type="PackedScene" uid="uid://ccmoaliq6v0if" path="res://database/parameters/intelligence/intelligence.tscn" id="7_i84s5"]
+
+[node name="Actor" node_paths=PackedStringArray("health", "mana", "damage", "defense", "agility", "intelligence") instance=ExtResource("1_fv6yu")]
+script = ExtResource("2_5qq0d")
+health = NodePath("Parameters/Health")
+mana = NodePath("Parameters/Mana")
+damage = NodePath("Parameters/Damage")
+defense = NodePath("Parameters/Defense")
+agility = NodePath("Parameters/Agility")
+intelligence = NodePath("Parameters/Intelligence")
+
+[node name="Health" parent="Parameters" index="0" instance=ExtResource("2_tvnoa")]
+_min_value = null
+_max_value = null
+_exp_per_level = null
+_level_up_factor = null
+
+[node name="Mana" parent="Parameters" index="1" instance=ExtResource("3_4fk77")]
+_min_value = null
+_max_value = null
+_exp_per_level = null
+_level_up_factor = null
+
+[node name="Damage" parent="Parameters" index="2" instance=ExtResource("4_xnosv")]
+_min_value = null
+_max_value = null
+_exp_per_level = null
+_level_up_factor = null
+
+[node name="Defense" parent="Parameters" index="3" instance=ExtResource("5_ea1p0")]
+_min_value = null
+_max_value = null
+_exp_per_level = null
+_level_up_factor = null
+
+[node name="Agility" parent="Parameters" index="4" instance=ExtResource("6_wktlj")]
+_min_value = null
+_max_value = null
+_exp_per_level = null
+_level_up_factor = null
+
+[node name="Intelligence" parent="Parameters" index="5" instance=ExtResource("7_i84s5")]
+_min_value = null
+_max_value = null
+_exp_per_level = null
+_level_up_factor = null
+
+[node name="Walking" parent="StateMachine" index="1" instance=ExtResource("2_liwb0")]

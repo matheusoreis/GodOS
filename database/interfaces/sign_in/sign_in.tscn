@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://diwjlpst5v714"]
 
-[ext_resource type="Script" uid="uid://dkwgs508acv18" path="res://system/interfaces/utils/draggable_window.gd" id="1_epynf"]
+[ext_resource type="Script" uid="uid://dkwgs508acv18" path="res://system/interface/utils/draggable_window.gd" id="1_epynf"]
 [ext_resource type="Script" uid="uid://c8thgts35sy7a" path="res://database/interfaces/sign_in/sign_in.gd" id="1_rukkk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbywh"]

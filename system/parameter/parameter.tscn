@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpxtethif8l1r"]
+
+[ext_resource type="Script" uid="uid://dkbshlafwow6p" path="res://system/parameter/parameter.gd" id="1_6bvc3"]
+
+[node name="Parameter" type="Node2D"]
+script = ExtResource("1_6bvc3")

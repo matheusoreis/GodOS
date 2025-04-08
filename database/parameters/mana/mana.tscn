@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch4gxw34mb7ck"]
+
+[ext_resource type="PackedScene" uid="uid://cpxtethif8l1r" path="res://system/parameter/parameter.tscn" id="1_kgmdy"]
+[ext_resource type="Script" uid="uid://bkt8uljowenwk" path="res://database/parameters/mana/mana.gd" id="2_lok28"]
+
+[node name="Mana" instance=ExtResource("1_kgmdy")]
+script = ExtResource("2_lok28")

@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://cifc4wlxr00wc"]
+
+[ext_resource type="Script" uid="uid://cwhdsoqutyjkn" path="res://system/entity/entity.gd" id="1_jm4vq"]
+[ext_resource type="PackedScene" uid="uid://cim12buoi67eg" path="res://database/states/stopped/stopped.tscn" id="3_l0tcb"]
+[ext_resource type="Script" path="res://core/entities/states/machine.gd" id="5_nonoe"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xgxsm"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wjt14"]
+properties/0/path = NodePath("../../Animation:current_animation")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_l51jc"]
+properties/0/path = NodePath("Sprite:flip_h")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="Entity" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_animation", "_state_machine")]
+script = ExtResource("1_jm4vq")
+_sprite = NodePath("Sprite")
+_animation = NodePath("Animation")
+_state_machine = NodePath("StateMachine")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+[node name="Parameters" type="Node2D" parent="."]
+
+[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_nonoe")
+initial_state = NodePath("Stopped")
+
+[node name="Stopped" parent="StateMachine" instance=ExtResource("3_l0tcb")]
+
+[node name="Multiplayer" type="Node2D" parent="."]
+
+[node name="PositionSynchronizer" type="MultiplayerSynchronizer" parent="Multiplayer"]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_xgxsm")
+
+[node name="AnimationSynchronizer" type="MultiplayerSynchronizer" parent="Multiplayer"]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_wjt14")
+
+[node name="SpriteSynchronizer" type="MultiplayerSynchronizer" parent="Multiplayer"]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_l51jc")

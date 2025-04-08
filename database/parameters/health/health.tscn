@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://di4sb1ogcvkty"]
+
+[ext_resource type="PackedScene" uid="uid://cpxtethif8l1r" path="res://system/parameter/parameter.tscn" id="1_8dxfu"]
+[ext_resource type="Script" uid="uid://b3hikhebet660" path="res://database/parameters/health/health.gd" id="2_xjjbk"]
+
+[node name="Health" instance=ExtResource("1_8dxfu")]
+script = ExtResource("2_xjjbk")

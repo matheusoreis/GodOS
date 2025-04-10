@@ -160,3 +160,4 @@ func _on_sign_in_success(message: String, user: Dictionary) -> void:
 @rpc("authority", "call_local")
 func _on_sign_up_failed(messages: Array[String]) -> void:
 	ShowNotification.show(messages)
+	_reset_ui()

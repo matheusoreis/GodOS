@@ -3,7 +3,7 @@ extends Node
 
 func show(messages: Array) -> void:
 	var notification_scene := load(
-		"res://interface/scenes/notification/notification.tscn"
+		"res://database/interfaces/notification/notification.tscn"
 	) as PackedScene
 
 	var notification_instance: NotificationUI = notification_scene.instantiate()

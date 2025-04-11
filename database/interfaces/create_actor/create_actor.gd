@@ -69,34 +69,38 @@ func _reset_ui() -> void:
 
 
 @rpc("any_peer", "call_remote")
-func _request_create_actor(email: String, password: String) -> void:
+func _request_create_actor(name: String) -> void:
 	print("Requisição")
 	# Obtém o id do peer do jogador que solicitou a função
-	#var sender_id: int = multiplayer.get_remote_sender_id()
-	#var error_messages: Array[String] = []
+	var sender_id: int = multiplayer.get_remote_sender_id()
+	var error_messages: Array[String] = []
 #
-	## Verifica se a versão do cliente está correta
-	#if Constants.version != Constants.version:
-		#error_messages.append("O seu cliente está desatualizado!")
-		#_on_sign_up_failed.rpc_id(sender_id, error_messages)
-		#return
-#
-	## Monta endpoint, headers e body da requisição
-	#var endpoint = Env.backend_endpoint + "auth/sign-in"
-	#var headers := {
-		#"Content-Type": "application/json",
-		#"Authorization": Env.backend_token
-	#}
-	#var body := {
-		#"email": email,
-		#"password": password,
-	#}
-#
-	## Faz a requisição para o backend
-	#var result := await Fetch.fetch_json(HTTPClient.METHOD_POST, endpoint, body, headers)
-	#var status_code = result[1]
-	#var response_data = result[2]
-#
+	# Verifica se a versão do cliente está correta
+	if Constants.version != Constants.version:
+		error_messages.append("O seu cliente está desatualizado!")
+		_on_create_actor_failed.rpc_id(sender_id, error_messages)
+		return
+
+	if not Globals.users.has(sender_id):
+		return
+
+	var user: Dictionary = Globals.users[sender_id]
+
+	# Monta endpoint, headers e body da requisição
+	var endpoint = Env.backend_endpoint + "actor"
+	var headers := {
+		"Content-Type": "application/json",
+		"Authorization": Env.backend_token
+	}
+	var body := {
+		"userId": user["id"],
+		"name": name,
+	}
+
+	var result := await Fetch.fetch_json(HTTPClient.METHOD_POST, endpoint, body, headers)
+	var status_code = result[1]
+	var response_data = result[2]
+
 	## Se falhou, envia os erros pro cliente
 	#if status_code != 201:
 		#error_messages.append_array(Fetch.format_errors(response_data))
@@ -139,7 +143,7 @@ func _request_create_actor(email: String, password: String) -> void:
 
 
 @rpc("authority", "call_local")
-func _on_sign_in_success(message: String) -> void:
+func _on_create_actor_success(message: String) -> void:
 	WindowManager.hide_interface("sign_in")
 	WindowManager.show_interface("actor_list")
 
@@ -148,6 +152,6 @@ func _on_sign_in_success(message: String) -> void:
 
 
 @rpc("authority", "call_local")
-func _on_sign_up_failed(messages: Array[String]) -> void:
+func _on_create_actor_failed(messages: Array[String]) -> void:
 	ShowNotification.show(messages)
 	_reset_ui()

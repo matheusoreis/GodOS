@@ -21,6 +21,13 @@ defense = NodePath("Parameters/Defense")
 agility = NodePath("Parameters/Agility")
 intelligence = NodePath("Parameters/Intelligence")
 
+[node name="Sprite" parent="." index="0"]
+hframes = 1
+vframes = 1
+
+[node name="Collision" parent="." index="2"]
+position = Vector2(0, -11)
+
 [node name="Camera" parent="." index="3" instance=ExtResource("3_8vutg")]
 
 [node name="Controller" parent="." index="4" instance=ExtResource("4_fql5c")]
@@ -61,4 +68,7 @@ _max_value = null
 _exp_per_level = null
 _level_up_factor = null
 
-[node name="Walking" parent="StateMachine" index="1" instance=ExtResource("2_liwb0")]
+[node name="Walking" parent="StateMachine" index="1" node_paths=PackedStringArray("_entity", "_sprite", "_animation") instance=ExtResource("2_liwb0")]
+_entity = NodePath("../..")
+_sprite = NodePath("../../Sprite")
+_animation = NodePath("../../Animation")

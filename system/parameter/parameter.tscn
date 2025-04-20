@@ -1,6 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://cpxtethif8l1r"]
+[gd_scene load_steps=3 format=3 uid="uid://cpxtethif8l1r"]
 
 [ext_resource type="Script" uid="uid://dkbshlafwow6p" path="res://system/parameter/parameter.gd" id="1_6bvc3"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mhni5"]
+properties/0/path = NodePath(".:_base_value")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:_modifiers")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:_value")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:_current_exp")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:_level")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
 [node name="Parameter" type="Node2D"]
 script = ExtResource("1_6bvc3")
+
+[node name="ParameterSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mhni5")

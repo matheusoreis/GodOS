@@ -14,18 +14,14 @@ var zoom_levels: Dictionary = {
 	ZoomLevel.EXTREME: 4
 }
 
+@export var actor: Actor
+
 @export_group("Variables")
 @export var zoom_speed: float = 0.1
 @export var current_zoom: ZoomLevel
 
-var _entity: Entity
-
 
 func _ready() -> void:
-	_entity = get_parent() as Entity
-	if not _entity or _entity.name.to_int() != multiplayer.get_unique_id():
-		return
-
 	_apply_zoom()
 
 

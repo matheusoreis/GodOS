@@ -28,7 +28,7 @@ func _ready() -> void:
 			var re_password_text = _re_password_line.text
 
 			if email_text.is_empty() || password_text.is_empty() || re_password_text.is_empty():
-				print("Por favor, preencha todos os campos.")
+				ShowNotification.show(["Por favor, preencha todos os campos."])
 				return
 
 			_confirm_button.disabled = true

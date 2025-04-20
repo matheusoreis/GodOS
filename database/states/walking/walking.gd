@@ -14,8 +14,7 @@ func _on_process(_delta : float) -> void:
 func _on_physics_process(_delta : float) -> void:
 	# Movendo para a esquerda
 	if _entity.velocity.x < 0:
-		_sprite.flip_h = true
-		_animation.play("walking_side")
+		_animation.play("walking_left")
 
 	# Movendo para cima
 	elif _entity.velocity.y < 0:
@@ -23,8 +22,7 @@ func _on_physics_process(_delta : float) -> void:
 
 	# Movendo para a direita
 	elif _entity.velocity.x > 0:
-		_sprite.flip_h = false
-		_animation.play("walking_side")
+		_animation.play("walking_right")
 
 	# Movendo para baixo
 	elif _entity.velocity.y > 0:
@@ -32,7 +30,7 @@ func _on_physics_process(_delta : float) -> void:
 
 
 func _on_next_transitions() -> void:
-	if _entity.direction == Vector2.ZERO:
+	if _entity.velocity == Vector2.ZERO:
 		transition.emit("stopped")
 
 

@@ -5,7 +5,7 @@ extends Interface
 @export_group("Objects")
 @onready var _main: Main = $"../.."
 @onready var _client: Client = $"../../Network/Client"
-
+@onready var _map: Map = $"../../Game/Map"
 @onready var _close_button: Button = $content/top_bar/margin/close
 @onready var _email_line: LineEdit = $content/margin/content/inputs/email
 @onready var _password_line: LineEdit = $content/margin/content/inputs/password
@@ -143,6 +143,10 @@ func _request_sign_in(email: String, password: String) -> void:
 	_on_sign_in_success.rpc_id(sender_id, "Sucesso ao acessar o jogo!", response_data)
 
 
+	response_data["actor"]["pid"] = sender_id
+	_map.actor_spawner.spawn(response_data["actor"])
+
+
 @rpc("authority", "call_local")
 func _on_sign_in_success(message: String, user: Dictionary) -> void:
 	ShowNotification.show([message])
@@ -155,6 +159,8 @@ func _on_sign_in_success(message: String, user: Dictionary) -> void:
 
 	_main.menu_interface.hide()
 	_main.game_interface.show()
+
+	$"../../Game".show()
 
 
 @rpc("authority", "call_local")

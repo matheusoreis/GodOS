@@ -68,5 +68,4 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
-disabled = true
 text = "Cadastrar"

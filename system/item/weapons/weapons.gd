@@ -1,4 +1,4 @@
-class_name Weapons
+class_name Weapon
 extends Item
 
 @export_group("Variables")

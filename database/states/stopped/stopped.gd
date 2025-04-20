@@ -14,8 +14,7 @@ func _on_process(_delta : float) -> void:
 func _on_physics_process(_delta : float) -> void:
 	# Parado para a esquerda
 	if _entity.last_direction.x < 0:
-		_sprite.flip_h = true
-		_animation.play("stopped_side")
+		_animation.play("stopped_left")
 
 	# Parado para cima
 	elif _entity.last_direction == Vector2.UP:
@@ -23,8 +22,7 @@ func _on_physics_process(_delta : float) -> void:
 
 	# Parado para a direita
 	elif _entity.last_direction.x > 0:
-		_sprite.flip_h = false
-		_animation.play("stopped_side")
+		_animation.play("stopped_right")
 
 	# PArado para baixo
 	elif _entity.last_direction.y > 0:

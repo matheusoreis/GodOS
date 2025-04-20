@@ -11,11 +11,15 @@ signal level_down(level: int)
 @export var _exp_per_level: int = 100
 @export var _level_up_factor: int = 5
 
-var _base_value: int
-var _modifiers: int = 0
-var _value: int
-var _current_exp: int = 0
-var _level: int = 1
+@export var _base_value: int
+@export var _modifiers: int = 0
+@export var _value: int
+@export var _current_exp: int = 0
+@export var _level: int = 1
+
+
+func _ready() -> void:
+	_initialize_attributes()
 
 
 func _initialize_attributes() -> void:

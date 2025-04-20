@@ -44,7 +44,7 @@ func _peer_connected(pid: int) -> void:
 
 	Globals.connections[pid] = {
 		"id": pid,
-		"peer": peer
+		"ip": peer.get_remote_address()
 	}
 
 	print("Nova conexão ao servidor com o ip: ", peer.get_remote_address())
@@ -56,8 +56,9 @@ func _peer_disconnected(pid: int) -> void:
 		return
 
 	var connection: Dictionary = Globals.connections[pid]
-	var connection_peer: ENetPacketPeer = connection.get("peer", null)
+	print("Conexão com o ip: ", connection["ip"], ", deixando o servidor!")
+
+	var map: Map = get_tree().root.get_node('Main/Game/Map')
+	map.despawn_actor(pid)
 
 	Globals.connections.erase(pid)
-
-	print("Conexão com o ip: ", connection_peer.get_remote_address(), ", deixando o servidor!")

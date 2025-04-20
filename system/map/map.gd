@@ -5,27 +5,41 @@ extends Node2D
 @export_group("Objects")
 @export var tilemaps: Array[TileMapLayer]
 @onready var spawns: Node2D = $spawns
+@onready var actor_spawner: MultiplayerSpawner = $ActorSpawner
 
 @export_group("Attributes")
 @export var id: String
 @export var identifier: String
-@export var map_size: Vector2
 
 var actors: Dictionary
 
 
-func add_actor(actor: Actor) -> void:
-	if actors.has(actor.id):
+func _ready() -> void:
+	actor_spawner.spawn_function = spawn_actor
+
+
+func spawn_actor(actor: Dictionary) -> Actor:
+	var actor_pid: int = actor["pid"]
+
+	var actor_scene: PackedScene = load("res://database/actors/actor.tscn")
+	var actor_instance: Actor = actor_scene.instantiate()
+	actor_instance.map = self
+	actor_instance.name = str(actor["pid"])
+	actor_instance.identifier = actor["name"]
+
+	actors[actor_pid] = actor_instance
+
+	if not actor_pid == multiplayer.get_unique_id():
+		var camera: ActorCamera = actor_instance.camera
+		camera.enabled = false
+
+	return actor_instance
+
+
+func despawn_actor(pid: int) -> void:
+	var actor: Actor = actors[pid]
+	if not actor:
 		return
 
-	spawns.add_child(actor)
-	actors[actor.id] = actor
-
-
-func remove_actor(actor_id: int) -> void:
-	if not actors.has(actor_id):
-		return
-
-	var actor_instance: Actor = actors[actor_id]
-	actor_instance.queue_free()
-	actors.erase(actor_id)
+	actor.queue_free()
+	actors.erase(pid)

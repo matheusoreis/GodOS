@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://dyj3bfgghfwt1"]
+
+[ext_resource type="Script" uid="uid://b5utl73om8laf" path="res://system/item/weapons/weapons.gd" id="1_544bi"]
+
+[resource]
+script = ExtResource("1_544bi")
+damage = 0
+name = ""
+description = ""
+price = 0
+metadata/_custom_type_script = "uid://b5utl73om8laf"

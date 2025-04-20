@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://pjtm2vrcx5eq"]
+
+[ext_resource type="PackedScene" uid="uid://dvo5nyp4evux0" path="res://system/classe/classe.tscn" id="1_yb2jx"]
+
+[node name="Warrior" instance=ExtResource("1_yb2jx")]
+identifier = "Warrior"

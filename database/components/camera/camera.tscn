@@ -3,4 +3,5 @@
 [ext_resource type="Script" uid="uid://dqg5m7dkeyxqe" path="res://database/components/camera/camera.gd" id="1_wmwfx"]
 
 [node name="Camera" type="Camera2D"]
+enabled = false
 script = ExtResource("1_wmwfx")

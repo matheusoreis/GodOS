@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://ci85v67g2lbf4"]
+
+[ext_resource type="Script" uid="uid://cin4v5dgqc2qo" path="res://database/interfaces/game_chat/game_chat.gd" id="1_li314"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ycsn6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbywh"]
+
+[node name="GameChat" type="PanelContainer"]
+custom_minimum_size = Vector2(250, 100)
+offset_right = 387.0
+offset_bottom = 171.0
+focus_mode = 1
+script = ExtResource("1_li314")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Content" type="VBoxContainer" parent="Content/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Messages" type="RichTextLabel" parent="Content/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true
+justification_flags = 171
+
+[node name="Buttons" type="HBoxContainer" parent="Content/Margin/Content"]
+layout_mode = 2
+
+[node name="Message" type="LineEdit" parent="Content/Margin/Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ycsn6")
+
+[node name="Send" type="Button" parent="Content/Margin/Content/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
+disabled = true
+text = "Enviar"

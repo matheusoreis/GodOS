@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cxql1pmajkdn5"]
+[gd_scene load_steps=14 format=3 uid="uid://cxql1pmajkdn5"]
 
 [ext_resource type="Script" uid="uid://c7kuc5hw51ss0" path="res://main.gd" id="1_t5imi"]
 [ext_resource type="Script" uid="uid://dffg4ifeoqxv2" path="res://system/boot.gd" id="2_4c57u"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://pfptlmhmx43u" path="res://system/map/map.tscn" id="5_efxa6"]
 [ext_resource type="PackedScene" uid="uid://diwjlpst5v714" path="res://database/interfaces/sign_in/sign_in.tscn" id="6_8ye5a"]
 [ext_resource type="Script" uid="uid://p63dp4vwar7p" path="res://database/interfaces/game_interface.gd" id="8_8ye5a"]
+[ext_resource type="PackedScene" uid="uid://ci85v67g2lbf4" path="res://database/interfaces/game_chat/game_chat.tscn" id="13_ycdy4"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -103,5 +104,15 @@ grow_vertical = 2
 [node name="GameInterface" type="CanvasLayer" parent="."]
 visible = false
 script = ExtResource("8_8ye5a")
+
+[node name="GameChat" parent="GameInterface" instance=ExtResource("13_ycdy4")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -181.0
+offset_right = 397.0
+offset_bottom = -10.0
+grow_vertical = 0
 
 [node name="SharedInterface" type="CanvasLayer" parent="."]

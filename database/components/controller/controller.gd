@@ -9,24 +9,34 @@ func _ready() -> void:
 	_entity = get_parent() as Entity
 
 
-func _input(event: InputEvent) -> void:
-	if multiplayer.is_server():
+func _physics_process(_delta: float) -> void:
+	if not _should_process_input():
 		return
 
+	var input_direction = _get_movement_input()
+	_request_move.rpc_id(1, input_direction)
 
-func _physics_process(delta: float) -> void:
-	if not _entity or _entity.name.to_int() != multiplayer.get_unique_id():
-		return
 
-	var direction: Vector2 = Input.get_vector("walking_left", "walking_right", "walking_up", "walking_down")
+func _should_process_input() -> bool:
+	return _entity and _entity.name.to_int() == multiplayer.get_unique_id()
+
+
+func _get_movement_input() -> Vector2:
+	var direction = Input.get_vector("walking_left", "walking_right", "walking_up", "walking_down")
+
+	if Globals.is_typing:
+		return Vector2.ZERO
+
 	if direction != Vector2.ZERO:
 		_last_direction = direction.normalized()
+	else:
+		_last_direction = Vector2.ZERO
 
-	_request_move_actor.rpc_id(1, direction)
+	return direction
 
 
 @rpc("any_peer", "call_remote")
-func _request_move_actor(direction: Vector2) -> void:
+func _request_move(direction: Vector2) -> void:
 	var map: Map = get_tree().root.get_node_or_null('Main/Game/Map')
 	if not map:
 		return

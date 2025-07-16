@@ -1,7 +1,52 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxbh8txy65wko"]
+[gd_scene load_steps=4 format=3 uid="uid://bb54wipdogug4"]
 
-[ext_resource type="PackedScene" uid="uid://cx75r7wpv1snm" path="res://system/map/map.tscn" id="1_2plm4"]
+[ext_resource type="Script" uid="uid://qe1rww2wbm84" path="res://system/scenes/boot.gd" id="1_2f5w6"]
+[ext_resource type="Script" uid="uid://bupfuh3prymdj" path="res://system/network/client.gd" id="2_bwljb"]
+[ext_resource type="Script" uid="uid://cde3eqqejtm3y" path="res://system/network/server.gd" id="3_qm40g"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="Map" parent="." instance=ExtResource("1_2plm4")]
+[node name="Menu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Game" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Shared" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Boot" type="CanvasLayer" parent="." node_paths=PackedStringArray("_client", "_server")]
+script = ExtResource("1_2f5w6")
+_client = NodePath("Boot/Client")
+_server = NodePath("Boot/Server")
+
+[node name="Boot" type="VBoxContainer" parent="Boot"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.5
+offset_top = -33.0
+offset_right = 62.5
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Client" type="Button" parent="Boot/Boot"]
+layout_mode = 2
+text = "Iniciar Cliente"
+script = ExtResource("2_bwljb")
+
+[node name="Server" type="Button" parent="Boot/Boot"]
+layout_mode = 2
+text = "Iniciar Servidor"
+script = ExtResource("3_qm40g")

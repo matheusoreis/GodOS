@@ -15,14 +15,14 @@ func _physics_process(_delta: float) -> void:
 		return
 
 	var input_direction = _get_movement_input()
-	
+
 	#Network.client.send(Packets.MOVE_ACTOR, [input_direction])
 
 
 func _should_process_input() -> bool:
 	if not _entity:
 		return false
-	
+
 	if not _entity.name.to_int() == ClientGlobals.peer_id:
 		return false
 

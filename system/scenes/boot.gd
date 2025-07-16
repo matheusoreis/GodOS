@@ -1,34 +1,32 @@
-class_name BootScene
-extends Control
-
-@export var _client_scene: PackedScene
-@export var _server_scene: PackedScene
-
-@export var _client_button: Button
-@export var _server_button: Button
+class_name BootCanvas
+extends CanvasLayer
 
 
-func _init() -> void:
-	_client_scene = preload("res://system/scenes/client.tscn")
-	_server_scene = preload("res://system/scenes/server.tscn")
+@export var _client: Client
+@export var _server: Server
 
 
 func _ready() -> void:
-	_client_button.pressed.connect(_on_client_button_pressed)
-	_server_button.pressed.connect(_on_server_button_pressed)
+	self._client.pressed.connect(_on_client_button_pressed)
+	self._server.pressed.connect(_on_server_button_pressed)
+
+	self._client.client_error.connect(_on_client_error)
+	self._server.server_error.connect(_on_server_error)
+
+
+func _on_client_error(error: String) -> void:
+	print("Client error: %s" % error)
+
+
+func _on_server_error(error: String) -> void:
+	print("Server error: %s" % error)
 
 
 func _on_client_button_pressed() -> void:
-	var scene: Control = _client_scene.instantiate()
-	scene.name = "Client"
-
-	get_tree().root.add_child(scene)
-	queue_free()
+	self._client.start_client()
+	self.hide()
 
 
 func _on_server_button_pressed() -> void:
-	var scene: Control = _server_scene.instantiate()
-	scene.name = "Server"
-
-	get_tree().root.add_child(scene)
-	queue_free()
+	self._server.start_server()
+	self.hide()

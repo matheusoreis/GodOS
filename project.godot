@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="godos"
-run/main_scene="uid://sfqi6fmqi4u2"
+run/main_scene="uid://bb54wipdogug4"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 

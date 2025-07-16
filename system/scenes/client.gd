@@ -2,44 +2,30 @@ class_name ClientScene
 extends Control
 
 
-var _client: Client
-var _handler: Handler
-
-
-func _init() -> void:
-	_client = Network.client
-	_handler = Handler.new([
-		ClientSignInPacket.new(),
-		ClientSignUpPacket.new(),
-		ClientActorListPacket.new(),
-		ClientCreateActorPacket.new(),
-		ClientDeleteActorPacket.new(),
-		ClientSelectActorPacket.new(),
-		ClientMoveActorPacket.new()
-	])
+var _multiplayer_peer: ENetMultiplayerPeer
 
 
 func _ready() -> void:
-	_client.connect_to_server()
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	
 
-	_client.peer_connected.connect(_peer_connected)
-	_client.peer_disconnected.connect(_peer_disconnected)
-	_client.packet_received.connect(_packet_received)
-
-	print("Cliente iniciado na porta: ", ClientConstants.port)
-
-
-func _process(_delta: float) -> void:
-	_client.update()
-
-
-func _peer_connected() -> void:
-	pass
-
-
-func _peer_disconnected() -> void:
-	pass
+func connect_to_server() -> void:
+	var port: int = ServerConstants.port
+	var max_peers: int = ServerConstants.max_peers
+	
+	_multiplayer_peer = ENetMultiplayerPeer.new()
+	
+	var error = _multiplayer_peer.create_server(port, max_peers)
+	if error:
+		print(error)
+	
+	multiplayer.multiplayer_peer = _multiplayer_peer
 
 
-func _packet_received(packet_data: PackedByteArray) -> void:
-	_handler.handle(get_tree(), packet_data)
+func _on_peer_connected(peer_id: int) -> void:
+	print("Novo cliente conectado: ", peer_id)
+
+
+func _on_peer_disconnected(peer_id: int) -> void:
+	print("Failed to connect to the server: ", peer_id)

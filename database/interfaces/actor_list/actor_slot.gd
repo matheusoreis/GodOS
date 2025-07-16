@@ -21,8 +21,10 @@ func update_data(data: Dictionary) -> void:
 
 
 func _on_access_button_pressed() -> void:
-	Network.client.send(Packets.SELECT_ACTOR, [_data["id"]])
+	pass
+	#Network.client.send(Packets.SELECT_ACTOR, [_data["id"]])
 
 
 func _on_delete_button_pressed() -> void:
-	Network.client.send(Packets.DELETE_ACTOR, [_data["id"]])
+	pass
+	#Network.client.send(Packets.DELETE_ACTOR, [_data["id"]])

@@ -19,7 +19,7 @@ func _on_create_button_pressed() -> void:
 		Notification.show(["O nome precisa ter ao menos 4 caracteres."])
 		return
 
-	Network.client.send(Packets.CREATE_ACTOR, [name])
+	#Network.client.send(Packets.CREATE_ACTOR, [name])
 
 
 func _on_back_button_pressed() -> void:

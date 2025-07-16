@@ -28,7 +28,7 @@ func _on_sign_in_button_pressed() -> void:
 	sign_in_button.disabled = true
 	sign_up_button.disabled = true
 
-	Network.client.send(Packets.SIGN_IN, [email, password, ClientConstants.version])
+	#Network.client.send(Packets.SIGN_IN, [email, password, ClientConstants.version])
 
 
 func _on_sign_up_button_pressed() -> void:

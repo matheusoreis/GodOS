@@ -2,44 +2,34 @@ class_name ServerScene
 extends Control
 
 
-var _server: Server
-var _handler: Handler
-
-
-func _init() -> void:
-	_server = Network.server
-	_handler = Handler.new([
-		ServerSignInPacket.new(),
-		ServerSignUpPacket.new(),
-		ServerActorListPacket.new(),
-		ServerCreateActorPacket.new(),
-		ServerDeleteActorPacket.new(),
-		ServerSelectActorPacket.new(),
-		ServerMoveActorPacket.new(),
-	])
+var _multiplayer_peer: ENetMultiplayerPeer
 
 
 func _ready() -> void:
-	_server.start()
-
-	_server.peer_connected.connect(_peer_connected)
-	_server.peer_disconnected.connect(_peer_disconnected)
-	_server.packet_received.connect(_packet_received)
-
-	print("Servidor iniciado na porta: ", ServerConstants.port)
-
-
-func _process(_delta: float) -> void:
-	_server.update()
-
-
-func _peer_connected(peer_id: int) -> void:
-	print("Cliente conectado: ", str(peer_id))
-
-
-func _peer_disconnected(peer_id: int) -> void:
-	print("Cliente desconectado: ", str(peer_id))
+	var host: String = ClientConstants.host
+	var port: int = ClientConstants.port
+	
+	_multiplayer_peer = ENetMultiplayerPeer.new()
+	
+	var error = _multiplayer_peer.create_client(host, port)
+	if error:
+		print(error)
+	
+	multiplayer.multiplayer_peer = _multiplayer_peer
+	ClientGlobals.peer_id = _multiplayer_peer.get_unique_id()
+	
+	multiplayer.connected_to_server.connect(_on_connected_to_server)
+	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 
-func _packet_received(peer_id: int, packet_data: PackedByteArray) -> void:
-	_handler.handle(get_tree(), packet_data, peer_id)
+func _on_connected_to_server() -> void:
+	print("Successfully connected to the server: ", ClientGlobals.peer_id)
+
+
+func _on_connection_failed() -> void:
+	print("Failed to connect to the server: ", ClientGlobals.peer_id)
+
+
+func _on_server_disconnected() -> void:
+	print("Disconnected from the server: ", ClientGlobals.peer_id)

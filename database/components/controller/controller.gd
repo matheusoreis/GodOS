@@ -16,7 +16,7 @@ func _physics_process(_delta: float) -> void:
 
 	var input_direction = _get_movement_input()
 	
-	Network.client.send(Packets.MOVE_ACTOR, [input_direction])
+	#Network.client.send(Packets.MOVE_ACTOR, [input_direction])
 
 
 func _should_process_input() -> bool:

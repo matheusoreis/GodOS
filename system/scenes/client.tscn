@@ -14,10 +14,12 @@ anchors_preset = 0
 script = ExtResource("1_uwnqk")
 
 [node name="Game" parent="." instance=ExtResource("2_bon3f")]
+visible = false
 
 [node name="GameCanvas" type="CanvasLayer" parent="."]
 
 [node name="MenuCanvas" type="CanvasLayer" parent="." node_paths=PackedStringArray("interfaces")]
+visible = false
 script = ExtResource("2_nyppy")
 interfaces = [NodePath("SignIn"), NodePath("SignUp"), NodePath("ActorList"), NodePath("CreateActor")]
 
@@ -77,3 +79,12 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SharedCanvas" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Conectar"
+
+[connection signal="pressed" from="Button" to="." method="connect_to_server"]

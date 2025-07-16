@@ -34,7 +34,7 @@ func _on_sign_up_button_pressed() -> void:
 	back_button.disabled = true
 	sign_up_button.disabled = true
 
-	Network.client.send(Packets.SIGN_UP, [email, password, ClientConstants.version])
+	#Network.client.send(Packets.SIGN_UP, [email, password, ClientConstants.version])
 
 
 func _on_back_button_pressed() -> void:

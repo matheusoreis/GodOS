@@ -9,5 +9,5 @@ func show(messages: Array) -> void:
 	var notification_scene_instance: NotificationInterface = notification_scene.instantiate()
 	notification_scene_instance.message.text = "\n".join(messages)
 
-	var shared_canvas: CanvasLayer = get_tree().root.get_node("Client/SharedCanvas")
+	var shared_canvas: CanvasLayer = get_tree().root.get_node("Game/SharedCanvas")
 	shared_canvas.add_child(notification_scene_instance)

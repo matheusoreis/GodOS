@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" uid="uid://bs0typy2ilptm" path="res://database/interfaces/sign_up/sign_up.gd" id="1_va0uu"]
 
-[node name="SignUp" type="PanelContainer" node_paths=PackedStringArray("email_input", "password_input", "re_password_input", "back_button", "sign_up_button")]
+[node name="SignUp" type="PanelContainer" node_paths=PackedStringArray("_email_input", "_password_input", "_re_password_input", "_back_button", "_sign_up_button")]
 offset_right = 350.0
 offset_bottom = 66.0
 script = ExtResource("1_va0uu")
-email_input = NodePath("Margin/Content/Inputs/Email/EmailInput")
-password_input = NodePath("Margin/Content/Inputs/Password/PasswordInput")
-re_password_input = NodePath("Margin/Content/Inputs/RePassword/PasswordInput")
-back_button = NodePath("Margin/Content/Buttons/BackButton")
-sign_up_button = NodePath("Margin/Content/Buttons/SignUpButton")
+_email_input = NodePath("Margin/Content/Inputs/Email/EmailInput")
+_password_input = NodePath("Margin/Content/Inputs/Password/PasswordInput")
+_re_password_input = NodePath("Margin/Content/Inputs/RePassword/PasswordInput")
+_back_button = NodePath("Margin/Content/Buttons/BackButton")
+_sign_up_button = NodePath("Margin/Content/Buttons/SignUpButton")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2

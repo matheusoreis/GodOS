@@ -7,6 +7,11 @@ extends CanvasLayer
 
 
 func _ready() -> void:
+	%BootCanvas.show()
+	%SharedCanvas.hide()
+	%GameCanvas.hide()
+	%MenuCanvas.hide()
+
 	self._client.pressed.connect(_on_client_button_pressed)
 	self._server.pressed.connect(_on_server_button_pressed)
 
@@ -26,6 +31,8 @@ func _on_client_button_pressed() -> void:
 	self._client.start_client()
 	self.hide()
 
+	%SharedCanvas.show()
+	%MenuCanvas.show()
 
 func _on_server_button_pressed() -> void:
 	self._server.start_server()

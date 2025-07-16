@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://ce671lfx6egew" path="res://database/interfaces/sign_in/sign_in.gd" id="1_kqu1q"]
 
-[node name="SignIn" type="PanelContainer" node_paths=PackedStringArray("email_input", "password_input", "sign_in_button", "sign_up_button")]
+[node name="SignIn" type="PanelContainer" node_paths=PackedStringArray("_email_input", "_password_input", "_sign_in_button", "_sign_up_button")]
 offset_right = 350.0
 offset_bottom = 66.0
 script = ExtResource("1_kqu1q")
-email_input = NodePath("Margin/Content/Inputs/Email/EmailInput")
-password_input = NodePath("Margin/Content/Inputs/Password/PasswordInput")
-sign_in_button = NodePath("Margin/Content/Buttons/SignInButton")
-sign_up_button = NodePath("Margin/Content/Buttons/SignUpButton")
+_email_input = NodePath("Margin/Content/Inputs/Email/EmailInput")
+_password_input = NodePath("Margin/Content/Inputs/Password/PasswordInput")
+_sign_in_button = NodePath("Margin/Content/Buttons/SignInButton")
+_sign_up_button = NodePath("Margin/Content/Buttons/SignUpButton")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2

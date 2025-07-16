@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bb54wipdogug4"]
+[gd_scene load_steps=8 format=3 uid="uid://bb54wipdogug4"]
 
 [ext_resource type="Script" uid="uid://qe1rww2wbm84" path="res://system/scenes/boot.gd" id="1_2f5w6"]
+[ext_resource type="PackedScene" uid="uid://bafgnqlsr0gh5" path="res://database/interfaces/actor_list/actor_list.tscn" id="1_7pwju"]
+[ext_resource type="PackedScene" uid="uid://bgnqtx3a5ce5f" path="res://database/interfaces/create_actor/create_actor.tscn" id="1_a6viu"]
+[ext_resource type="PackedScene" uid="uid://spkp0e5aemdw" path="res://database/interfaces/sign_in/sign_in.tscn" id="1_qm40g"]
 [ext_resource type="Script" uid="uid://bupfuh3prymdj" path="res://system/network/client.gd" id="2_bwljb"]
+[ext_resource type="PackedScene" uid="uid://dtrxqqkigbjp2" path="res://database/interfaces/sign_up/sign_up.tscn" id="2_dck4y"]
 [ext_resource type="Script" uid="uid://cde3eqqejtm3y" path="res://system/network/server.gd" id="3_qm40g"]
 
 [node name="Game" type="Control"]
@@ -14,21 +18,84 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Menu" type="CanvasLayer" parent="."]
+[node name="Game" type="Node2D" parent="."]
+
+[node name="MenuCanvas" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="CreateActor" parent="MenuCanvas" instance=ExtResource("1_a6viu")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.0
+offset_top = -46.0
+offset_right = 185.0
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ActorList" parent="MenuCanvas" instance=ExtResource("1_7pwju")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -80.0
+offset_right = 250.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SignUp" parent="MenuCanvas" instance=ExtResource("2_dck4y")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.0
+offset_top = -81.0
+offset_right = 185.0
+offset_bottom = 81.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SignIn" parent="MenuCanvas" instance=ExtResource("1_qm40g")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.0
+offset_top = -63.5
+offset_right = 185.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GameCanvas" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 visible = false
 
-[node name="Game" type="CanvasLayer" parent="."]
+[node name="SharedCanvas" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 visible = false
 
-[node name="Shared" type="CanvasLayer" parent="."]
+[node name="BootCanvas" type="CanvasLayer" parent="." node_paths=PackedStringArray("_client", "_server")]
+unique_name_in_owner = true
 visible = false
-
-[node name="Boot" type="CanvasLayer" parent="." node_paths=PackedStringArray("_client", "_server")]
 script = ExtResource("1_2f5w6")
 _client = NodePath("Boot/Client")
 _server = NodePath("Boot/Server")
 
-[node name="Boot" type="VBoxContainer" parent="Boot"]
+[node name="Boot" type="VBoxContainer" parent="BootCanvas"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -41,12 +108,12 @@ offset_bottom = 33.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Client" type="Button" parent="Boot/Boot"]
+[node name="Client" type="Button" parent="BootCanvas/Boot"]
 layout_mode = 2
 text = "Iniciar Cliente"
 script = ExtResource("2_bwljb")
 
-[node name="Server" type="Button" parent="Boot/Boot"]
+[node name="Server" type="Button" parent="BootCanvas/Boot"]
 layout_mode = 2
 text = "Iniciar Servidor"
 script = ExtResource("3_qm40g")

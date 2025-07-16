@@ -10,8 +10,8 @@ func _ready() -> void:
 
 
 func _on_new_button_pressed() -> void:
-	var create_actor_interface: CreateActorInterface = get_tree().root.get_node("Client/MenuCanvas/CreateActor")
-	var actor_list_interface: ActorListInterface = get_tree().root.get_node("Client/MenuCanvas/ActorList")
+	var create_actor_interface: CreateActorInterface = get_tree().root.get_node("Game/MenuCanvas/CreateActor")
+	var actor_list_interface: ActorListInterface = get_tree().root.get_node("Game/MenuCanvas/ActorList")
 
 	create_actor_interface.show()
 	actor_list_interface.hide()

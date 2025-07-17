@@ -98,14 +98,14 @@ func _sign_up_request(data: Dictionary) -> void:
 	_sign_up_response.rpc_id(peer_id, [_sign_up_success_message, []])
 
 
-func _respond_with_error(peer_id: int, message: Array[String]) -> void:
-	_sign_up_response.rpc_id(peer_id, [ {}, [message]])
+func _respond_with_error(peer_id: int, message: Array) -> void:
+	_sign_up_response.rpc_id(peer_id, ["", message])
 
 
 @rpc("authority")
 func _sign_up_response(data: Array) -> void:
 	var success: String = data[0]
-	var error: Array[String] = data[1]
+	var error: Array = data[1]
 
 	if not error.is_empty():
 		reset_form()

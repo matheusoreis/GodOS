@@ -76,7 +76,7 @@ func _delete_actor_request(actor_id: int) -> void:
 
 	var user: Dictionary = ServerGlobals.users.get(peer_id, null)
 	if user == null:
-		_delete_actor_response.rpc_id(peer_id, [-1, [_user_not_found_message]])
+		_respond_delete_with_error(peer_id, [_user_not_found_message])
 		return
 
 	var endpoint = ServerConstants.backend_endpoint + "actor/" + str(int(actor_id))
@@ -90,10 +90,14 @@ func _delete_actor_request(actor_id: int) -> void:
 	var response_data = result[2]
 
 	if status_code != 200:
-		_delete_actor_response.rpc_id(peer_id, [-1, Fetch.format_errors(response_data)])
+		_respond_delete_with_error(peer_id, Fetch.format_errors(response_data))
 		return
 
 	_delete_actor_response.rpc_id(peer_id, [actor_id, []])
+
+
+func _respond_delete_with_error(peer_id: int, message: Array) -> void:
+	_delete_actor_response.rpc_id(peer_id, [-1, message])
 
 
 @rpc("authority")
@@ -104,7 +108,7 @@ func _access_actor_response(data: Array) -> void:
 @rpc("authority")
 func _delete_actor_response(data: Array) -> void:
 	var success: int = data[0]
-	var error: Array[String] = data[1]
+	var error: Array = data[1]
 
 	if not error.is_empty():
 		Notification.show(error)

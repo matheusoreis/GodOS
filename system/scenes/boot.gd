@@ -12,11 +12,11 @@ func _ready() -> void:
 	%GameCanvas.hide()
 	%MenuCanvas.hide()
 
-	self._client.pressed.connect(_on_client_button_pressed)
-	self._server.pressed.connect(_on_server_button_pressed)
+	_client.pressed.connect(_on_client_button_pressed)
+	_server.pressed.connect(_on_server_button_pressed)
 
-	self._client.client_error.connect(_on_client_error)
-	self._server.server_error.connect(_on_server_error)
+	_client.client_error.connect(_on_client_error)
+	_server.server_error.connect(_on_server_error)
 
 
 func _on_client_error(error: String) -> void:
@@ -28,12 +28,12 @@ func _on_server_error(error: String) -> void:
 
 
 func _on_client_button_pressed() -> void:
-	self._client.start_client()
-	self.hide()
+	_client.start_client()
+	hide()
 
 	%SharedCanvas.show()
 	%MenuCanvas.show()
 
 func _on_server_button_pressed() -> void:
-	self._server.start_server()
-	self.hide()
+	_server.start_server()
+	hide()

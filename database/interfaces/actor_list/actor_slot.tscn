@@ -2,15 +2,16 @@
 
 [ext_resource type="Script" uid="uid://b2urrir8hx3kv" path="res://database/interfaces/actor_list/actor_slot.gd" id="1_rbw4o"]
 
-[node name="Slot" type="PanelContainer" node_paths=PackedStringArray("name_label", "access_button", "delete_button")]
+[node name="Slot" type="PanelContainer" node_paths=PackedStringArray("_name_label", "_access_button", "_delete_button", "_new_button")]
 custom_minimum_size = Vector2(0, 105)
 offset_right = 141.0
 offset_bottom = 104.0
 size_flags_horizontal = 3
 script = ExtResource("1_rbw4o")
-name_label = NodePath("Margin/Content/NameLabel")
-access_button = NodePath("Margin/Content/Buttons/AccessButton")
-delete_button = NodePath("Margin/Content/Buttons/DeleteButton")
+_name_label = NodePath("Margin/Content/NameLabel")
+_access_button = NodePath("Margin/Content/Buttons/AccessButton")
+_delete_button = NodePath("Margin/Content/Buttons/DeleteButton")
+_new_button = NodePath("Margin/Content/Buttons/NewButton")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -25,16 +26,24 @@ theme_override_constants/separation = 30
 
 [node name="NameLabel" type="Label" parent="Margin/Content"]
 layout_mode = 2
+size_flags_vertical = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Buttons" type="VBoxContainer" parent="Margin/Content"]
 layout_mode = 2
+alignment = 2
 
 [node name="AccessButton" type="Button" parent="Margin/Content/Buttons"]
+visible = false
 layout_mode = 2
 text = "Acessar"
 
 [node name="DeleteButton" type="Button" parent="Margin/Content/Buttons"]
+visible = false
 layout_mode = 2
 text = "Apagar"
+
+[node name="NewButton" type="Button" parent="Margin/Content/Buttons"]
+layout_mode = 2
+text = "Novo"

@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://6tljdti6mu72" path="res://database/interfaces/create_actor/create_actor.gd" id="1_ll0pt"]
 
-[node name="CreateActor" type="PanelContainer" node_paths=PackedStringArray("name_input", "create_button", "back_button")]
+[node name="CreateActor" type="PanelContainer" node_paths=PackedStringArray("_name_input", "_back_button", "_create_button")]
 offset_right = 350.0
 offset_bottom = 66.0
 script = ExtResource("1_ll0pt")
-name_input = NodePath("Margin/Content/Inputs/Name/NameInput")
-create_button = NodePath("Margin/Content/Buttons/CreateButton")
-back_button = NodePath("Margin/Content/Buttons/BackButton")
+_name_input = NodePath("Margin/Content/Inputs/Name/NameInput")
+_back_button = NodePath("Margin/Content/Buttons/BackButton")
+_create_button = NodePath("Margin/Content/Buttons/CreateButton")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2

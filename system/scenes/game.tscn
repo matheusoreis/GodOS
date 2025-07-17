@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bb54wipdogug4"]
+[gd_scene load_steps=9 format=3 uid="uid://bb54wipdogug4"]
 
 [ext_resource type="Script" uid="uid://qe1rww2wbm84" path="res://system/scenes/boot.gd" id="1_2f5w6"]
 [ext_resource type="PackedScene" uid="uid://bafgnqlsr0gh5" path="res://database/interfaces/actor_list/actor_list.tscn" id="1_7pwju"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://spkp0e5aemdw" path="res://database/interfaces/sign_in/sign_in.tscn" id="1_qm40g"]
 [ext_resource type="Script" uid="uid://bupfuh3prymdj" path="res://system/network/client.gd" id="2_bwljb"]
 [ext_resource type="PackedScene" uid="uid://dtrxqqkigbjp2" path="res://database/interfaces/sign_up/sign_up.tscn" id="2_dck4y"]
+[ext_resource type="PackedScene" uid="uid://ltfmd5g1riu7" path="res://database/interfaces/actor_list/actor_slot.tscn" id="3_cmeh6"]
 [ext_resource type="Script" uid="uid://cde3eqqejtm3y" path="res://system/network/server.gd" id="3_qm40g"]
 
 [node name="Game" type="Control"]
@@ -23,7 +24,7 @@ size_flags_vertical = 3
 [node name="MenuCanvas" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 
-[node name="CreateActor" parent="MenuCanvas" instance=ExtResource("1_a6viu")]
+[node name="CreateActor" parent="MenuCanvas" node_paths=PackedStringArray("_actor_list_interface") instance=ExtResource("1_a6viu")]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -36,6 +37,7 @@ offset_right = 185.0
 offset_bottom = 46.0
 grow_horizontal = 2
 grow_vertical = 2
+_actor_list_interface = NodePath("../ActorList")
 
 [node name="ActorList" parent="MenuCanvas" instance=ExtResource("1_7pwju")]
 visible = false
@@ -50,8 +52,9 @@ offset_right = 250.0
 offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
+_actor_slot_scene = ExtResource("3_cmeh6")
 
-[node name="SignUp" parent="MenuCanvas" instance=ExtResource("2_dck4y")]
+[node name="SignUp" parent="MenuCanvas" node_paths=PackedStringArray("_sign_in_interface") instance=ExtResource("2_dck4y")]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -64,8 +67,9 @@ offset_right = 185.0
 offset_bottom = 81.0
 grow_horizontal = 2
 grow_vertical = 2
+_sign_in_interface = NodePath("../SignIn")
 
-[node name="SignIn" parent="MenuCanvas" instance=ExtResource("1_qm40g")]
+[node name="SignIn" parent="MenuCanvas" node_paths=PackedStringArray("_sign_up_interface", "_actor_list_interface") instance=ExtResource("1_qm40g")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -79,6 +83,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+_sign_up_interface = NodePath("../SignUp")
+_actor_list_interface = NodePath("../ActorList")
 
 [node name="GameCanvas" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

@@ -104,7 +104,7 @@ func _access_actor_response(data: Array) -> void:
 @rpc("authority")
 func _delete_actor_response(data: Array) -> void:
 	var success: int = data[0]
-	var error: Array = data[1]
+	var error: Array[String] = data[1]
 
 	if not error.is_empty():
 		Notification.show(error)

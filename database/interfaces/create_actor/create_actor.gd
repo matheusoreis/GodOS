@@ -75,14 +75,14 @@ func _create_actor_request(data: Dictionary) -> void:
 	_create_actor_response.rpc_id(peer_id, [response_data, []])
 
 
-func _respond_with_error(peer_id: int, message: Array) -> void:
+func _respond_with_error(peer_id: int, message: Array[String]) -> void:
 	_create_actor_response.rpc_id(peer_id, [ {}, [message]])
 
 
 @rpc("authority")
 func _create_actor_response(data: Array) -> void:
 	var success: Dictionary = data[0]
-	var error: Array = data[1]
+	var error: Array[String] = data[1]
 
 	if not error.is_empty():
 		reset_form()

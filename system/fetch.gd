@@ -38,8 +38,8 @@ func fetch_json(method: HTTPClient.Method, url: String, body: Dictionary = {}, h
 	return [OK, status_code, JSON.parse_string(result[2])]
 
 
-func format_errors(response_data: Dictionary) -> Array:
-	var error_messages: Array = []
+func format_errors(response_data: Dictionary) -> Array[String]:
+	var error_messages: Array[String] = []
 
 	if not response_data is Dictionary:
 		error_messages.append("Erro desconhecido no servidor!")

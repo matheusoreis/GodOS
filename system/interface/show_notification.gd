@@ -1,7 +1,7 @@
 extends Node
 
 
-func show(messages: Array) -> void:
+func show(messages: Array[String]) -> void:
 	var notification_scene: PackedScene = preload(
 		"res://database/interfaces/notification/notification.tscn"
 	)

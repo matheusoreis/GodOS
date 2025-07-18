@@ -14,6 +14,11 @@ extends PanelContainer
 @export var _actor_list_interface: ActorListInterface
 
 
+@export_category("Notification")
+@export var _shared_canvas: CanvasLayer
+@export var _notification_scene: PackedScene
+
+
 func _ready() -> void:
 	_create_button.pressed.connect(_on_create_button_pressed)
 	_back_button.pressed.connect(_on_back_button_pressed)
@@ -23,7 +28,7 @@ func _on_create_button_pressed() -> void:
 	var actor_name: String = _name_input.text
 
 	if actor_name.length() <= 3:
-		Notification.show([_invalid_name_message])
+		_show_notification([_invalid_name_message])
 		return
 
 	_name_input.editable = false
@@ -86,7 +91,7 @@ func _create_actor_response(data: Array) -> void:
 
 	if not error.is_empty():
 		reset_form()
-		Notification.show(error)
+		_show_notification(error)
 		return
 
 	reset_form()
@@ -94,6 +99,12 @@ func _create_actor_response(data: Array) -> void:
 
 	_actor_list_interface.show()
 	_actor_list_interface.add_actor_slot(success)
+
+
+func _show_notification(messages: Array) -> void:
+	var notification_interface: NotificationInterface = _notification_scene.instantiate()
+	notification_interface.set_message(messages)
+	_shared_canvas.add_child(notification_interface)
 
 
 func reset_form() -> void:

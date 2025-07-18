@@ -2,8 +2,8 @@ class_name ActorSlotInterface
 extends PanelContainer
 
 
-signal access_button_pressed(data: Dictionary)
-signal delete_button_pressed(data: Dictionary)
+signal access_button_pressed(actor_id: int)
+signal delete_button_pressed(actor_id: int)
 
 @export_category("Nodes")
 @export var _name_label: Label

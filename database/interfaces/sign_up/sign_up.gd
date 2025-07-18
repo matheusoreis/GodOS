@@ -18,6 +18,10 @@ extends PanelContainer
 @export_category("References")
 @export var _sign_in_interface: SignInInterface
 
+@export_category("Notification")
+@export var _shared_canvas: CanvasLayer
+@export var _notification_scene: PackedScene
+
 
 func _ready() -> void:
 	_back_button.pressed.connect(_on_back_button_pressed)
@@ -27,17 +31,17 @@ func _ready() -> void:
 func _on_sign_up_button_pressed() -> void:
 	var email: String = _email_input.text
 	if email.length() <= 6:
-		Notification.show([_invalid_email_message])
+		_show_notification([_invalid_email_message])
 		return
 
 	var password: String = _password_input.text
 	if password.length() < 3:
-		Notification.show([_invalid_password_message])
+		_show_notification([_invalid_password_message])
 		return
 
 	var re_password: String = _re_password_input.text
 	if password != re_password:
-		Notification.show([_password_mismatch_message])
+		_show_notification([_password_mismatch_message])
 		return
 
 	_email_input.editable = false
@@ -109,14 +113,20 @@ func _sign_up_response(data: Array) -> void:
 
 	if not error.is_empty():
 		reset_form()
-		Notification.show(error)
+		_show_notification(error)
 		return
 
 	reset_form()
 	hide()
 
-	Notification.show([success])
+	_show_notification([success])
 	_sign_in_interface.show()
+
+
+func _show_notification(messages: Array) -> void:
+	var notification_interface: NotificationInterface = _notification_scene.instantiate()
+	notification_interface.set_message(messages)
+	_shared_canvas.add_child(notification_interface)
 
 
 func reset_form() -> void:

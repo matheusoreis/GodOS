@@ -6,9 +6,15 @@ extends PanelContainer
 
 @export_category("Messages")
 @export var _user_not_found_message: String = "Não foi possível te localizar no servidor!"
+@export var _actor_delete_confirmation_message: String = "Deseja realmente apagar este personagem?"
 
 @export_category("References")
 @export var _actor_slot_scene: PackedScene
+
+@export_category("Notification")
+@export var _shared_canvas: CanvasLayer
+@export var _notification_scene: PackedScene
+@export var _confirmation_scene: PackedScene
 
 
 func _clear_all_slots() -> void:
@@ -19,7 +25,7 @@ func _clear_all_slots() -> void:
 func _create_slot() -> ActorSlotInterface:
 	var slot: ActorSlotInterface = _actor_slot_scene.instantiate()
 	slot.access_button_pressed.connect(_on_actor_accessed)
-	slot.delete_button_pressed.connect(_on_actor_deleted)
+	slot.delete_button_pressed.connect(_show_delete_actor_confirmation)
 	return slot
 
 
@@ -58,6 +64,16 @@ func update_slots(max_actors: int, actors: Array) -> void:
 
 func _on_actor_accessed(actor_id: int) -> void:
 	_access_actor_request.rpc_id(1, actor_id)
+
+
+func _show_delete_actor_confirmation(actor_id: int) -> void:
+	var confirmation_interface: ConfirmationInterface = _confirmation_scene.instantiate()
+	confirmation_interface.set_message(_actor_delete_confirmation_message)
+	confirmation_interface.on_confirm_pressed.connect(
+		func(): _on_actor_deleted(actor_id)
+	)
+
+	_shared_canvas.add_child(confirmation_interface)
 
 
 func _on_actor_deleted(actor_id: int) -> void:
@@ -111,7 +127,13 @@ func _delete_actor_response(data: Array) -> void:
 	var error: Array = data[1]
 
 	if not error.is_empty():
-		Notification.show(error)
+		_show_notification(error)
 		return
 
 	remove_actor_slot_by_id(success)
+
+
+func _show_notification(messages: Array) -> void:
+	var notification_interface: NotificationInterface = _notification_scene.instantiate()
+	notification_interface.set_message(messages)
+	_shared_canvas.add_child(notification_interface)

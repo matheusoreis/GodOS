@@ -18,6 +18,10 @@ extends PanelContainer
 @export var _sign_up_interface: SignUpInterface
 @export var _actor_list_interface: ActorListInterface
 
+@export_category("Notification")
+@export var _shared_canvas: CanvasLayer
+@export var _notification_scene: PackedScene
+
 
 func _ready() -> void:
 	_sign_in_button.pressed.connect(_on_sign_in_button_pressed)
@@ -29,11 +33,11 @@ func _on_sign_in_button_pressed() -> void:
 	var password: String = _password_input.text
 
 	if email.length() <= 6:
-		Notification.show([_invalid_email_message])
+		_show_notification([_invalid_email_message])
 		return
 
 	if password.length() < 3:
-		Notification.show([_invalid_password_message])
+		_show_notification([_invalid_password_message])
 		return
 
 	_email_input.editable = false
@@ -105,8 +109,8 @@ func _sign_in_response(data: Array) -> void:
 	var error: Array = data[1]
 
 	if not error.is_empty():
+		_show_notification(error)
 		reset_form()
-		Notification.show(error)
 		return
 
 	ClientGlobals.user_data = success
@@ -119,6 +123,12 @@ func _sign_in_response(data: Array) -> void:
 
 	_actor_list_interface.show()
 	_actor_list_interface.update_slots(max_actors, actors)
+
+
+func _show_notification(messages: Array) -> void:
+	var notification_interface: NotificationInterface = _notification_scene.instantiate()
+	notification_interface.set_message(messages)
+	_shared_canvas.add_child(notification_interface)
 
 
 func reset_form() -> void:

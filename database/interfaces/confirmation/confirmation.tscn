@@ -1,16 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8k1w0l4lmfrx"]
+[gd_scene load_steps=2 format=3 uid="uid://vgsxmvl7gmpg"]
 
-[ext_resource type="Script" uid="uid://c54pvrwpa2al6" path="res://database/interfaces/notification/notification.gd" id="1_012cn"]
+[ext_resource type="Script" uid="uid://cgf26c8tb76e6" path="res://database/interfaces/confirmation/confirmation.gd" id="1_kpwjp"]
 
-[node name="Notification" type="PanelContainer" node_paths=PackedStringArray("_message", "_close_button")]
+[node name="Confirmation" type="PanelContainer" node_paths=PackedStringArray("_message", "_confirm_button", "_back_button")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_012cn")
+script = ExtResource("1_kpwjp")
 _message = NodePath("Content/Margin/Content/Message")
-_close_button = NodePath("Content/Margin/Content/CloseButton")
+_confirm_button = NodePath("Content/Margin/Content/Buttons/ConfirmButton")
+_back_button = NodePath("Content/Margin/Content/Buttons/BackButton")
 
 [node name="Content" type="PanelContainer" parent="."]
 layout_mode = 2
@@ -32,7 +33,15 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 
-[node name="CloseButton" type="Button" parent="Content/Margin/Content"]
+[node name="Buttons" type="VBoxContainer" parent="Content/Margin/Content"]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="Content/Margin/Content/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Confirmar"
+
+[node name="BackButton" type="Button" parent="Content/Margin/Content/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Voltar"

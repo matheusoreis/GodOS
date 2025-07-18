@@ -10,6 +10,7 @@ signal delete_button_pressed(actor_id: int)
 @export var _access_button: Button
 @export var _delete_button: Button
 @export var _new_button: Button
+@export var _sprite: Sprite2D
 
 var _create_actor_interface: CreateActorInterface
 var _actor_list_interface: ActorListInterface
@@ -42,18 +43,23 @@ func _on_delete_button_pressed() -> void:
 
 func _on_new_button_pressed() -> void:
 	_create_actor_interface.show()
+	# Envia a requisição para obter as sprites
+	_create_actor_interface.request_sprites()
+
 	_actor_list_interface.hide()
 
 
 func set_actor_data(actor_data: Dictionary) -> void:
 	_actor_data = actor_data
-	_name_label.text = actor_data.get("name", "")
+	_name_label.text = actor_data["name"]
+	_sprite.texture = load("res://assets/graphics/entities/" + actor_data["sprite"])
 	_toggle_buttons(true)
 
 
 func clear_actor_data() -> void:
 	_actor_data.clear()
 	_name_label.text = ""
+	_sprite.texture = null
 	_toggle_buttons(false)
 
 

@@ -1,6 +1,7 @@
 class_name ActorListInterface
 extends PanelContainer
 
+
 @export_category("Nodes")
 @export var slots_location: HBoxContainer
 

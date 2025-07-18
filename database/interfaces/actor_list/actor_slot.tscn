@@ -2,16 +2,18 @@
 
 [ext_resource type="Script" uid="uid://b2urrir8hx3kv" path="res://database/interfaces/actor_list/actor_slot.gd" id="1_rbw4o"]
 
-[node name="Slot" type="PanelContainer" node_paths=PackedStringArray("_name_label", "_access_button", "_delete_button", "_new_button")]
-custom_minimum_size = Vector2(0, 105)
+[node name="Slot" type="PanelContainer" node_paths=PackedStringArray("_name_label", "_access_button", "_delete_button", "_new_button", "_sprite")]
+custom_minimum_size = Vector2(0, 180)
 offset_right = 141.0
-offset_bottom = 104.0
+offset_bottom = 180.0
 size_flags_horizontal = 3
 script = ExtResource("1_rbw4o")
 _name_label = NodePath("Margin/Content/NameLabel")
 _access_button = NodePath("Margin/Content/Buttons/AccessButton")
 _delete_button = NodePath("Margin/Content/Buttons/DeleteButton")
 _new_button = NodePath("Margin/Content/Buttons/NewButton")
+_sprite = NodePath("Margin/Content/Sprite")
+metadata/_edit_vertical_guides_ = [71.0]
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -27,8 +29,16 @@ theme_override_constants/separation = 30
 [node name="NameLabel" type="Label" parent="Margin/Content"]
 layout_mode = 2
 size_flags_vertical = 2
+text = "Raizen"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Sprite" type="Sprite2D" parent="Margin/Content"]
+texture_repeat = 1
+position = Vector2(61, 74)
+hframes = 4
+vframes = 4
+region_rect = Rect2(7, 6, 200, 250)
 
 [node name="Buttons" type="VBoxContainer" parent="Margin/Content"]
 layout_mode = 2

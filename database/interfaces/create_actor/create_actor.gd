@@ -1,10 +1,14 @@
 class_name CreateActorInterface
 extends PanelContainer
 
+
 @export_category("Nodes")
 @export var _name_input: LineEdit
 @export var _back_button: Button
 @export var _create_button: Button
+@export var _previous_button: Button
+@export var _next_button: Button
+@export var _sprite: Sprite2D
 
 @export_category("Messages")
 @export var _invalid_name_message: String = "O nome precisa ter ao menos 4 caracteres."
@@ -18,10 +22,48 @@ extends PanelContainer
 @export var _shared_canvas: CanvasLayer
 @export var _notification_scene: PackedScene
 
+@export_category("Sprites")
+@export var _sprites: Array[CompressedTexture2D]
+
+
+var _current_sprite: int
+var _selected_sprite_filename: String = ""
+
+
+func request_sprites() -> void:
+	set_sprites_request.rpc_id(1)
+
 
 func _ready() -> void:
 	_create_button.pressed.connect(_on_create_button_pressed)
 	_back_button.pressed.connect(_on_back_button_pressed)
+
+	_previous_button.pressed.connect(_on_previous_button_pressed)
+	_next_button.pressed.connect(_on_next_button_pressed)
+
+
+func _on_previous_button_pressed() -> void:
+	if _sprites.is_empty():
+		return
+
+	_current_sprite = (_current_sprite - 1 + _sprites.size()) % _sprites.size()
+	_update_sprite_display()
+
+
+func _on_next_button_pressed() -> void:
+	if _sprites.is_empty():
+		return
+
+	_current_sprite = (_current_sprite + 1) % _sprites.size()
+	_update_sprite_display()
+
+
+func _update_sprite_display() -> void:
+	_sprite.texture = _sprites[_current_sprite]
+
+	# Captura o nome do arquivo da textura
+	var path := _sprites[_current_sprite].resource_path
+	_selected_sprite_filename = path.get_file()
 
 
 func _on_create_button_pressed() -> void:
@@ -35,12 +77,76 @@ func _on_create_button_pressed() -> void:
 	_create_button.disabled = true
 	_back_button.disabled = true
 
-	_create_actor_request.rpc_id(1, {"name": actor_name})
+	_create_actor_request.rpc_id(1, {
+		"name": actor_name,
+		"sprite": _selected_sprite_filename
+	})
 
 
 func _on_back_button_pressed() -> void:
 	_actor_list_interface.show()
 	hide()
+
+
+@rpc("any_peer")
+func set_sprites_request() -> void:
+	var peer_id = multiplayer.get_remote_sender_id()
+
+	# Definições das sprites
+	# TODO: Obter pela api
+	var sprites = [
+		"res://assets/graphics/entities/001-Fighter01.png",
+		"res://assets/graphics/entities/002-Fighter02.png",
+		"res://assets/graphics/entities/003-Fighter03.png",
+		"res://assets/graphics/entities/004-Fighter04.png",
+		"res://assets/graphics/entities/005-Fighter05.png",
+		"res://assets/graphics/entities/006-Fighter06.png",
+		"res://assets/graphics/entities/007-Fighter07.png",
+		"res://assets/graphics/entities/008-Fighter08.png",
+		"res://assets/graphics/entities/009-Lancer01.png",
+		"res://assets/graphics/entities/010-Lancer02.png",
+		"res://assets/graphics/entities/011-Lancer03.png",
+		"res://assets/graphics/entities/012-Lancer04.png",
+		"res://assets/graphics/entities/013-Warrior01.png",
+		"res://assets/graphics/entities/014-Warrior02.png",
+		"res://assets/graphics/entities/015-Warrior03.png",
+		"res://assets/graphics/entities/016-Thief01.png",
+		"res://assets/graphics/entities/017-Thief02.png",
+		"res://assets/graphics/entities/018-Thief03.png",
+		"res://assets/graphics/entities/019-Thief04.png",
+		"res://assets/graphics/entities/020-Hunter01.png",
+		"res://assets/graphics/entities/021-Hunter02.png",
+		"res://assets/graphics/entities/022-Hunter03.png",
+		"res://assets/graphics/entities/023-Gunner01.png",
+		"res://assets/graphics/entities/024-Gunner02.png",
+		"res://assets/graphics/entities/025-Cleric01.png",
+		"res://assets/graphics/entities/026-Cleric02.png",
+		"res://assets/graphics/entities/027-Cleric03.png",
+		"res://assets/graphics/entities/028-Cleric04.png",
+		"res://assets/graphics/entities/029-Cleric05.png",
+		"res://assets/graphics/entities/030-Cleric06.png",
+		"res://assets/graphics/entities/031-Cleric07.png",
+		"res://assets/graphics/entities/032-Cleric08.png",
+		"res://assets/graphics/entities/033-Mage01.png",
+		"res://assets/graphics/entities/034-Mage02.png",
+		"res://assets/graphics/entities/035-Mage03.png",
+		"res://assets/graphics/entities/036-Mage04.png",
+		"res://assets/graphics/entities/037-Mage05.png",
+		"res://assets/graphics/entities/038-Mage06.png",
+		"res://assets/graphics/entities/039-Mage07.png",
+		"res://assets/graphics/entities/040-Mage08.png",
+		"res://assets/graphics/entities/041-Mage09.png",
+	]
+
+	set_sprites_response.rpc_id(peer_id, sprites)
+
+
+@rpc("authority")
+func set_sprites_response(sprites: Array) -> void:
+	for path in sprites:
+		var texture := load(path) as CompressedTexture2D
+		if texture:
+			_sprites.append(texture)
 
 
 @rpc("any_peer")
@@ -53,6 +159,7 @@ func _create_actor_request(data: Dictionary) -> void:
 		return
 
 	var account_id: int = user["id"]
+	var sprite_filename: String = data.get("sprite", "")
 
 	var actor_name: String = data.name
 	if actor_name.length() < 3:
@@ -64,6 +171,7 @@ func _create_actor_request(data: Dictionary) -> void:
 	var body := {
 		"accountId": account_id,
 		"name": actor_name,
+		"sprite": sprite_filename,
 		"mapId": 1,
 		"positionX": 32,
 		"positionY": 32

@@ -1,6 +1,7 @@
 class_name SignUpInterface
 extends PanelContainer
 
+
 @export_category("Nodes")
 @export var _email_input: LineEdit
 @export var _password_input: LineEdit

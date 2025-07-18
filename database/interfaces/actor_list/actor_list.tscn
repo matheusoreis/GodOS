@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bafgnqlsr0gh5"]
+[gd_scene load_steps=5 format=3 uid="uid://bafgnqlsr0gh5"]
 
 [ext_resource type="Script" uid="uid://m2rdrngf8yhc" path="res://database/interfaces/actor_list/actor_list.gd" id="1_nmf1w"]
+[ext_resource type="PackedScene" uid="uid://ltfmd5g1riu7" path="res://database/interfaces/actor_list/actor_slot.tscn" id="2_4dywr"]
+[ext_resource type="PackedScene" uid="uid://b8k1w0l4lmfrx" path="res://database/interfaces/notification/notification.tscn" id="2_naasl"]
+[ext_resource type="PackedScene" uid="uid://vgsxmvl7gmpg" path="res://database/interfaces/confirmation/confirmation.tscn" id="3_cw30t"]
 
 [node name="ActorList" type="PanelContainer" node_paths=PackedStringArray("slots_location")]
 custom_minimum_size = Vector2(0, 160)
@@ -8,6 +11,9 @@ offset_right = 500.0
 offset_bottom = 160.0
 script = ExtResource("1_nmf1w")
 slots_location = NodePath("Margin/Content")
+_actor_slot_scene = ExtResource("2_4dywr")
+_notification_scene = ExtResource("2_naasl")
+_confirmation_scene = ExtResource("3_cw30t")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2

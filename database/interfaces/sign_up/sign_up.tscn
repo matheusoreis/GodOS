@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtrxqqkigbjp2"]
+[gd_scene load_steps=3 format=3 uid="uid://dtrxqqkigbjp2"]
 
 [ext_resource type="Script" uid="uid://bs0typy2ilptm" path="res://database/interfaces/sign_up/sign_up.gd" id="1_va0uu"]
+[ext_resource type="PackedScene" uid="uid://b8k1w0l4lmfrx" path="res://database/interfaces/notification/notification.tscn" id="2_tjpy0"]
 
 [node name="SignUp" type="PanelContainer" node_paths=PackedStringArray("_email_input", "_password_input", "_re_password_input", "_back_button", "_sign_up_button")]
 offset_right = 350.0
@@ -11,6 +12,7 @@ _password_input = NodePath("Margin/Content/Inputs/Password/PasswordInput")
 _re_password_input = NodePath("Margin/Content/Inputs/RePassword/PasswordInput")
 _back_button = NodePath("Margin/Content/Buttons/BackButton")
 _sign_up_button = NodePath("Margin/Content/Buttons/SignUpButton")
+_notification_scene = ExtResource("2_tjpy0")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2

@@ -35,7 +35,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Sprite" type="Sprite2D" parent="Margin/Content"]
-position = Vector2(61, 74)
+position = Vector2(60, 74)
 texture = ExtResource("2_hxg6p")
 hframes = 4
 vframes = 4

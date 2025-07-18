@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://ltfmd5g1riu7"]
+[gd_scene load_steps=3 format=3 uid="uid://ltfmd5g1riu7"]
 
 [ext_resource type="Script" uid="uid://b2urrir8hx3kv" path="res://database/interfaces/actor_list/actor_slot.gd" id="1_rbw4o"]
+[ext_resource type="Texture2D" uid="uid://qome86pognxm" path="res://assets/graphics/entities/001-Fighter01.png" id="2_hxg6p"]
 
 [node name="Slot" type="PanelContainer" node_paths=PackedStringArray("_name_label", "_access_button", "_delete_button", "_new_button", "_sprite")]
 custom_minimum_size = Vector2(0, 180)
@@ -34,8 +35,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Sprite" type="Sprite2D" parent="Margin/Content"]
-texture_repeat = 1
 position = Vector2(61, 74)
+texture = ExtResource("2_hxg6p")
 hframes = 4
 vframes = 4
 region_rect = Rect2(7, 6, 200, 250)

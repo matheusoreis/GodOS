@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" uid="uid://6tljdti6mu72" path="res://database/interfaces/create_actor/create_actor.gd" id="1_ll0pt"]
 [ext_resource type="PackedScene" uid="uid://b8k1w0l4lmfrx" path="res://database/interfaces/notification/notification.tscn" id="2_o41bi"]
-[ext_resource type="Texture2D" uid="uid://qome86pognxm" path="res://assets/graphics/entities/001-Fighter01.png" id="3_blwds"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o41bi"]
+region = Rect2(0, 0, 64, 96)
 
 [node name="CreateActor" type="PanelContainer" node_paths=PackedStringArray("_name_input", "_back_button", "_create_button", "_previous_button", "_next_button", "_sprite")]
-offset_right = 231.0
+offset_right = 166.0
 offset_bottom = 202.0
 script = ExtResource("1_ll0pt")
 _name_input = NodePath("Margin/Content/Inputs/Name/NameInput")
@@ -28,7 +30,7 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="Inputs" type="VBoxContainer" parent="Margin/Content"]
-custom_minimum_size = Vector2(150, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="Name" type="HBoxContainer" parent="Margin/Content/Inputs"]
@@ -41,7 +43,7 @@ size_flags_horizontal = 3
 text = "Name:"
 
 [node name="NameInput" type="LineEdit" parent="Margin/Content/Inputs/Name"]
-custom_minimum_size = Vector2(150, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 tooltip_text = "Email"
 
@@ -49,17 +51,18 @@ tooltip_text = "Email"
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 180
+theme_override_constants/separation = 20
 
 [node name="PreviousButton" type="Button" parent="Margin/Content/Sprite"]
 layout_mode = 2
 text = "   "
 
-[node name="Sprite" type="Sprite2D" parent="Margin/Content/Sprite"]
-position = Vector2(111, 46)
-texture = ExtResource("3_blwds")
-hframes = 4
-vframes = 4
+[node name="Sprite" type="TextureRect" parent="Margin/Content/Sprite"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_o41bi")
+stretch_mode = 2
 
 [node name="NextButton" type="Button" parent="Margin/Content/Sprite"]
 layout_mode = 2

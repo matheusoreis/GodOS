@@ -8,7 +8,7 @@ extends PanelContainer
 @export var _create_button: Button
 @export var _previous_button: Button
 @export var _next_button: Button
-@export var _sprite: Sprite2D
+@export var _sprite: TextureRect
 
 @export_category("Messages")
 @export var _invalid_name_message: String = "O nome precisa ter ao menos 4 caracteres."
@@ -54,15 +54,14 @@ func _on_next_button_pressed() -> void:
 	if _sprites.is_empty():
 		return
 
-	_current_sprite = (_current_sprite + 1) % _sprites.size()
-	_update_sprite_display()
+	set_current_sprite(_current_sprite + 1)
 
 
 func _update_sprite_display() -> void:
-	_sprite.texture = _sprites[_current_sprite]
+	var texture := _sprites[_current_sprite]
+	apply_sprite_to_texture(texture)
 
-	# Captura o nome do arquivo da textura
-	var path := _sprites[_current_sprite].resource_path
+	var path := texture.resource_path
 	_selected_sprite_filename = path.get_file()
 
 
@@ -148,6 +147,25 @@ func set_sprites_response(sprites: Array) -> void:
 		if texture:
 			_sprites.append(texture)
 
+	if not _sprites.is_empty():
+		_current_sprite = 0
+		_update_sprite_display()
+
+
+func set_current_sprite(index: int) -> void:
+	if _sprites.is_empty():
+		return
+	_current_sprite = index % _sprites.size()
+	_update_sprite_display()
+
+
+func apply_sprite_to_texture(texture: CompressedTexture2D) -> void:
+	var atlas: AtlasTexture
+	atlas = _sprite.texture.duplicate() as AtlasTexture
+	atlas.atlas = texture
+
+	_sprite.texture = atlas
+
 
 @rpc("any_peer")
 func _create_actor_request(data: Dictionary) -> void:
@@ -217,8 +235,9 @@ func _show_notification(messages: Array) -> void:
 
 func reset_form() -> void:
 	_name_input.clear()
-
 	_name_input.editable = true
-
 	_create_button.disabled = false
 	_back_button.disabled = false
+
+	_current_sprite = 0
+	_selected_sprite_filename = ""

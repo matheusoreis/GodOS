@@ -5,12 +5,13 @@ extends PanelContainer
 signal access_button_pressed(actor_id: int)
 signal delete_button_pressed(actor_id: int)
 
+
 @export_category("Nodes")
 @export var _name_label: Label
 @export var _access_button: Button
 @export var _delete_button: Button
 @export var _new_button: Button
-@export var _sprite: Sprite2D
+@export var _sprite: TextureRect
 
 var _create_actor_interface: CreateActorInterface
 var _actor_list_interface: ActorListInterface
@@ -45,21 +46,38 @@ func _on_new_button_pressed() -> void:
 	_create_actor_interface.show()
 	# Envia a requisição para obter as sprites
 	_create_actor_interface.request_sprites()
-
 	_actor_list_interface.hide()
 
 
 func set_actor_data(actor_data: Dictionary) -> void:
 	_actor_data = actor_data
 	_name_label.text = actor_data["name"]
-	_sprite.texture = load("res://assets/graphics/entities/" + actor_data["sprite"])
+
+	_update_sprite(actor_data["sprite"])
 	_toggle_buttons(true)
+
+
+func _update_sprite(sprite_filename: String) -> void:
+	var texture := load("res://assets/graphics/entities/" + sprite_filename) as CompressedTexture2D
+
+	var original := _sprite.texture as AtlasTexture
+	var atlas_texture := AtlasTexture.new()
+
+	atlas_texture.region = original.region
+	atlas_texture.margin = original.margin
+	atlas_texture.filter_clip = original.filter_clip
+
+	atlas_texture.atlas = texture
+	_sprite.texture = atlas_texture
 
 
 func clear_actor_data() -> void:
 	_actor_data.clear()
 	_name_label.text = ""
-	_sprite.texture = null
+
+	var texture := _sprite.texture as AtlasTexture
+	texture.atlas = null
+
 	_toggle_buttons(false)
 
 

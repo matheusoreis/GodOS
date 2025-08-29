@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b63kiaov6n6lq"]
+
+[ext_resource type="Script" uid="uid://8yyiuh6plj8r" path="res://system/scenes/client/client.gd" id="1_usryf"]
+
+[node name="Client" type="Node2D"]
+script = ExtResource("1_usryf")

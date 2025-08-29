@@ -11,8 +11,21 @@ config_version=5
 [application]
 
 config/name="GodOS"
+run/main_scene="uid://dai2c1cwnluy7"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Server="*res://system/multiplayer/server/server.gd"
+Client="*res://system/multiplayer/client/client.gd"
+
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=600
+window/size/resizable=false
+window/stretch/scale=2.0
 
 [rendering]
 

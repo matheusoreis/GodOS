@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://dai2c1cwnluy7"]
+
+[ext_resource type="Script" uid="uid://dwu5ndwb6rgnf" path="res://system/scenes/boot/boot.gd" id="1_gbtbr"]
+[ext_resource type="PackedScene" uid="uid://b63kiaov6n6lq" path="res://system/scenes/client/client.tscn" id="2_xr6en"]
+[ext_resource type="PackedScene" uid="uid://b5vpfcww2fra" path="res://system/scenes/server/server.tscn" id="3_6q5jm"]
+
+[node name="Boot" type="Node2D"]
+script = ExtResource("1_gbtbr")
+client_scene = ExtResource("2_xr6en")
+server_scene = ExtResource("3_6q5jm")
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="C1" type="CenterContainer" parent="Interface"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="H1" type="HBoxContainer" parent="Interface/C1"]
+layout_mode = 2
+
+[node name="B1" type="Button" parent="Interface/C1/H1"]
+layout_mode = 2
+text = "Cliente"
+
+[node name="B2" type="Button" parent="Interface/C1/H1"]
+layout_mode = 2
+text = "Servidor"
+
+[connection signal="pressed" from="Interface/C1/H1/B1" to="." method="_on_b_1_pressed"]
+[connection signal="pressed" from="Interface/C1/H1/B2" to="." method="_on_b_2_pressed"]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://o5scuc06l3bo"]
+
+[ext_resource type="Script" uid="uid://cc6cp5s01ngc6" path="res://system/map/map.gd" id="1_1bm8w"]
+[ext_resource type="TileSet" uid="uid://bdkdxjsujutla" path="res://system/map/tilesets/exterior.tres" id="2_m2m8r"]
+
+[node name="Map" type="Node2D"]
+script = ExtResource("1_1bm8w")
+
+[node name="Grounds" type="Node2D" parent="."]
+
+[node name="T1" type="TileMapLayer" parent="Grounds"]
+tile_set = ExtResource("2_m2m8r")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="T1" type="TileMapLayer" parent="Objects"]
+tile_set = ExtResource("2_m2m8r")
+
+[node name="Above" type="Node2D" parent="."]
+
+[node name="T1" type="TileMapLayer" parent="Above"]
+tile_set = ExtResource("2_m2m8r")

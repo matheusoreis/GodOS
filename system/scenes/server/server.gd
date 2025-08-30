@@ -14,9 +14,9 @@ func _ready() -> void:
         get_tree().quit()
 
 
-func _on_peer_connected(_peer_id: int) -> void:
-    pass
+func _on_peer_connected(peer_id: int) -> void:
+    print("Peer conectado: ID %d" % peer_id)
 
 
-func _on_peer_disconnected(_peer_id: int) -> void:
-    pass
+func _on_peer_disconnected(peer_id: int) -> void:
+    print("Peer desconectado: ID %d" % peer_id)

@@ -68,7 +68,6 @@ func _on_peer_connected(peer: ENetPacketPeer) -> void:
        "connected_at": Time.get_ticks_msec()
    }
 
-   print("Peer conectado: ID %d" % peer_id)
    peer_connected.emit(peer_id)
 
 
@@ -79,7 +78,6 @@ func _on_peer_disconnected(peer: ENetPacketPeer) -> void:
        return
 
    connections.erase(peer_id)
-   print("Peer desconectado: ID %d" % peer_id)
    peer_disconnected.emit(peer_id)
 
 

@@ -22,10 +22,7 @@ Client="*res://system/multiplayer/client/client.gd"
 
 [display]
 
-window/size/viewport_width=800
-window/size/viewport_height=600
-window/size/resizable=false
-window/stretch/scale=2.0
+window/dpi/allow_hidpi=false
 
 [rendering]
 

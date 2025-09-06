@@ -25,7 +25,6 @@ export async function handleDeleteActor(
     clientId: number,
     data: DeleteActorData,
 ): Promise<void> {
-    console.log(data);
     const packet: number = Packets.DeleteActor;
 
     try {

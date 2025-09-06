@@ -1,10 +1,14 @@
+import { loadMaps } from "./modules/map.js";
 import { start } from "./network/network.js";
 import { error, info, warning } from "./shared/logger.js";
 
-function main() {
+async function main() {
     try {
         const port = Number(process.env.PORT ?? 7001);
         const capacity = Number(process.env.CAPACITY ?? 0);
+
+        info("Carregando dados do jogo...");
+        await loadMaps();
 
         info("Iniciando servidor...");
         start(port);
@@ -21,4 +25,4 @@ function main() {
     }
 }
 
-main();
+await main();

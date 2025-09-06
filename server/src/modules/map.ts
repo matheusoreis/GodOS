@@ -1,6 +1,10 @@
-import type { Map } from "../database/services/map.js";
+import { mapDatabase, type Map } from "../database/services/map.js";
 
 const maps = new Map<number, Map>();
+
+export async function loadMaps() {
+    const allMaps: Map[] = await mapDatabase.getAll();
+}
 
 export function addMap(map: Map): void {
     maps.set(map.id, map);
@@ -31,3 +35,5 @@ export function updateMap(mapId: number, data: Partial<Map>): Map | undefined {
     maps.set(mapId, updated);
     return updated;
 }
+
+export function mapLoop() {}

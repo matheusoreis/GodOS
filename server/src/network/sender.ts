@@ -40,3 +40,25 @@ export function sendToAllBut(excludeClientId: number, packet: Packet): void {
 export function sendToClients(clientIds: number[], packet: Packet): void {
     _send((client) => clientIds.includes(client.id), packet);
 }
+
+export function sendToMap(mapId: number, packet: Packet): void {
+    _send((client) => {
+        const actor = getActor(client.id);
+        return actor !== undefined && actor.mapId === mapId;
+    }, packet);
+}
+
+export function sendToMapBut(
+    mapId: number,
+    excludeClientId: number,
+    packet: Packet,
+): void {
+    _send((client) => {
+        const actor = getActor(client.id);
+        return (
+            actor !== undefined &&
+            actor.mapId === mapId &&
+            client.id !== excludeClientId
+        );
+    }, packet);
+}

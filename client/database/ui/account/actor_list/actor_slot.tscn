@@ -5,14 +5,14 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajcrb"]
 region = Rect2(0, 0, 64, 96)
 
-[node name="ActorSlot" type="PanelContainer" node_paths=PackedStringArray("identifier", "_sprite")]
+[node name="ActorSlot" type="PanelContainer" node_paths=PackedStringArray("identifier", "sprite")]
 custom_minimum_size = Vector2(150, 105)
 offset_right = 141.0
 offset_bottom = 104.0
 size_flags_horizontal = 3
 script = ExtResource("1_duqj2")
 identifier = NodePath("Margin/Content/NameLabel")
-_sprite = NodePath("Margin/Content/Sprite")
+sprite = NodePath("Margin/Content/Sprite")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2

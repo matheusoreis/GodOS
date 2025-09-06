@@ -117,3 +117,5 @@ export async function deleteActor(
 
     await sqlite<Actor>("actors").where({ id: actorId, accountId }).delete();
 }
+
+export const actorDatabase = {};

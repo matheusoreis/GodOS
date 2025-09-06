@@ -15,7 +15,9 @@ func update_data(data: Dictionary) -> void:
 
 
 func _on_access_button_pressed() -> void:
-	pass
+	Network.send_packet(Packets.SELECT_ACTOR, {
+		"actorId": int(_actor["id"])
+	})
 
 
 func _on_delete_button_pressed() -> void:

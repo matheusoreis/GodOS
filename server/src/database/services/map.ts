@@ -18,21 +18,19 @@ export type UpdateMap = {
     file?: string;
 };
 
-export async function getMapById(mapId: number): Promise<Map | undefined> {
+async function getById(mapId: number): Promise<Map | undefined> {
     return await sqlite<Map>("maps").where({ id: mapId }).first();
 }
 
-export async function getAllMaps(): Promise<Map[]> {
+async function getAll(): Promise<Map[]> {
     return await sqlite<Map>("maps").select("*").orderBy("createdAt", "desc");
 }
 
-export async function getMapByIdentifier(
-    identifier: string,
-): Promise<Map | undefined> {
+async function getByIdentifier(identifier: string): Promise<Map | undefined> {
     return await sqlite<Map>("maps").where({ identifier: identifier }).first();
 }
 
-export async function createMap(data: CreateMap): Promise<void> {
+async function create(data: CreateMap): Promise<void> {
     await sqlite<Map>("maps").insert({
         ...data,
         createdAt: new Date(),
@@ -40,7 +38,7 @@ export async function createMap(data: CreateMap): Promise<void> {
     });
 }
 
-export async function updateMap(mapId: number, data: UpdateMap): Promise<void> {
+async function update(mapId: number, data: UpdateMap): Promise<void> {
     await sqlite<Map>("maps")
         .where({ id: mapId })
         .update({
@@ -49,6 +47,15 @@ export async function updateMap(mapId: number, data: UpdateMap): Promise<void> {
         });
 }
 
-export async function deleteMap(mapId: number): Promise<void> {
+async function deleteById(mapId: number): Promise<void> {
     await sqlite<Map>("maps").where({ id: mapId }).delete();
 }
+
+export const mapDatabase = {
+    getById,
+    getAll,
+    getByIdentifier,
+    create,
+    update,
+    deleteById,
+};

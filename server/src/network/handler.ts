@@ -1,6 +1,13 @@
 import type { RawData } from "ws";
 import { disconnectClient, isConnected } from "../modules/client.js";
 import { error, warning } from "../shared/logger.js";
+import { handlePing } from "./packets/ping.js";
+import { handleSignIn } from "./packets/sign-in.js";
+import { handleSignUp } from "./packets/sign-up.js";
+import { handleActorList } from "./packets/actor-list.js";
+import { handleCreateActor } from "./packets/create-actor.js";
+import { handleDeleteActor } from "./packets/delete-actor.js";
+import { handleSelectActor } from "./packets/select-actor.js";
 
 export enum Packets {
     Ping,
@@ -21,7 +28,15 @@ export type Packet = {
 
 type PacketHandler<T = any> = (id: number, data: T) => Promise<void>;
 
-const handlers: Record<number, PacketHandler> = {};
+const handlers: Record<number, PacketHandler> = {
+    [Packets.Ping]: handlePing,
+    [Packets.SignIn]: handleSignIn,
+    [Packets.SignUp]: handleSignUp,
+    [Packets.ActorList]: handleActorList,
+    [Packets.CreateActor]: handleCreateActor,
+    [Packets.DeleteActor]: handleDeleteActor,
+    [Packets.SelectActor]: handleSelectActor,
+};
 
 export async function handler(clientId: number, raw: RawData): Promise<void> {
     if (isConnected(clientId) === false) {

@@ -20,7 +20,6 @@ var _current_sprite: int
 var _selected_sprite: String = ""
 
 
-
 func _ready() -> void:
 	if not sprites.is_empty():
 		_current_sprite = 0

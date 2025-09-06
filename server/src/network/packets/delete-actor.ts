@@ -22,18 +22,20 @@ export class DeleteActorError extends Error {
 }
 
 export async function handleDeleteActor(
-    id: number,
+    clientId: number,
     data: DeleteActorData,
 ): Promise<void> {
     const packet: number = Packets.DeleteActor;
 
     try {
-        const account: Account | undefined = getAccount(id);
+        const account: Account | undefined = getAccount(clientId);
         if (account === undefined) {
             throw new DeleteActorError("Usuário não está logado.");
         }
 
-        const actor: Actor | undefined = await getActorById(data.id);
+        const { id } = data;
+
+        const actor: Actor | undefined = await getActorById(id);
         if (actor === undefined) {
             throw new DeleteActorError("Personagem não encontrado.");
         }
@@ -44,17 +46,17 @@ export async function handleDeleteActor(
             );
         }
 
-        await deleteActor(account.id, data.id);
+        await deleteActor(account.id, id);
 
-        return sendSuccess(id, packet, {
+        return sendSuccess(clientId, packet, {
             message: "Personagem apagado com sucesso.",
         });
     } catch (err) {
         if (err instanceof DeleteActorError) {
-            return sendError(id, packet, err.message);
+            return sendError(clientId, packet, err.message);
         }
 
         error(`Erro inesperado no deleteActor: ${err}`);
-        return sendError(id, packet, "Erro interno no servidor.");
+        return sendError(clientId, packet, "Erro interno no servidor.");
     }
 }

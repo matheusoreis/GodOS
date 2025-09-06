@@ -27,7 +27,10 @@ class SignUpError extends Error {
     }
 }
 
-export async function handleSignUp(id: number, data: SignUp): Promise<void> {
+export async function handleSignUp(
+    clientId: number,
+    data: SignUp,
+): Promise<void> {
     const packet: number = Packets.SignUp;
 
     try {
@@ -52,7 +55,7 @@ export async function handleSignUp(id: number, data: SignUp): Promise<void> {
             (await getAccountByEmail(lowerUsername)) ??
             (await getAccountByUsername(lowerEmail));
 
-        if (existing !== undefined && existing !== null) {
+        if (existing !== undefined) {
             throw new SignUpError(
                 "Este e-mail ou nome de usuário já está em uso.",
             );
@@ -66,15 +69,15 @@ export async function handleSignUp(id: number, data: SignUp): Promise<void> {
             password: hashedPassword,
         });
 
-        return sendSuccess(id, packet, {
+        return sendSuccess(clientId, packet, {
             message: "Conta criada com sucesso!",
         });
     } catch (err) {
         if (err instanceof SignUpError) {
-            return sendError(id, packet, err.message);
+            return sendError(clientId, packet, err.message);
         }
 
         error(`Erro inesperado no signUp: ${err}`);
-        return sendError(id, packet, "Erro interno do servidor.");
+        return sendError(clientId, packet, "Erro interno do servidor.");
     }
 }

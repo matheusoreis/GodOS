@@ -26,7 +26,10 @@ class SignInError extends Error {
     }
 }
 
-export async function handleSignIn(id: number, data: SignIn): Promise<void> {
+export async function handleSignIn(
+    clientId: number,
+    data: SignIn,
+): Promise<void> {
     const packet: number = Packets.SignIn;
 
     try {
@@ -56,17 +59,17 @@ export async function handleSignIn(id: number, data: SignIn): Promise<void> {
             throw new SignInError("A senha informada está incorreta.");
         }
 
-        addAccount(id, account);
+        addAccount(clientId, account);
 
-        return sendSuccess(id, packet, {
+        return sendSuccess(clientId, packet, {
             message: `Bem-vindo ao ${process.env.SERVER_NAME}! Leia as regras!`,
         });
     } catch (err) {
         if (err instanceof SignInError) {
-            return sendError(id, packet, err.message);
+            return sendError(clientId, packet, err.message);
         }
 
         error(`Erro inesperado no signIn: ${err}`);
-        return sendError(id, packet, "Erro interno no servidor.");
+        return sendError(clientId, packet, "Erro interno no servidor.");
     }
 }

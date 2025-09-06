@@ -16,18 +16,21 @@ export class ActorListError extends Error {
     }
 }
 
-export async function handleActorList(id: number, _: unknown): Promise<void> {
+export async function handleActorList(
+    clientId: number,
+    _: unknown,
+): Promise<void> {
     const packet: number = Packets.ActorList;
 
     try {
-        const account: Account | undefined = getAccount(id);
+        const account: Account | undefined = getAccount(clientId);
         if (account === undefined) {
             throw new ActorListError("Usuário não está logado.");
         }
 
         const actors: Actor[] = await getAllActorsByAccountId(account.id);
 
-        return sendSuccess(id, packet, {
+        return sendSuccess(clientId, packet, {
             actors: actors.map((actor) => ({
                 id: actor.id,
                 identifier: actor.identifier,
@@ -36,10 +39,10 @@ export async function handleActorList(id: number, _: unknown): Promise<void> {
         });
     } catch (err) {
         if (err instanceof ActorListError) {
-            return sendError(id, packet, err.message);
+            return sendError(clientId, packet, err.message);
         }
 
         error(`Erro inesperado no actorList: ${err}`);
-        return sendError(id, packet, "Erro interno no servidor.");
+        return sendError(clientId, packet, "Erro interno no servidor.");
     }
 }

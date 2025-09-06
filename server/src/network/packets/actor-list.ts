@@ -16,7 +16,7 @@ export class ActorListError extends Error {
     }
 }
 
-export async function actorList(id: number, _: unknown): Promise<void> {
+export async function handleActorList(id: number, _: unknown): Promise<void> {
     const packet: number = Packets.ActorList;
 
     try {

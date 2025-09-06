@@ -27,7 +27,7 @@ class SignUpError extends Error {
     }
 }
 
-export async function signUp(id: number, data: SignUp): Promise<void> {
+export async function handleSignUp(id: number, data: SignUp): Promise<void> {
     const packet: number = Packets.SignUp;
 
     try {

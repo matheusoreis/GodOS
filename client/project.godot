@@ -11,9 +11,20 @@ config_version=5
 [application]
 
 config/name="GodOS"
+run/main_scene="uid://dsxi14rk6hiw7"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Constants="*res://system/constants.gd"
+Globals="*res://system/globals.gd"
+Packets="*res://system/network/packets.gd"
+Network="*res://system/network/network.gd"
+Alert="*res://system/utils/alert.gd"
+Confirmation="*res://system/utils/confirmation.gd"
+
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"

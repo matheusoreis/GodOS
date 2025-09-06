@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://3o5kymj45w2m"]
+
+[ext_resource type="Script" uid="uid://dd4cehjhtcoas" path="res://database/ui/account/actor_list/actor_list.gd" id="1_rhbxq"]
+[ext_resource type="PackedScene" uid="uid://diyvc41jscm7a" path="res://database/ui/account/actor_list/empty_slot.tscn" id="2_3beo6"]
+[ext_resource type="PackedScene" uid="uid://dcp4kc2kh5e57" path="res://database/ui/account/actor_list/actor_slot.tscn" id="3_2cnxg"]
+
+[node name="ActorList" type="PanelContainer" node_paths=PackedStringArray("slots_location")]
+custom_minimum_size = Vector2(0, 160)
+offset_right = 500.0
+offset_bottom = 160.0
+script = ExtResource("1_rhbxq")
+slots_location = NodePath("Margin/Slots")
+empty_slot = ExtResource("2_3beo6")
+actor_slot = ExtResource("3_2cnxg")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Slots" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10

@@ -6,7 +6,7 @@ export function sendSuccess(
     data: Record<string, any>,
 ) {
     sendTo(clientId, {
-        packet: packet,
+        id: packet,
         data: { success: true, ...data },
     });
 }

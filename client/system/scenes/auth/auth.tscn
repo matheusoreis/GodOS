@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsxi14rk6hiw7"]
+
+[ext_resource type="Script" uid="uid://dutabbsgx6fdn" path="res://system/scenes/auth/auth.gd" id="1_343us"]
+[ext_resource type="PackedScene" uid="uid://d00axkeuxjtf8" path="res://database/ui/auth/sign_in.tscn" id="2_jy23p"]
+[ext_resource type="PackedScene" uid="uid://ch3hnxf4nqp0g" path="res://database/ui/auth/sign_up.tscn" id="3_6eewy"]
+
+[node name="Auth" type="Control" node_paths=PackedStringArray("sign_in_ui", "sign_up_ui")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_343us")
+sign_in_ui = NodePath("C1/SignIn")
+sign_up_ui = NodePath("C1/SignUp")
+
+[node name="C1" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SignIn" parent="C1" node_paths=PackedStringArray("sign_up_ui") instance=ExtResource("2_jy23p")]
+layout_mode = 2
+sign_up_ui = NodePath("../SignUp")
+
+[node name="SignUp" parent="C1" node_paths=PackedStringArray("sign_in_ui") instance=ExtResource("3_6eewy")]
+visible = false
+layout_mode = 2
+sign_in_ui = NodePath("../SignIn")

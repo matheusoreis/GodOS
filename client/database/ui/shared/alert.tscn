@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkmdxpcd75kxh"]
+
+[ext_resource type="Script" uid="uid://c4ns1xdoagoax" path="res://database/ui/shared/alert.gd" id="1_rsikj"]
+
+[node name="Alert" type="Control" node_paths=PackedStringArray("message_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rsikj")
+message_label = NodePath("Alert/M1/V1/Message")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101960786, 0.101960786, 0.101960786, 0.78431374)
+
+[node name="Alert" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="M1" type="MarginContainer" parent="Alert"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="V1" type="VBoxContainer" parent="Alert/M1"]
+layout_mode = 2
+
+[node name="Message" type="Label" parent="Alert/M1/V1"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+autowrap_mode = 2
+
+[node name="Confirm" type="Button" parent="Alert/M1/V1"]
+layout_mode = 2
+text = "Confirmar"
+
+[connection signal="pressed" from="Alert/M1/V1/Confirm" to="." method="_on_confirm_pressed"]

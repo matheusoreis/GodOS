@@ -62,7 +62,7 @@ export async function handleSignIn(
         addAccount(clientId, account);
 
         return sendSuccess(clientId, packet, {
-            message: `Bem-vindo ao ${process.env.SERVER_NAME}! Leia as regras!`,
+            message: `Bem-vindo ${account.username} ao ${process.env.SERVER_NAME}! Leia as regras!`,
         });
     } catch (err) {
         if (err instanceof SignInError) {

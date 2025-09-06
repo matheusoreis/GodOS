@@ -52,8 +52,8 @@ export async function handleSignUp(
         const lowerEmail = email.toLowerCase();
 
         const existing =
-            (await getAccountByEmail(lowerUsername)) ??
-            (await getAccountByUsername(lowerEmail));
+            (await getAccountByEmail(lowerEmail)) ??
+            (await getAccountByUsername(lowerUsername));
 
         if (existing !== undefined) {
             throw new SignUpError(

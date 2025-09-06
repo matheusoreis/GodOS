@@ -22,7 +22,7 @@ export enum Packets {
 }
 
 export type Packet = {
-    packet: number;
+    id: number;
     data: Record<string, any>;
 };
 
@@ -59,12 +59,13 @@ export async function handler(clientId: number, raw: RawData): Promise<void> {
         }
 
         // Valida se o pacote tem um handler registrado
-        const handler = handlers[parsed.packet];
+        const handler = handlers[parsed.id];
         if (handler === undefined) {
             warning(`O cliente ${clientId} enviou um pacote desconhecido!`);
             return disconnectClient(clientId);
         }
 
+        //
         await handler(clientId, parsed.data);
     } catch (e) {
         error(`Erro ao processar pacote do cliente ${clientId}: ${e}`);
@@ -72,5 +73,5 @@ export async function handler(clientId: number, raw: RawData): Promise<void> {
 }
 
 function isValidPacket(data: Packet): boolean {
-    return data?.packet !== undefined && data?.data !== undefined;
+    return data?.id !== undefined && data?.data !== undefined;
 }

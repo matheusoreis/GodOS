@@ -5,7 +5,7 @@ export async function handlePing(id: number, _: any): Promise<void> {
     const packet: number = Packets.Ping;
 
     sendTo(id, {
-        packet: packet,
+        id: packet,
         data: {},
     });
 }

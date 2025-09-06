@@ -31,7 +31,7 @@ export type UpdateMap = {
 };
 
 async function loadLayers(file: string): Promise<Record<string, TileMap[]>> {
-    const filePath = path.join("data", "maps", file);
+    const filePath = path.join("data", "maps", `${file}.json`);
     const content = await fs.readFile(filePath, "utf-8");
     return JSON.parse(content) as Record<string, TileMap[]>;
 }

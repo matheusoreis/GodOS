@@ -9,8 +9,12 @@
     "scripts": {
         "dev": "tsx watch --env-file .env src/main.ts",
         "build": "tsc",
-        "start": "node dist/main.js",
-        "format": "npx prettier . --write"
+        "start": "node --env-file .env dist/main.js",
+        "format": "npx prettier . --write",
+        "sqlite:up": "tsx --env-file .env --no-warnings ./node_modules/knex/bin/cli.js --knexfile ./src/database/knexfile.ts --env sqlite migrate:latest",
+        "sqlite:make": "tsx --env-file .env --no-warnings ./node_modules/knex/bin/cli.js --knexfile ./src/database/knexfile.ts --env sqlite migrate:make",
+        "postgres:up": "tsx --env-file .env --no-warnings ./node_modules/knex/bin/cli.js --knexfile ./src/database/knexfile.ts --env postgres migrate:latest",
+        "postgres:make": "tsx --env-file .env --no-warnings ./node_modules/knex/bin/cli.js --knexfile ./src/database/knexfile.ts --env postgres migrate:make"
     },
     "dependencies": {
         "bcrypt": "^6.0.0",

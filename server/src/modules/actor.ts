@@ -1,51 +1,36 @@
-export type Actor = {
-    id: number;
-    identifier: string;
-    sprite: string;
-    positionX: number;
-    positionY: number;
-    directionX: number;
-    directionY: number;
-    createdAt: Date;
-    updatedAt: Date;
-    accountId: number;
-    mapId: number;
-};
+import type { Actor } from "../database/services/actor.js";
 
-export const actors: Array<Actor | undefined> = Array(
-    Number(process.env.CAPACITY ?? 0),
-).fill(undefined);
+const actors = new Map<number, Actor>();
 
-export function addActor(id: number, actor: Actor): void {
-    actors[id] = actor;
+export function addActor(clientId: number, actor: Actor): void {
+    actors.set(clientId, actor);
 }
 
-export function getActor(id: number): Actor | undefined {
-    return actors[id];
+export function getActor(clientId: number): Actor | undefined {
+    return actors.get(clientId);
 }
 
 export function getAllActors(): Actor[] {
-    return actors.filter(function (actor): actor is Actor {
-        return actor !== undefined;
-    });
+    return Array.from(actors.values());
 }
 
-export function removeActor(id: number): void {
-    actors[id] = undefined;
+export function removeActor(clientId: number): void {
+    actors.delete(clientId);
 }
 
-export function updateActor(id: number, data: Partial<Actor>) {
-    const actor = getActor(id);
-    if (!actor) {
-        return undefined;
-    }
+export function updateActor(
+    clientId: number,
+    data: Partial<Actor>,
+): Actor | undefined {
+    const actor = actors.get(clientId);
+    if (!actor) return undefined;
 
-    const updatedActor: Actor = {
+    const updated: Actor = {
         ...actor,
         ...data,
         updatedAt: new Date(),
     };
 
-    actors[id] = updatedActor;
-    return updatedActor;
+    actors.set(clientId, updated);
+    return updated;
 }

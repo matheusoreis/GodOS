@@ -1,13 +1,92 @@
-export async function getAccountById() {}
+import { hash } from "bcrypt";
+import sqlite from "../connectors/sqlite.js";
 
-export async function getAllAccounts() {}
+export type Account = {
+    id: number;
+    username: string;
+    email: string;
+    password: string;
+    createdAt: Date;
+    updatedAt: Date;
+};
 
-export async function getAccountByEmail() {}
+export type CreateAccount = {
+    username: string;
+    email: string;
+    password: string;
+};
 
-export async function getAccountByUsername() {}
+export type UpdateAccount = {
+    username?: string;
+    email?: string;
+    password?: string;
+};
 
-export async function getAccountByUsernameOrEmail() {}
+export async function getAccountById(id: number): Promise<Account | undefined> {
+    return await sqlite<Account>("accounts").where({ id: id }).first();
+}
 
-export async function createAccount() {}
+export async function getAllAccounts(): Promise<Account[]> {
+    return await sqlite<Account>("accounts")
+        .select("*")
+        .orderBy("createdAt", "desc");
+}
 
-export async function updateAccount() {}
+export async function getAccountByEmail(
+    email: string,
+): Promise<Account | undefined> {
+    return await sqlite<Account>("accounts")
+        .select("*")
+        .where("email", email)
+        .first();
+}
+
+export async function getAccountByUsername(
+    username: string,
+): Promise<Account | undefined> {
+    return await sqlite<Account>("accounts")
+        .select("*")
+        .where("username", username)
+        .first();
+}
+
+export async function getAccountByUsernameOrEmail(
+    identifier: string,
+): Promise<Account | undefined> {
+    return await sqlite<Account>("accounts")
+        .where("username", identifier)
+        .orWhere("email", identifier)
+        .first();
+}
+
+export async function createAccount(data: CreateAccount): Promise<void> {
+    const { username, email, password } = data;
+
+    const hashedPassword = await hash(password, 10);
+
+    await sqlite<Account>("accounts").insert({
+        username,
+        email,
+        password: hashedPassword,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    });
+}
+
+export async function updateAccount(
+    id: number,
+    data: UpdateAccount,
+): Promise<void> {
+    const { password, ...rest } = data;
+
+    const updates: Partial<Account> = {
+        ...rest,
+        updatedAt: new Date(),
+    };
+
+    if (password) {
+        updates.password = await hash(password, 10);
+    }
+
+    await sqlite<Account>("accounts").where({ id }).update(updates);
+}

@@ -1,46 +1,36 @@
-export type Account = {
-    id: number;
-    username: string;
-    email: string;
-    password: string;
-    createdAt: Date;
-    updatedAt: Date;
-};
+import type { Account } from "../database/services/account.js";
 
-export const accounts: Array<Account | undefined> = Array(
-    Number(process.env.CAPACITY ?? 0),
-).fill(undefined);
+const accounts = new Map<number, Account>();
 
-export function addAccount(id: number, account: Account): void {
-    accounts[id] = account;
+export function addAccount(clientId: number, account: Account): void {
+    accounts.set(clientId, account);
 }
 
-export function getAccount(id: number): Account | undefined {
-    return accounts[id];
+export function getAccount(clientId: number): Account | undefined {
+    return accounts.get(clientId);
 }
 
 export function getAllAccounts(): Account[] {
-    return accounts.filter(function (account): account is Account {
-        return account !== undefined;
-    });
+    return Array.from(accounts.values());
 }
 
-export function removeAccount(id: number): void {
-    accounts[id] = undefined;
+export function removeAccount(clientId: number): void {
+    accounts.delete(clientId);
 }
 
-export function updateAccount(id: number, data: Partial<Account>) {
-    const account = getAccount(id);
-    if (!account) {
-        return undefined;
-    }
+export function updateAccount(
+    clientId: number,
+    data: Partial<Account>,
+): Account | undefined {
+    const account = accounts.get(clientId);
+    if (!account) return undefined;
 
-    const updatedAccount: Account = {
+    const updated: Account = {
         ...account,
         ...data,
         updatedAt: new Date(),
     };
 
-    accounts[id] = updatedAccount;
-    return updatedAccount;
+    accounts.set(clientId, updated);
+    return updated;
 }

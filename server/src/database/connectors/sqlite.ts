@@ -1,6 +1,6 @@
 import knex from "knex";
 
-const SQLite = knex({
+const sqlite = knex({
     client: "sqlite3",
     connection: {
         filename: process.env.SQLITE_DB_FILE ?? "./dev.sqlite3",
@@ -8,4 +8,4 @@ const SQLite = knex({
     useNullAsDefault: true,
 });
 
-export default SQLite;
+export default sqlite;

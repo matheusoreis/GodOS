@@ -1,6 +1,6 @@
 import knex from "knex";
 
-const Postgres = knex({
+const postgres = knex({
     client: "pg",
     connection: {
         host: process.env.POSTGRES_DB_HOST ?? "127.0.0.1",
@@ -13,4 +13,4 @@ const Postgres = knex({
     pool: { min: 2, max: 10 },
 });
 
-export default Postgres;
+export default postgres;

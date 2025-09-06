@@ -34,8 +34,10 @@ export type UpdateActor = {
     mapId?: number;
 };
 
-export async function getActorById(id: number): Promise<Actor | undefined> {
-    return await sqlite<Actor>("actors").where({ id }).first();
+export async function getActorById(
+    actorId: number,
+): Promise<Actor | undefined> {
+    return await sqlite<Actor>("actors").where({ id: actorId }).first();
 }
 
 export async function getAllActors(): Promise<Actor[]> {
@@ -88,7 +90,7 @@ export async function createActor(
 
 export async function updateActor(
     accountId: number,
-    id: number,
+    actorId: number,
     data: UpdateActor,
 ): Promise<void> {
     const account = await getAccountById(accountId);
@@ -97,7 +99,7 @@ export async function updateActor(
     }
 
     await sqlite<Actor>("actors")
-        .where({ id, accountId })
+        .where({ id: actorId, accountId })
         .update({
             ...data,
             updatedAt: new Date(),
@@ -106,12 +108,12 @@ export async function updateActor(
 
 export async function deleteActor(
     accountId: number,
-    id: number,
+    actorId: number,
 ): Promise<void> {
     const account = await getAccountById(accountId);
     if (!account) {
         throw new Error("Conta não encontrada");
     }
 
-    await sqlite<Actor>("actors").where({ id, accountId }).delete();
+    await sqlite<Actor>("actors").where({ id: actorId, accountId }).delete();
 }

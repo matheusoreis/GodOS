@@ -25,8 +25,8 @@ export function addClient(socket: WebSocket): Client | undefined {
     return client;
 }
 
-export function getClient(id: number): Client | undefined {
-    return clients[id];
+export function getClient(clientId: number): Client | undefined {
+    return clients[clientId];
 }
 
 export function getAllClients(): Client[] {
@@ -35,14 +35,14 @@ export function getAllClients(): Client[] {
     });
 }
 
-export function removeClient(id: number): void {
-    if (id >= 0 && id < clients.length) {
-        clients[id] = undefined;
+export function removeClient(clientId: number): void {
+    if (clientId >= 0 && clientId < clients.length) {
+        clients[clientId] = undefined;
     }
 }
 
-export function isConnected(id: number): boolean {
-    const client = getClient(id);
+export function isConnected(clientId: number): boolean {
+    const client = getClient(clientId);
     return client !== undefined && client.socket.readyState === WebSocket.OPEN;
 }
 

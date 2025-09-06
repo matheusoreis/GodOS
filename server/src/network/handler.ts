@@ -23,8 +23,8 @@ type PacketHandler<T = any> = (id: number, data: T) => Promise<void>;
 
 const handlers: Record<number, PacketHandler> = {};
 
-export async function handler(id: number, raw: RawData): Promise<void> {
-    if (isConnected(id) === false) {
+export async function handler(clientId: number, raw: RawData): Promise<void> {
+    if (isConnected(clientId) === false) {
         return;
     }
 
@@ -32,19 +32,19 @@ export async function handler(id: number, raw: RawData): Promise<void> {
         const parsed: Packet = JSON.parse(raw.toString());
 
         if (isValidPacket(parsed) == false) {
-            warning(`O cliente ${id} enviou um pacote inválido!`);
-            return disconnectClient(id);
+            warning(`O cliente ${clientId} enviou um pacote inválido!`);
+            return disconnectClient(clientId);
         }
 
         const handler = handlers[parsed.packet];
         if (handler === undefined) {
-            warning(`O cliente ${id} enviou um pacote desconhecido!`);
-            return disconnectClient(id);
+            warning(`O cliente ${clientId} enviou um pacote desconhecido!`);
+            return disconnectClient(clientId);
         }
 
-        await handler(id, parsed.data);
+        await handler(clientId, parsed.data);
     } catch (e) {
-        error(`Erro ao processar pacote do cliente ${id}: ${e}`);
+        error(`Erro ao processar pacote do cliente ${clientId}: ${e}`);
     }
 }
 

@@ -22,8 +22,10 @@ export type UpdateAccount = {
     password?: string;
 };
 
-export async function getAccountById(id: number): Promise<Account | undefined> {
-    return await sqlite<Account>("accounts").where({ id: id }).first();
+export async function getAccountById(
+    accountId: number,
+): Promise<Account | undefined> {
+    return await sqlite<Account>("accounts").where({ id: accountId }).first();
 }
 
 export async function getAllAccounts(): Promise<Account[]> {
@@ -72,7 +74,7 @@ export async function createAccount(data: CreateAccount): Promise<void> {
 }
 
 export async function updateAccount(
-    id: number,
+    accountId: number,
     data: UpdateAccount,
 ): Promise<void> {
     const { password, ...rest } = data;
@@ -86,5 +88,5 @@ export async function updateAccount(
         updates.password = await hash(password, 10);
     }
 
-    await sqlite<Account>("accounts").where({ id }).update(updates);
+    await sqlite<Account>("accounts").where({ id: accountId }).update(updates);
 }

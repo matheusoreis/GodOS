@@ -18,8 +18,8 @@ export type UpdateMap = {
     file?: string;
 };
 
-export async function getMapById(id: number): Promise<Map | undefined> {
-    return await sqlite<Map>("maps").where({ id }).first();
+export async function getMapById(mapId: number): Promise<Map | undefined> {
+    return await sqlite<Map>("maps").where({ id: mapId }).first();
 }
 
 export async function getAllMaps(): Promise<Map[]> {
@@ -40,15 +40,15 @@ export async function createMap(data: CreateMap): Promise<void> {
     });
 }
 
-export async function updateMap(id: number, data: UpdateMap): Promise<void> {
+export async function updateMap(mapId: number, data: UpdateMap): Promise<void> {
     await sqlite<Map>("maps")
-        .where({ id })
+        .where({ id: mapId })
         .update({
             ...data,
             updatedAt: new Date(),
         });
 }
 
-export async function deleteMap(id: number): Promise<void> {
-    await sqlite<Map>("maps").where({ id }).delete();
+export async function deleteMap(mapId: number): Promise<void> {
+    await sqlite<Map>("maps").where({ id: mapId }).delete();
 }

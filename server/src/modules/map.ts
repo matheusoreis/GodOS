@@ -6,20 +6,20 @@ export function addMap(map: Map): void {
     maps.set(map.id, map);
 }
 
-export function getMap(id: number): Map | undefined {
-    return maps.get(id);
+export function getMap(mapId: number): Map | undefined {
+    return maps.get(mapId);
 }
 
 export function getAllMaps(): Map[] {
     return Array.from(maps.values());
 }
 
-export function removeMap(id: number): void {
-    maps.delete(id);
+export function removeMap(mapId: number): void {
+    maps.delete(mapId);
 }
 
-export function updateMap(id: number, data: Partial<Map>): Map | undefined {
-    const existing = maps.get(id);
+export function updateMap(mapId: number, data: Partial<Map>): Map | undefined {
+    const existing = maps.get(mapId);
     if (!existing) return undefined;
 
     const updated: Map = {
@@ -28,6 +28,6 @@ export function updateMap(id: number, data: Partial<Map>): Map | undefined {
         updatedAt: new Date(),
     };
 
-    maps.set(id, updated);
+    maps.set(mapId, updated);
     return updated;
 }

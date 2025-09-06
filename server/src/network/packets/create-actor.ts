@@ -23,7 +23,7 @@ export class CreateActorError extends Error {
     }
 }
 
-export async function createActor(
+export async function handleCreateActor(
     clientId: number,
     data: CreateActorData,
 ): Promise<void> {

@@ -1,23 +1,34 @@
 {
-  "compilerOptions": {
-    "target": "ES2024",
-    "module": "nodenext",
-    "lib": ["ES2024"],
-    "types": ["node"],
+    "compilerOptions": {
+        /* Saída do build */
+        "rootDir": "src",
+        "outDir": "dist",
 
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+        /* Compatibilidade com Node moderno */
+        "target": "ES2024",
+        "module": "nodenext",
+        "lib": ["ES2024"],
+        "types": ["node"],
 
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+        /* Mapas e declarações */
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
 
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noUncheckedSideEffectImports": true,
+        /* Regras de tipo rigorosas */
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
 
-    "skipLibCheck": true
-  }
+        /* Módulos e imports */
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+        "noUncheckedSideEffectImports": true,
+
+        /* Performance */
+        "skipLibCheck": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"]
 }

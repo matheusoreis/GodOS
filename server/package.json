@@ -2,8 +2,15 @@
   "name": "server",
   "version": "0.0.1",
   "description": "",
-  "scripts": {},
-  "keywords": [],
   "author": "Matheus R. Oliveira",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "type": "module",
+  "keywords": [],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
 }

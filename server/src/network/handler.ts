@@ -38,6 +38,12 @@ const handlers: Record<number, PacketHandler> = {
     [Packets.SelectActor]: handleSelectActor,
 };
 
+/**
+ * Processa uma mensagem recebida de um cliente.
+ *
+ * @param clientId Id do cliente remetente.
+ * @param raw Dados crus recebidos do WebSocket.
+ */
 export async function handler(clientId: number, raw: RawData): Promise<void> {
     if (isConnected(clientId) === false) {
         return;
@@ -46,11 +52,13 @@ export async function handler(clientId: number, raw: RawData): Promise<void> {
     try {
         const parsed: Packet = JSON.parse(raw.toString());
 
+        // Valida se o pacote é válido.
         if (isValidPacket(parsed) == false) {
             warning(`O cliente ${clientId} enviou um pacote inválido!`);
             return disconnectClient(clientId);
         }
 
+        // Valida se o pacote tem um handler registrado
         const handler = handlers[parsed.packet];
         if (handler === undefined) {
             warning(`O cliente ${clientId} enviou um pacote desconhecido!`);

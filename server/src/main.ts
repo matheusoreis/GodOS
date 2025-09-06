@@ -1,4 +1,4 @@
-import { mapDatabase } from "./database/services/map.js";
+import { startLoop } from "./modules/loop.js";
 import { loadMaps } from "./modules/map.js";
 import { start } from "./network/network.js";
 import { error, info, warning } from "./shared/logger.js";
@@ -11,8 +11,12 @@ async function main() {
         info("Carregando dados do jogo...");
         await loadMaps();
 
+        info("Iniciando o loop...");
+        startLoop();
+
         info("Iniciando servidor...");
         start(port);
+
         info(`Servidor rodando em ws://localhost:${port}`);
         info(`Capacidade máxima: ${capacity} clientes`);
 

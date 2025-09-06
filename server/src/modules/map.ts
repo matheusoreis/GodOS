@@ -1,5 +1,6 @@
 import { mapDatabase, type Map } from "../database/services/map.js";
 import { info } from "../shared/logger.js";
+import { hasPlayersInMap } from "./actor.js";
 
 const maps = new Map<number, Map>();
 
@@ -41,4 +42,10 @@ export function updateMap(mapId: number, data: Partial<Map>): Map | undefined {
     return updated;
 }
 
-export function mapLoop() {}
+export function mapLoop() {
+    for (const map of getAllMaps()) {
+        if (hasPlayersInMap(map.id) === false) {
+            continue;
+        }
+    }
+}

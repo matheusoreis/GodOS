@@ -28,6 +28,5 @@ function gameLoop() {
 }
 
 export function startLoop() {
-    const TICK_MS = 1000 / 60; // ~16.67ms
-    setInterval(gameLoop, TICK_MS);
+    setInterval(gameLoop, 1000 / 60);
 }

@@ -18,6 +18,10 @@ export function getAllActorsInMap(mapId: number): Actor[] {
     return Array.from(actors.values()).filter((actor) => actor.mapId === mapId);
 }
 
+export function hasPlayersInMap(mapId: number): boolean {
+    return getAllActorsInMap(mapId).length > 0;
+}
+
 export function removeActor(clientId: number): void {
     actors.delete(clientId);
 

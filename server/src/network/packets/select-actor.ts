@@ -4,7 +4,7 @@ export type SelectActorData = {
     id: number;
 };
 
-export async function selectActor(
+export async function handleSelectActor(
     id: number,
     data: SelectActorData,
 ): Promise<void> {

@@ -62,12 +62,10 @@ export async function getAccountByUsernameOrEmail(
 export async function createAccount(data: CreateAccount): Promise<void> {
     const { username, email, password } = data;
 
-    const hashedPassword = await hash(password, 10);
-
     await sqlite<Account>("accounts").insert({
         username,
         email,
-        password: hashedPassword,
+        password: password,
         createdAt: new Date(),
         updatedAt: new Date(),
     });

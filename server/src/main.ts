@@ -1,3 +1,4 @@
+import { mapDatabase } from "./database/services/map.js";
 import { loadMaps } from "./modules/map.js";
 import { start } from "./network/network.js";
 import { error, info, warning } from "./shared/logger.js";

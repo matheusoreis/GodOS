@@ -1,9 +1,14 @@
 import { mapDatabase, type Map } from "../database/services/map.js";
+import { info } from "../shared/logger.js";
 
 const maps = new Map<number, Map>();
 
 export async function loadMaps() {
     const allMaps: Map[] = await mapDatabase.getAll();
+    for (const map of allMaps) {
+        info(`Mapa ${map.identifier} carregado com sucesso!`);
+        addMap(map);
+    }
 }
 
 export function addMap(map: Map): void {

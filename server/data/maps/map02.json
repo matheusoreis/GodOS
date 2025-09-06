@@ -1,0 +1,62 @@
+{
+    "01": [
+        {
+            "data": {
+                "block": false
+            },
+            "x": 0,
+            "y": 0
+        },
+        {
+            "data": {
+                "block": false
+            },
+            "x": 1,
+            "y": 0
+        },
+        {
+            "data": {
+                "block": false
+            },
+            "x": 2,
+            "y": 0
+        },
+        {
+            "data": {
+                "block": false
+            },
+            "x": 3,
+            "y": 0
+        }
+    ],
+    "02": [
+        {
+            "data": {
+                "block": true
+            },
+            "x": 8,
+            "y": 1
+        },
+        {
+            "data": {
+                "block": true
+            },
+            "x": 2,
+            "y": 3
+        },
+        {
+            "data": {
+                "block": true
+            },
+            "x": 3,
+            "y": 3
+        },
+        {
+            "data": {
+                "block": true
+            },
+            "x": 17,
+            "y": 3
+        }
+    ]
+}

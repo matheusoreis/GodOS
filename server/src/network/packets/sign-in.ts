@@ -1,17 +1,17 @@
 import { compare } from "bcrypt";
-import { Packets } from "../handler.js";
-import { sendError } from "./error.js";
-import { sendSuccess } from "./success.js";
+import { getAccountByUsernameOrEmail } from "../../database/services/account.js";
+import { addAccount } from "../../modules/account.js";
+import { error } from "../../shared/logger.js";
 import {
     validateClientVersion,
     validateIdentifier,
     validatePassword,
 } from "../../shared/validation.js";
-import { addAccount } from "../../modules/account.js";
-import { getAccountByUsernameOrEmail } from "../../database/services/account.js";
-import { error } from "../../shared/logger.js";
+import { Packets } from "../handler.js";
+import { sendError } from "./error.js";
+import { sendSuccess } from "./success.js";
 
-export type SignInData = {
+type SignIn = {
     identifier: string;
     password: string;
     major: number;
@@ -19,14 +19,14 @@ export type SignInData = {
     revision: number;
 };
 
-export class SignInError extends Error {
+class SignInError extends Error {
     constructor(message: string) {
         super(message);
         this.name = "SignInError";
     }
 }
 
-export async function signIn(id: number, data: SignInData): Promise<void> {
+export async function signIn(id: number, data: SignIn): Promise<void> {
     const packet: number = Packets.SignIn;
 
     try {
@@ -44,9 +44,9 @@ export async function signIn(id: number, data: SignInData): Promise<void> {
             throw new SignInError("Senha inválida.");
         }
 
-        const account = await getAccountByUsernameOrEmail(
-            identifier.toLowerCase(),
-        );
+        const lowerIdentifier = identifier.toLowerCase();
+
+        const account = await getAccountByUsernameOrEmail(lowerIdentifier);
         if (account === undefined) {
             throw new SignInError("Usuário ou e-mail não encontrado.");
         }

@@ -1,51 +1,46 @@
-export type Actor = {
+export type Account = {
     id: number;
-    identifier: string;
-    sprite: string;
-    positionX: number;
-    positionY: number;
-    directionX: number;
-    directionY: number;
+    username: string;
+    email: string;
+    password: string;
     createdAt: Date;
     updatedAt: Date;
-    accountId: number;
-    mapId: number;
 };
 
-export const actors: Array<Actor | undefined> = Array(
+export const accounts: Array<Account | undefined> = Array(
     Number(process.env.CAPACITY ?? 0),
 ).fill(undefined);
 
-export function addActor(id: number, actor: Actor): void {
-    actors[id] = actor;
+export function addAccount(id: number, account: Account): void {
+    accounts[id] = account;
 }
 
-export function getActor(id: number): Actor | undefined {
-    return actors[id];
+export function getAccount(id: number): Account | undefined {
+    return accounts[id];
 }
 
-export function getAllActors(): Actor[] {
-    return actors.filter(function (actor): actor is Actor {
-        return actor !== undefined;
+export function getAllAccounts(): Account[] {
+    return accounts.filter(function (account): account is Account {
+        return account !== undefined;
     });
 }
 
-export function removeActor(id: number): void {
-    actors[id] = undefined;
+export function removeAccount(id: number): void {
+    accounts[id] = undefined;
 }
 
-export function updateActor(id: number, data: Partial<Actor>) {
-    const actor = getActor(id);
-    if (!actor) {
+export function updateAccount(id: number, data: Partial<Account>) {
+    const account = getAccount(id);
+    if (!account) {
         return undefined;
     }
 
-    const updatedActor: Actor = {
-        ...actor,
+    const updatedAccount: Account = {
+        ...account,
         ...data,
         updatedAt: new Date(),
     };
 
-    actors[id] = updatedActor;
-    return updatedActor;
+    accounts[id] = updatedAccount;
+    return updatedAccount;
 }

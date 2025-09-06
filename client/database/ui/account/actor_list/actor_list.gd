@@ -29,13 +29,13 @@ func update_slots(max_actors: int, actors: Array) -> void:
 
 
 func handle_list(data: Dictionary) -> void:
-	if !data.get("success", false):
-		var message: String  = data.get("message", "Erro desconhecido ao fazer login.")
-		Alert.show(message)
+	var error = data.get("success", false)
+	if error == false:
+		Alert.show(data.get("message", "Erro desconhecido ao fazer fazer o cadastro."))
 		return
-
-	var max_actors: int = Globals.account.get("maxActors", 0)
-	if max_actors <= 0:
+	
+	var max_actors = data.get("maxActors", null)
+	if max_actors == null:
 		Alert.show("Número máximo de personagens inválido.")
 		return
 

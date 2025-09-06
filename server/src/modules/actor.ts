@@ -1,4 +1,6 @@
 import type { Actor } from "../database/services/actor.js";
+import { Packets } from "../network/handler.js";
+import { sendToAllBut } from "../network/sender.js";
 
 const actors = new Map<number, Actor>();
 
@@ -16,6 +18,13 @@ export function getAllActors(): Actor[] {
 
 export function removeActor(clientId: number): void {
     actors.delete(clientId);
+
+    // sendToAllBut(clientId, {
+    //     id: Packets.Disconnect,
+    //     data: {
+    //         clientId: clientId,
+    //     },
+    // });
 }
 
 export function updateActor(

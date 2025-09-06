@@ -1,9 +1,43 @@
-[gd_scene format=3 uid="uid://ft6304b3f05g"]
+[gd_scene load_steps=14 format=3 uid="uid://ft6304b3f05g"]
 
-[node name="Account" type="Control"]
+[ext_resource type="PackedScene" uid="uid://3o5kymj45w2m" path="res://database/ui/account/actor_list/actor_list.tscn" id="1_6e8mx"]
+[ext_resource type="Script" uid="uid://b8ptxx4pn3aoj" path="res://system/scenes/account/account.gd" id="1_wcjru"]
+[ext_resource type="PackedScene" uid="uid://b8fn4c5kiel6v" path="res://database/ui/account/create_actor/create_actor.tscn" id="3_366jk"]
+[ext_resource type="Texture2D" uid="uid://detr85ubohpgd" path="res://assets/graphics/entities/001-Fighter01.png" id="4_cuejd"]
+[ext_resource type="Texture2D" uid="uid://8gy7eq23gtc1" path="res://assets/graphics/entities/002-Fighter02.png" id="5_u3wnd"]
+[ext_resource type="Texture2D" uid="uid://7xjkprucsr3k" path="res://assets/graphics/entities/003-Fighter03.png" id="6_4ct37"]
+[ext_resource type="Texture2D" uid="uid://dltaqd807egcm" path="res://assets/graphics/entities/004-Fighter04.png" id="7_e4qo4"]
+[ext_resource type="Texture2D" uid="uid://dxdwmh6so4v8y" path="res://assets/graphics/entities/005-Fighter05.png" id="8_2fcxe"]
+[ext_resource type="Texture2D" uid="uid://sjmo4w0siglb" path="res://assets/graphics/entities/006-Fighter06.png" id="9_20bxd"]
+[ext_resource type="Texture2D" uid="uid://06kxbqvg6wa0" path="res://assets/graphics/entities/007-Fighter07.png" id="10_telh2"]
+[ext_resource type="Texture2D" uid="uid://vhmv5h2uyedr" path="res://assets/graphics/entities/008-Fighter08.png" id="11_ykjph"]
+[ext_resource type="Texture2D" uid="uid://dj4432u0al0ny" path="res://assets/graphics/entities/009-Lancer01.png" id="12_ebhex"]
+[ext_resource type="Texture2D" uid="uid://faqdkll576cv" path="res://assets/graphics/entities/010-Lancer02.png" id="13_d4d8s"]
+
+[node name="Account" type="Control" node_paths=PackedStringArray("actor_list_ui", "create_actor_ui")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_wcjru")
+actor_list_ui = NodePath("Center/ActorList")
+create_actor_ui = NodePath("Center/CreateActor")
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ActorList" parent="Center" instance=ExtResource("1_6e8mx")]
+layout_mode = 2
+
+[node name="CreateActor" parent="Center" node_paths=PackedStringArray("actor_list_ui") instance=ExtResource("3_366jk")]
+visible = false
+layout_mode = 2
+sprites = Array[CompressedTexture2D]([ExtResource("4_cuejd"), ExtResource("5_u3wnd"), ExtResource("6_4ct37"), ExtResource("7_e4qo4"), ExtResource("8_2fcxe"), ExtResource("9_20bxd"), ExtResource("10_telh2"), ExtResource("11_ykjph"), ExtResource("12_ebhex"), ExtResource("13_d4d8s")])
+actor_list_ui = NodePath("../ActorList")

@@ -6,6 +6,7 @@ export type Account = {
     username: string;
     email: string;
     password: string;
+    maxActors: number;
     createdAt: Date;
     updatedAt: Date;
 };

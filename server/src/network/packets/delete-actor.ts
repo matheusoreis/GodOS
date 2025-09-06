@@ -11,7 +11,7 @@ import { sendError } from "./error.js";
 import { sendSuccess } from "./success.js";
 
 export type DeleteActorData = {
-    id: number;
+    actorId: number;
 };
 
 export class DeleteActorError extends Error {
@@ -25,6 +25,7 @@ export async function handleDeleteActor(
     clientId: number,
     data: DeleteActorData,
 ): Promise<void> {
+    console.log(data);
     const packet: number = Packets.DeleteActor;
 
     try {
@@ -33,9 +34,9 @@ export async function handleDeleteActor(
             throw new DeleteActorError("Usuário não está logado.");
         }
 
-        const { id } = data;
+        const { actorId } = data;
 
-        const actor: Actor | undefined = await getActorById(id);
+        const actor: Actor | undefined = await getActorById(actorId);
         if (actor === undefined) {
             throw new DeleteActorError("Personagem não encontrado.");
         }
@@ -46,7 +47,7 @@ export async function handleDeleteActor(
             );
         }
 
-        await deleteActor(account.id, id);
+        await deleteActor(account.id, actorId);
 
         return sendSuccess(clientId, packet, {
             message: "Personagem apagado com sucesso.",

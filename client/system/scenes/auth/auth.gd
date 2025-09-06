@@ -10,7 +10,7 @@ func _ready() -> void:
 	
 	Network.registry = [
 		[Packets.SIGN_IN, sign_in_ui.handle],
-		[Packets.SIGN_UP, sign_up_ui.handle]
+		[Packets.SIGN_UP, sign_up_ui.handle],
 	]
 	
 	Network.connect_to_host(Constants.host, Constants.port, Constants.secure)

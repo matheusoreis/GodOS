@@ -31,6 +31,7 @@ export async function handleActorList(
         const actors: Actor[] = await getAllActorsByAccountId(account.id);
 
         return sendSuccess(clientId, packet, {
+            maxActors: account.maxActors,
             actors: actors.map((actor) => ({
                 id: actor.id,
                 identifier: actor.identifier,

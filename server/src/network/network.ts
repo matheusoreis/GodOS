@@ -2,6 +2,8 @@ import { WebSocket, WebSocketServer, type RawData } from "ws";
 import { addClient, removeClient, type Client } from "../modules/client.js";
 import { info, warning } from "../shared/logger.js";
 import { handler } from "./handler.js";
+import { removeAccount } from "../modules/account.js";
+import { removeActor } from "../modules/actor.js";
 
 /**
  * Inicia o servidor WebSocket.
@@ -38,6 +40,9 @@ export function start(port: number) {
         // Evento disparado quando o cliente encerra a conexão
         ws.on("close", async () => {
             info(`Cliente ${client.id} deixou o servidor.`);
+
+            removeActor(client.id);
+            removeAccount(client.id);
             removeClient(client.id);
         });
     });

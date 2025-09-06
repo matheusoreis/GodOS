@@ -1,3 +1,4 @@
+import { getActor } from "../modules/actor.js";
 import { getAllClients, isConnected, type Client } from "../modules/client.js";
 import type { Packet } from "./handler.js";
 

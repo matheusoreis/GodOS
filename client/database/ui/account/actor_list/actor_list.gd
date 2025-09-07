@@ -26,27 +26,3 @@ func update_slots(max_actors: int, actors: Array) -> void:
 	for i in range(max_actors - actors.size()):
 		var slot: EmptySlotActorUi = empty_slot.instantiate()
 		slots_location.add_child(slot)
-
-
-func handle_list(data: Dictionary) -> void:
-	var error = data.get("success", false)
-	if error == false:
-		Alert.show(data.get("message", "Erro desconhecido ao fazer fazer o cadastro."))
-		return
-	
-	var max_actors = data.get("maxActors", null)
-	if max_actors == null:
-		Alert.show("Número máximo de personagens inválido.")
-		return
-
-	var actors = data.get("actors", null)
-	if actors == null:
-		Alert.show("Dados dos personagens não foram recebidos.")
-		return
-
-	update_slots(max_actors, actors)
-
-
-func handle_delete(data: Dictionary) -> void:
-	Network.send_packet(Packets.ACTOR_LIST, {})
-	Alert.show(data["message"])

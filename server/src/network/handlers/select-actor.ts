@@ -4,7 +4,7 @@ import { getAllActorsInMap, setActor } from "../../module/actor.js";
 import { getMapById } from "../../module/map.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
-import { sendTo, sendToMapBut } from "../sender.js";
+import { sendFailure, sendSuccess, sendToMapBut } from "../sender.js";
 
 export type SelectActorData = {
     actorId: number;
@@ -22,73 +22,61 @@ export async function handleSelectActor(
     data: SelectActorData,
 ): Promise<void> {
     const packetId = Packets.SelectActor;
-    const packetActorsToMeId = Packets.ActorsToMe;
-    const PacketMeToActorsId = Packets.MeToActors;
+    const packetMapDataId = Packets.MapData;
+    const packetMeToActorsId = Packets.MeToActors;
 
     try {
         const account = getAccount(clientId);
-        if (account === undefined) {
+        if (!account) {
             throw new SelectActorError("Usuário não está logado.");
         }
 
         const { actorId } = data;
-
         const actor = await readActorById(actorId);
-        if (actor === undefined) {
+        if (!actor) {
             throw new SelectActorError(
                 "Não foi possível encontrar o personagem.",
             );
         }
 
         const map = getMapById(actor.mapId);
-        if (map === undefined) {
+        if (!map) {
             throw new SelectActorError("Não foi possível encontrar o mapa.");
         }
 
         const actorsInMap = getAllActorsInMap(actor.mapId);
 
+        // define o ator selecionado na memória do runtime
         setActor(clientId, actor);
 
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: true,
-                map: { id: map.id, identifier: map.identifier, file: map.file },
-                actor: actor,
-            },
+        // pacote de confirmação da seleção
+        sendSuccess(
+            clientId,
+            packetId,
+            {},
+            `Acessando o jogo com o personagem ${actor.identifier}...`,
+        );
+
+        // pacote dos dados do mapa
+        sendSuccess(clientId, packetMapDataId, {
+            map: map,
+            actor: actor,
+            actors: actorsInMap,
+            npcs: [],
+            items: [],
         });
 
-        // Envia todos os outros actors do mapa para ele
-        sendTo(clientId, {
-            id: packetActorsToMeId,
-            data: actorsInMap,
-        });
-
-        // Anuncia ele para os outros
+        // anuncia o novo personagem para os outros personagens do mapa
         sendToMapBut(actor.mapId, clientId, {
-            id: PacketMeToActorsId,
+            id: packetMeToActorsId,
             data: actor,
         });
     } catch (err) {
         if (err instanceof SelectActorError) {
-            sendTo(clientId, {
-                id: packetId,
-                data: {
-                    success: false,
-                    message: err.message,
-                },
-            });
-
-            return;
+            return sendFailure(clientId, packetId, err.message);
         }
 
-        error(`Erro inesperado no deleteActor: ${err}`);
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: false,
-                message: "Erro interno no servidor.",
-            },
-        });
+        error(`Erro inesperado no selectActor: ${err}`);
+        sendFailure(clientId, packetId, "Erro interno no servidor.");
     }
 }

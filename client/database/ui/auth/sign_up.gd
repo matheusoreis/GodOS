@@ -61,22 +61,3 @@ func set_form_interactive(value: bool) -> void:
 
 	sign_in_button.disabled = !value
 	confirm_button.disabled = !value
-
-
-func handle(data: Dictionary) -> void:
-	set_form_interactive(true)
-
-	var error = data.get("success", false)
-	if error == false:
-		Alert.show(data.get("message", "Erro desconhecido ao fazer login."))
-		return
-	
-	var message = data.get("message", null)
-	if message == null:
-		Alert.show("Erro! Os dados da mensagem não foram recebidos.")
-		return
-
-	Alert.show(message)
-
-	hide()
-	sign_in_ui.show()

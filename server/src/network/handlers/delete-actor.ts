@@ -5,7 +5,7 @@ import {
 import { getAccount } from "../../module/account.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
-import { sendTo } from "../sender.js";
+import { sendFailure, sendSuccess } from "../sender.js";
 
 export type DeleteActorData = {
     actorId: number;
@@ -26,14 +26,14 @@ export async function handleDeleteActor(
 
     try {
         const account = getAccount(clientId);
-        if (account === undefined) {
+        if (!account) {
             throw new DeleteActorError("Usuário não está logado.");
         }
 
         const { actorId } = data;
 
         const actor = await readActorById(actorId);
-        if (actor === undefined) {
+        if (!actor) {
             throw new DeleteActorError("Personagem não encontrado.");
         }
 
@@ -45,33 +45,18 @@ export async function handleDeleteActor(
 
         await deleteActorById(account.id, actorId);
 
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: true,
-                message: `Personagem ${actor.identifier} apagado com sucesso!`,
-            },
-        });
+        sendSuccess(
+            clientId,
+            packetId,
+            {},
+            `Personagem ${actor.identifier} apagado com sucesso!`,
+        );
     } catch (err) {
         if (err instanceof DeleteActorError) {
-            sendTo(clientId, {
-                id: packetId,
-                data: {
-                    success: false,
-                    message: err.message,
-                },
-            });
-
-            return;
+            return sendFailure(clientId, packetId, err.message);
         }
 
         error(`Erro inesperado no deleteActor: ${err}`);
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: false,
-                message: "Erro interno no servidor.",
-            },
-        });
+        sendFailure(clientId, packetId, "Erro interno no servidor.");
     }
 }

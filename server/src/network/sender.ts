@@ -66,3 +66,26 @@ export function sendToMapBut(
         );
     }, packet);
 }
+
+export function sendSuccess(
+    clientId: number,
+    packetId: number,
+    data: object,
+    message?: string,
+) {
+    sendTo(clientId, {
+        id: packetId,
+        data: { success: true, message, ...data },
+    });
+}
+
+export function sendFailure(
+    clientId: number,
+    packetId: number,
+    message: string,
+) {
+    sendTo(clientId, {
+        id: packetId,
+        data: { success: false, message },
+    });
+}

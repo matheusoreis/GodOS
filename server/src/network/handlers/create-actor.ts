@@ -6,7 +6,7 @@ import { getAccount } from "../../module/account.js";
 import { error } from "../../shared/logger.js";
 import { validateUsername } from "../../shared/validation.js";
 import { Packets } from "../handler.js";
-import { sendTo } from "../sender.js";
+import { sendFailure, sendSuccess } from "../sender.js";
 
 export type CreateActorData = {
     identifier: string;
@@ -30,15 +30,15 @@ export async function handleCreateActor(
         const { identifier, sprite } = data;
 
         const account = getAccount(clientId);
-        if (account === undefined) {
+        if (!account) {
             throw new CreateActorError("Usuário não está logado.");
         }
 
-        if (validateUsername(identifier).isValid === false) {
+        if (!validateUsername(identifier).isValid) {
             throw new CreateActorError("Nome do personagem inválido.");
         }
 
-        if (sprite === undefined || sprite.trim() === "") {
+        if (!sprite || sprite.trim() === "") {
             throw new CreateActorError("Sprite inválido.");
         }
 
@@ -48,7 +48,7 @@ export async function handleCreateActor(
             account.id,
             lowerIdentifier,
         );
-        if (existing !== undefined) {
+        if (existing) {
             throw new CreateActorError("Nome de personagem já está em uso.");
         }
 
@@ -62,33 +62,18 @@ export async function handleCreateActor(
             mapId: Number(process.env.START_MAP ?? "1"),
         });
 
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: true,
-                message: `Personagem ${lowerIdentifier} criado com sucesso!`,
-            },
-        });
+        sendSuccess(
+            clientId,
+            packetId,
+            {},
+            `Personagem ${lowerIdentifier} criado com sucesso!`,
+        );
     } catch (err) {
         if (err instanceof CreateActorError) {
-            sendTo(clientId, {
-                id: packetId,
-                data: {
-                    success: false,
-                    message: err.message,
-                },
-            });
-
-            return;
+            return sendFailure(clientId, packetId, err.message);
         }
 
         error(`Erro inesperado no createActor: ${err}`);
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: false,
-                message: "Erro interno no servidor.",
-            },
-        });
+        sendFailure(clientId, packetId, "Erro interno no servidor.");
     }
 }

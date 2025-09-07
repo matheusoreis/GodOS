@@ -88,17 +88,3 @@ func set_form_interactive(value: bool) -> void:
 	confirm_button.disabled = !value
 
 	_update_sprite_display()
-
-
-func handle(data: Dictionary) -> void:
-	set_form_interactive(true)
-
-	if !data.get("success", false):
-		var message: String  = data.get("message", "Erro desconhecido ao fazer login.")
-		Alert.show(message)
-		return
-
-	Network.send_packet(Packets.ACTOR_LIST, {})
-
-	hide()
-	actor_list_ui.show()

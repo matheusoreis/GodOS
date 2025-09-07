@@ -8,7 +8,7 @@ import {
     validatePassword,
 } from "../../shared/validation.js";
 import { Packets } from "../handler.js";
-import { sendTo } from "../sender.js";
+import { sendFailure, sendSuccess } from "../sender.js";
 
 type SignIn = {
     identifier: string;
@@ -34,60 +34,42 @@ export async function handleSignIn(
     try {
         const { identifier, password, major, minor, revision } = data;
 
-        if (validateClientVersion(major, minor, revision).isValid === false) {
+        if (!validateClientVersion(major, minor, revision).isValid) {
             throw new SignInError("Versão do cliente inválida.");
         }
-
-        if (validateIdentifier(identifier).isValid === false) {
+        if (!validateIdentifier(identifier).isValid) {
             throw new SignInError("Identificador inválido.");
         }
-
-        if (validatePassword(password).isValid === false) {
+        if (!validatePassword(password).isValid) {
             throw new SignInError("Senha inválida.");
         }
 
-        const lowerIdentifier = identifier.toLowerCase();
-
-        const account = await readAccountByUsernameOrEmail(lowerIdentifier);
-        if (account === undefined) {
+        const account = await readAccountByUsernameOrEmail(
+            identifier.toLowerCase(),
+        );
+        if (!account) {
             throw new SignInError("Usuário ou e-mail não encontrado.");
         }
 
         const isPasswordValid = await compare(password, account.password);
-        if (isPasswordValid === false) {
+        if (!isPasswordValid) {
             throw new SignInError("A senha informada está incorreta.");
         }
 
         setAccount(clientId, account);
 
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: true,
-                message: `Bem-vindo ${account.username} ao ${process.env.SERVER_NAME}! Leia as regras!`,
-                account: account,
-            },
-        });
+        sendSuccess(
+            clientId,
+            packetId,
+            { account },
+            `Bem-vindo ${account.username} ao ${process.env.SERVER_NAME}! Leia as regras!`,
+        );
     } catch (err) {
         if (err instanceof SignInError) {
-            sendTo(clientId, {
-                id: packetId,
-                data: {
-                    success: false,
-                    message: err.message,
-                },
-            });
-
-            return;
+            return sendFailure(clientId, packetId, err.message);
         }
 
         error(`Erro inesperado no signIn: ${err}`);
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: false,
-                message: "Erro interno no servidor.",
-            },
-        });
+        sendFailure(clientId, packetId, "Erro interno no servidor.");
     }
 }

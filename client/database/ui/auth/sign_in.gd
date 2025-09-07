@@ -45,22 +45,3 @@ func set_form_interactive(value: bool) -> void:
 
 	sign_up_button.disabled = !value
 	confirm_button.disabled = !value
-
-
-func handle(data: Dictionary) -> void:
-	set_form_interactive(true)
-	
-	
-	var error = data.get("success", false)
-	if error == false:
-		Alert.show(data.get("message", "Erro desconhecido ao fazer fazer o cadastro."))
-		return
-
-	var message = data.get("message", null)
-	if message == null:
-		Alert.show("Erro! Os dados da mensagem não foram recebidos.")
-		return
-
-	Alert.show(message)
-
-	get_tree().change_scene_to_file("res://system/scenes/account/account.tscn")

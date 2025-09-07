@@ -9,7 +9,7 @@ import {
 } from "../../module/map.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
-import { sendTo, sendToMapBut } from "../sender.js";
+import { sendFailure, sendTo, sendToMapBut } from "../sender.js";
 
 export type MoveActorData = {
     directionX: number;
@@ -96,48 +96,34 @@ export async function handleMoveActor(
             );
         }
 
+        // notifica outros personagens do mapa
         sendToMapBut(moved.mapId, clientId, {
             id: packetId,
             data: {
                 actorId: moved.id,
                 positionX: newPositionX,
                 positionY: newPositionY,
-                directionX: directionX,
-                directionY: directionY,
+                directionX,
+                directionY,
             },
         });
     } catch (err) {
         if (err instanceof MoveActorContextError) {
-            sendTo(clientId, {
-                id: packetId,
-                data: {
-                    success: false,
-                    message: err.message,
-                },
-            });
-
-            return;
+            return sendFailure(clientId, packetId, err.message);
         }
 
         if (err instanceof MoveActorPositionError) {
-            sendTo(clientId, {
+            return sendTo(clientId, {
                 id: packetId,
                 data: {
                     success: false,
+                    message: err.message ?? "Movimento inválido",
                     lastValid: err.lastValid,
                 },
             });
-
-            return;
         }
 
         error(`Erro inesperado no moveActor: ${err}`);
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: false,
-                message: "Erro interno no servidor.",
-            },
-        });
+        sendFailure(clientId, packetId, "Erro interno no servidor.");
     }
 }

@@ -20,8 +20,6 @@ export enum Packets {
     CreateActor,
     DeleteActor,
     SelectActor,
-
-    ActorsToMe,
     MeToActors,
 
     MapData,

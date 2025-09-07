@@ -11,7 +11,7 @@ import {
     validateUsername,
 } from "../../shared/validation.js";
 import { Packets } from "../handler.js";
-import { sendTo } from "../sender.js";
+import { sendFailure, sendSuccess } from "../sender.js";
 
 type SignUp = {
     username: string;
@@ -35,15 +35,15 @@ export async function handleSignUp(
     try {
         const { username, email, password } = data;
 
-        if (validateUsername(username).isValid === false) {
+        if (!validateUsername(username).isValid) {
             throw new SignUpError("Nome de usuário inválido.");
         }
 
-        if (validateEmail(email).isValid === false) {
+        if (!validateEmail(email).isValid) {
             throw new SignUpError("E-mail inválido.");
         }
 
-        if (validatePassword(password).isValid === false) {
+        if (!validatePassword(password).isValid) {
             throw new SignUpError("Senha inválida.");
         }
 
@@ -54,7 +54,7 @@ export async function handleSignUp(
             (await readAccountByEmail(lowerEmail)) ??
             (await readAccountByUsername(lowerUsername));
 
-        if (existing !== undefined) {
+        if (existing) {
             throw new SignUpError(
                 "Este e-mail ou nome de usuário já está em uso.",
             );
@@ -68,31 +68,18 @@ export async function handleSignUp(
             password: hashedPassword,
         });
 
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: true,
-                message: `Seja bem vindo ${username}, sua conta foi criada com sucesso!`,
-            },
-        });
+        sendSuccess(
+            clientId,
+            packetId,
+            {},
+            `Seja bem-vindo ${username}, sua conta foi criada com sucesso!`,
+        );
     } catch (err) {
         if (err instanceof SignUpError) {
-            sendTo(clientId, {
-                id: packetId,
-                data: {
-                    success: false,
-                    message: err.message,
-                },
-            });
+            return sendFailure(clientId, packetId, err.message);
         }
 
         error(`Erro inesperado no signUp: ${err}`);
-        sendTo(clientId, {
-            id: packetId,
-            data: {
-                success: false,
-                message: "Erro interno no servidor.",
-            },
-        });
+        sendFailure(clientId, packetId, "Erro interno no servidor.");
     }
 }

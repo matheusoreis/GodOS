@@ -1,15 +1,12 @@
-import type { Account } from "../../database/services/account.js";
 import {
-    createActor as createActorInDb,
-    getActorByIdentifier,
-    type Actor,
+    createActor,
+    readActorByIdentifier,
 } from "../../database/services/actor.js";
 import { getAccount } from "../../module/account.js";
 import { error } from "../../shared/logger.js";
 import { validateUsername } from "../../shared/validation.js";
 import { Packets } from "../handler.js";
-import { sendError } from "./error.js";
-import { sendSuccess } from "./success.js";
+import { sendTo } from "../sender.js";
 
 export type CreateActorData = {
     identifier: string;
@@ -27,15 +24,15 @@ export async function handleCreateActor(
     clientId: number,
     data: CreateActorData,
 ): Promise<void> {
-    const packet: number = Packets.CreateActor;
+    const packetId: number = Packets.CreateActor;
 
     try {
-        const account: Account | undefined = getAccount(clientId);
+        const { identifier, sprite } = data;
+
+        const account = getAccount(clientId);
         if (account === undefined) {
             throw new CreateActorError("Usuário não está logado.");
         }
-
-        const { identifier, sprite } = data;
 
         if (validateUsername(identifier).isValid === false) {
             throw new CreateActorError("Nome do personagem inválido.");
@@ -47,7 +44,7 @@ export async function handleCreateActor(
 
         const lowerIdentifier = identifier.toLowerCase();
 
-        const existing: Actor | undefined = await getActorByIdentifier(
+        const existing = await readActorByIdentifier(
             account.id,
             lowerIdentifier,
         );
@@ -55,7 +52,7 @@ export async function handleCreateActor(
             throw new CreateActorError("Nome de personagem já está em uso.");
         }
 
-        await createActorInDb(account.id, {
+        await createActor(account.id, {
             identifier: lowerIdentifier,
             sprite,
             positionX: Number(process.env.START_MAP_X ?? "1"),
@@ -65,15 +62,31 @@ export async function handleCreateActor(
             mapId: Number(process.env.START_MAP ?? "1"),
         });
 
-        return sendSuccess(clientId, packet, {
-            message: "Personagem criado com sucesso!",
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: true,
+                message: `Personagem ${lowerIdentifier} criado com sucesso!`,
+            },
         });
     } catch (err) {
         if (err instanceof CreateActorError) {
-            return sendError(clientId, packet, err.message);
+            sendTo(clientId, {
+                id: packetId,
+                data: {
+                    success: false,
+                    message: err.message,
+                },
+            });
         }
 
         error(`Erro inesperado no createActor: ${err}`);
-        return sendError(clientId, packet, "Erro interno no servidor.");
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: false,
+                message: "Erro interno no servidor.",
+            },
+        });
     }
 }

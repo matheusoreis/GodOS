@@ -24,7 +24,10 @@ export enum Packets {
     ActorsToMe,
     MeToActors,
 
+    MapData,
+
     MoveActor,
+    WarpActor,
 
     Disconnect,
 }

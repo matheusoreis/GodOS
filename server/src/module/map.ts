@@ -48,23 +48,54 @@ export function patchMapById(
     return updated;
 }
 
-export function getTileMap(
-    map: Map,
-    x: number,
-    y: number,
-): TileMap | undefined {
-    const layer = map.layers["ground"] ?? [];
-    return layer.find((t) => t.x === x && t.y === y);
+export function getTileAt(map: Map, x: number, y: number): TileMap[] {
+    const tiles: TileMap[] = [];
+
+    for (const layer of Object.values(map.layers)) {
+        const found = layer.find((t) => t.x === x && t.y === y);
+        if (found) {
+            tiles.push(found);
+        }
+    }
+
+    return tiles;
 }
 
 export function isTileMapBlocked(map: Map, x: number, y: number): boolean {
-    const tile = getTileMap(map, x, y);
-    return tile?.data.block === true;
+    const tiles = getTileAt(map, x, y);
+    return tiles.some((tile) => tile.data.block === true);
+}
+
+export function getMapBounds(map: Map) {
+    let first = true;
+    let minX = 0,
+        minY = 0,
+        maxX = 0,
+        maxY = 0;
+
+    for (const layer of Object.values(map.layers)) {
+        for (const tile of layer) {
+            if (first) {
+                minX = maxX = tile.x;
+                minY = maxY = tile.y;
+                first = false;
+            } else {
+                minX = Math.min(minX, tile.x);
+                minY = Math.min(minY, tile.y);
+                maxX = Math.max(maxX, tile.x);
+                maxY = Math.max(maxY, tile.y);
+            }
+        }
+    }
+
+    if (first) {
+        return { minX: 0, minY: 0, maxX: 0, maxY: 0 };
+    }
+
+    return { minX, minY, maxX, maxY };
 }
 
 export function isInsideMapBounds(map: Map, x: number, y: number): boolean {
-    const layer = map.layers["ground"] ?? [];
-    const maxX = Math.max(...layer.map((t) => t.x));
-    const maxY = Math.max(...layer.map((t) => t.y));
-    return x >= 0 && y >= 0 && x <= maxX && y <= maxY;
+    const { minX, minY, maxX, maxY } = getMapBounds(map);
+    return x >= minX && y >= minY && x <= maxX && y <= maxY;
 }

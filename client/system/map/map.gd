@@ -196,3 +196,28 @@ func move_entity(entity: Entity, direction: Vector2i) -> Vector2:
 
 	entity.map_position = new_grid_pos
 	return grid_to_world(new_grid_pos)
+
+
+func get_entity_by_id(entity_id: int) -> Entity:
+	if not spawn_location.has_node(str(entity_id)):
+		return null
+	return spawn_location.get_node(str(entity_id)) as Entity
+
+
+func remove_entity_by_id(entity_id: int) -> void:
+	var entity := get_entity_by_id(entity_id)
+	if entity == null:
+		return
+
+	var grid_pos = entity.map_position
+	var adjusted_x = grid_pos.x - map_bounds.position.x
+	var adjusted_y = grid_pos.y - map_bounds.position.y
+
+	if _is_within_bounds(adjusted_x, adjusted_y):
+		ocuped_tiles[adjusted_x][adjusted_y] = null
+
+	entity.queue_free()
+
+
+func remove_entity(entity: Entity) -> void:
+	remove_entity_by_id(int(entity.name))

@@ -80,6 +80,7 @@ export async function handleMoveActor(
         }
 
         if (isTileMapBlocked(map, newPositionX, newPositionY)) {
+            console.log("movimento inválido");
             throw new MoveActorPositionError("Tile bloqueado.", actor);
         }
 

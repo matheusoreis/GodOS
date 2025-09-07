@@ -20,9 +20,9 @@ export enum Packets {
     CreateActor,
     DeleteActor,
     SelectActor,
-    MeToActors,
 
     MapData,
+    MeToActors,
 
     MoveActor,
     WarpActor,

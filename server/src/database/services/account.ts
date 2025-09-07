@@ -23,19 +23,19 @@ export type UpdateAccount = {
     password?: string;
 };
 
-export async function getAccountById(
+export async function readAccountById(
     accountId: number,
 ): Promise<Account | undefined> {
     return await sqlite<Account>("accounts").where({ id: accountId }).first();
 }
 
-export async function getAllAccounts(): Promise<Account[]> {
+export async function readAllAccounts(): Promise<Account[]> {
     return await sqlite<Account>("accounts")
         .select("*")
         .orderBy("createdAt", "desc");
 }
 
-export async function getAccountByEmail(
+export async function readAccountByEmail(
     email: string,
 ): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
@@ -44,7 +44,7 @@ export async function getAccountByEmail(
         .first();
 }
 
-export async function getAccountByUsername(
+export async function readAccountByUsername(
     username: string,
 ): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
@@ -53,7 +53,7 @@ export async function getAccountByUsername(
         .first();
 }
 
-export async function getAccountByUsernameOrEmail(
+export async function readAccountByUsernameOrEmail(
     identifier: string,
 ): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
@@ -74,7 +74,7 @@ export async function createAccount(data: CreateAccount): Promise<void> {
     });
 }
 
-export async function updateAccount(
+export async function updateAccountById(
     accountId: number,
     data: UpdateAccount,
 ): Promise<void> {

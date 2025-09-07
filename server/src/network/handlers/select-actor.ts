@@ -1,13 +1,10 @@
-import type { Account } from "../../database/services/account.js";
-import { getActorById, type Actor } from "../../database/services/actor.js";
-import type { Map } from "../../database/services/map.js";
-import { getAccount } from "../../modules/account.js";
-import { addActor, getAllActorsInMap } from "../../modules/actor.js";
-import { getMap } from "../../modules/map.js";
+import { readActorById } from "../../database/services/actor.js";
+import { getAccount } from "../../module/account.js";
+import { getAllActorsInMap, setActor } from "../../module/actor.js";
+import { getMapById } from "../../module/map.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
 import { sendTo, sendToMapBut } from "../sender.js";
-import { sendError } from "./error.js";
 
 export type SelectActorData = {
     actorId: number;
@@ -24,37 +21,38 @@ export async function handleSelectActor(
     clientId: number,
     data: SelectActorData,
 ): Promise<void> {
-    const packetSelectActor = Packets.SelectActor;
-    const packetActorsToMe = Packets.ActorsToMe;
-    const PacketMeToActors = Packets.MeToActors;
+    const packetId = Packets.SelectActor;
+    const packetActorsToMeId = Packets.ActorsToMe;
+    const PacketMeToActorsId = Packets.MeToActors;
 
     try {
-        const account: Account | undefined = getAccount(clientId);
+        const account = getAccount(clientId);
         if (account === undefined) {
             throw new SelectActorError("Usuário não está logado.");
         }
 
         const { actorId } = data;
 
-        const actor: Actor | undefined = await getActorById(actorId);
+        const actor = await readActorById(actorId);
         if (actor === undefined) {
             throw new SelectActorError(
                 "Não foi possível encontrar o personagem.",
             );
         }
 
-        const map: Map | undefined = getMap(actor.mapId);
+        const map = getMapById(actor.mapId);
         if (map === undefined) {
             throw new SelectActorError("Não foi possível encontrar o mapa.");
         }
 
         const actorsInMap = getAllActorsInMap(actor.mapId);
 
-        addActor(clientId, actor);
+        setActor(clientId, actor);
 
         sendTo(clientId, {
-            id: packetSelectActor,
+            id: packetId,
             data: {
+                success: true,
                 map: { id: map.id, identifier: map.identifier, file: map.file },
                 actor: actor,
             },
@@ -62,25 +60,35 @@ export async function handleSelectActor(
 
         // Envia todos os outros actors do mapa para ele
         sendTo(clientId, {
-            id: packetActorsToMe,
+            id: packetActorsToMeId,
             data: actorsInMap,
         });
 
         // Anuncia ele para os outros
         sendToMapBut(actor.mapId, clientId, {
-            id: PacketMeToActors,
+            id: PacketMeToActorsId,
             data: actor,
         });
     } catch (err) {
         if (err instanceof SelectActorError) {
-            return sendError(clientId, packetSelectActor, err.message);
+            sendTo(clientId, {
+                id: packetId,
+                data: {
+                    success: false,
+                    message: err.message,
+                },
+            });
+
+            return;
         }
 
-        error(`Erro inesperado no SelectActor: ${err}`);
-        return sendError(
-            clientId,
-            packetSelectActor,
-            "Erro interno no servidor.",
-        );
+        error(`Erro inesperado no deleteActor: ${err}`);
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: false,
+                message: "Erro interno no servidor.",
+            },
+        });
     }
 }

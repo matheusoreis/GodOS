@@ -1,9 +1,9 @@
 import { WebSocket, WebSocketServer, type RawData } from "ws";
-import { addClient, removeClient, type Client } from "../modules/client.js";
+import { setClient, removeClient, type Client } from "../module/client.js";
 import { info, warning } from "../shared/logger.js";
 import { handler } from "./handler.js";
-import { removeAccount } from "../modules/account.js";
-import { removeActor } from "../modules/actor.js";
+import { removeAccount } from "../module/account.js";
+import { removeActor } from "../module/actor.js";
 
 /**
  * Inicia o servidor WebSocket.
@@ -16,7 +16,7 @@ export function start(port: number) {
     // Evento disparado quando um cliente se conecta
     wss.on("connection", (ws: WebSocket) => {
         // Adiciona um novo cliente no servidor e obtem o id do mesmo.
-        const client: Client | undefined = addClient(ws);
+        const client: Client | undefined = setClient(ws);
         if (client === undefined) {
             warning("O servidor está cheio!");
             return ws.close();

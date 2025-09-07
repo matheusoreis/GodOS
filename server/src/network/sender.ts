@@ -1,5 +1,9 @@
-import { getActor } from "../modules/actor.js";
-import { getAllClients, isConnected, type Client } from "../modules/client.js";
+import { getActor } from "../module/actor.js";
+import {
+    getAllClients,
+    isClientConnected,
+    type Client,
+} from "../module/client.js";
 import type { Packet } from "./handler.js";
 
 type ClientFilter = (client: Client) => boolean;
@@ -17,7 +21,7 @@ function _send(filter: ClientFilter, packet: Packet): void {
             continue;
         }
 
-        if (!isConnected(client.id)) {
+        if (!isClientConnected(client.id)) {
             continue;
         }
 

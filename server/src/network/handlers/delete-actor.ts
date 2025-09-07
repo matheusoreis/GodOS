@@ -1,14 +1,11 @@
-import type { Account } from "../../database/services/account.js";
 import {
-    deleteActor,
-    getActorById,
-    type Actor,
+    deleteActorById,
+    readActorById,
 } from "../../database/services/actor.js";
-import { getAccount } from "../../modules/account.js";
+import { getAccount } from "../../module/account.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
-import { sendError } from "./error.js";
-import { sendSuccess } from "./success.js";
+import { sendTo } from "../sender.js";
 
 export type DeleteActorData = {
     actorId: number;
@@ -25,17 +22,17 @@ export async function handleDeleteActor(
     clientId: number,
     data: DeleteActorData,
 ): Promise<void> {
-    const packet: number = Packets.DeleteActor;
+    const packetId: number = Packets.DeleteActor;
 
     try {
-        const account: Account | undefined = getAccount(clientId);
+        const account = getAccount(clientId);
         if (account === undefined) {
             throw new DeleteActorError("Usuário não está logado.");
         }
 
         const { actorId } = data;
 
-        const actor: Actor | undefined = await getActorById(actorId);
+        const actor = await readActorById(actorId);
         if (actor === undefined) {
             throw new DeleteActorError("Personagem não encontrado.");
         }
@@ -46,17 +43,35 @@ export async function handleDeleteActor(
             );
         }
 
-        await deleteActor(account.id, actorId);
+        await deleteActorById(account.id, actorId);
 
-        return sendSuccess(clientId, packet, {
-            message: "Personagem apagado com sucesso.",
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: true,
+                message: `Personagem ${actor.identifier} apagado com sucesso!`,
+            },
         });
     } catch (err) {
         if (err instanceof DeleteActorError) {
-            return sendError(clientId, packet, err.message);
+            sendTo(clientId, {
+                id: packetId,
+                data: {
+                    success: false,
+                    message: err.message,
+                },
+            });
+
+            return;
         }
 
         error(`Erro inesperado no deleteActor: ${err}`);
-        return sendError(clientId, packet, "Erro interno no servidor.");
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: false,
+                message: "Erro interno no servidor.",
+            },
+        });
     }
 }

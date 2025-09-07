@@ -1,5 +1,4 @@
 import sqlite from "../connectors/sqlite.js";
-import { getAccountById } from "./account.js";
 
 export type Actor = {
     id: number;
@@ -34,38 +33,28 @@ export type UpdateActor = {
     mapId?: number;
 };
 
-export async function getActorById(
+export async function readActorById(
     actorId: number,
 ): Promise<Actor | undefined> {
     return await sqlite<Actor>("actors").where({ id: actorId }).first();
 }
 
-export async function getAllActors(): Promise<Actor[]> {
+export async function readAllActors(): Promise<Actor[]> {
     return await sqlite<Actor>("actors")
         .select("*")
         .orderBy("createdAt", "desc");
 }
 
-export async function getAllActorsByAccountId(
+export async function readAllActorsByAccountId(
     accountId: number,
 ): Promise<Actor[]> {
-    const account = await getAccountById(accountId);
-    if (!account) {
-        throw new Error("Conta não encontrada");
-    }
-
     return await sqlite<Actor>("actors").where({ accountId }).select("*");
 }
 
-export async function getActorByIdentifier(
+export async function readActorByIdentifier(
     accountId: number,
     identifier: string,
 ): Promise<Actor | undefined> {
-    const account = await getAccountById(accountId);
-    if (!account) {
-        throw new Error("Conta não encontrada");
-    }
-
     return await sqlite<Actor>("actors")
         .where({ identifier, accountId })
         .first();
@@ -75,11 +64,6 @@ export async function createActor(
     accountId: number,
     data: CreateActor,
 ): Promise<void> {
-    const account = await getAccountById(accountId);
-    if (!account) {
-        throw new Error("Conta não encontrada");
-    }
-
     await sqlite<Actor>("actors").insert({
         ...data,
         accountId,
@@ -88,16 +72,11 @@ export async function createActor(
     });
 }
 
-export async function updateActor(
+export async function updateActorById(
     accountId: number,
     actorId: number,
     data: UpdateActor,
 ): Promise<void> {
-    const account = await getAccountById(accountId);
-    if (!account) {
-        throw new Error("Conta não encontrada");
-    }
-
     await sqlite<Actor>("actors")
         .where({ id: actorId, accountId })
         .update({
@@ -106,16 +85,9 @@ export async function updateActor(
         });
 }
 
-export async function deleteActor(
+export async function deleteActorById(
     accountId: number,
     actorId: number,
 ): Promise<void> {
-    const account = await getAccountById(accountId);
-    if (!account) {
-        throw new Error("Conta não encontrada");
-    }
-
     await sqlite<Actor>("actors").where({ id: actorId, accountId }).delete();
 }
-
-export const actorDatabase = {};

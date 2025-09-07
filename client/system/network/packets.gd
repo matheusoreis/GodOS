@@ -15,7 +15,10 @@ enum {
 	ACTORS_TO_ME,
 	ME_TO_ACTORS,
 	
+	MAP_DATA,
+	
 	MOVE_ACTOR,
+	WARP_ACTOR,
 	
 	DISCONNECT,
 }

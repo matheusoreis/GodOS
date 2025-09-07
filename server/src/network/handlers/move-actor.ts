@@ -4,23 +4,44 @@ import { getAccount } from "../../module/account.js";
 import { getActor, patchActor } from "../../module/actor.js";
 import {
     getMapById,
-    isTileMapBlocked,
     isInsideMapBounds,
+    isTileMapBlocked,
 } from "../../module/map.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
-import { sendToMapBut } from "../sender.js";
-import { sendError } from "./error.js";
+import { sendTo, sendToMapBut } from "../sender.js";
 
 export type MoveActorData = {
     directionX: number;
     directionY: number;
 };
 
-export class MoveActorError extends Error {
+export class MoveActorContextError extends Error {
     constructor(message: string) {
         super(message);
-        this.name = "MoveActorError";
+        this.name = "MoveActorContextError";
+    }
+}
+
+export class MoveActorPositionError extends Error {
+    lastValid: {
+        actorId: number;
+        positionX: number;
+        positionY: number;
+        directionX: number;
+        directionY: number;
+    };
+
+    constructor(message: string, actor: Actor) {
+        super(message);
+        this.name = "MoveActorPositionError";
+        this.lastValid = {
+            actorId: actor.id,
+            positionX: actor.positionX,
+            positionY: actor.positionY,
+            directionX: actor.directionX,
+            directionY: actor.directionY,
+        };
     }
 }
 
@@ -28,49 +49,55 @@ export async function handleMoveActor(
     clientId: number,
     data: MoveActorData,
 ): Promise<void> {
-    const packet: number = Packets.MoveActor;
+    const packetId: number = Packets.MoveActor;
 
     try {
+        const { directionX, directionY } = data;
+
         const account: Account | undefined = getAccount(clientId);
         if (!account) {
-            throw new MoveActorError("Usuário não está logado.");
+            throw new MoveActorContextError("Usuário não está logado.");
         }
 
         const actor = getActor(clientId);
         if (!actor) {
-            throw new MoveActorError("Personagem não encontrado.");
+            throw new MoveActorContextError("Personagem não encontrado.");
         }
 
         const map = getMapById(actor.mapId);
         if (!map) {
-            throw new MoveActorError("Mapa não encontrado.");
+            throw new MoveActorContextError("Mapa não encontrado.");
         }
-
-        const { directionX, directionY } = data;
 
         const newPositionX = actor.positionX + directionX;
         const newPositionY = actor.positionY + directionY;
 
-        // if (isInsideBounds(map, newPositionX, newPositionY) === false) {
-        //     throw new MoveActorError("Fora dos limites do mapa.");
-        // }
-
-        if (isTileMapBlocked(map, newPositionX, newPositionY)) {
-            throw new MoveActorError("Tile bloqueada.");
+        if (!isInsideMapBounds(map, newPositionX, newPositionY)) {
+            throw new MoveActorPositionError(
+                "Fora dos limites do mapa.",
+                actor,
+            );
         }
 
-        const moved: Actor | undefined = patchActor(clientId, {
+        if (isTileMapBlocked(map, newPositionX, newPositionY)) {
+            throw new MoveActorPositionError("Tile bloqueado.", actor);
+        }
+
+        const moved = patchActor(clientId, {
             positionX: newPositionX,
             positionY: newPositionY,
-            directionX: directionX,
-            directionY: directionY,
+            directionX,
+            directionY,
         });
-        if (moved === undefined) {
-            throw new MoveActorError("Erro ao atualizar posição.");
+        if (!moved) {
+            throw new MoveActorPositionError(
+                "Erro ao atualizar posição.",
+                actor,
+            );
         }
 
         sendToMapBut(moved.mapId, clientId, {
-            id: packet,
+            id: packetId,
             data: {
                 actorId: moved.id,
                 positionX: newPositionX,
@@ -80,11 +107,37 @@ export async function handleMoveActor(
             },
         });
     } catch (err) {
-        if (err instanceof MoveActorError) {
-            return sendError(clientId, packet, err.message);
+        if (err instanceof MoveActorContextError) {
+            sendTo(clientId, {
+                id: packetId,
+                data: {
+                    success: false,
+                    message: err.message,
+                },
+            });
+
+            return;
         }
 
-        error(`Erro inesperado no handleMoveActor: ${err}`);
-        return sendError(clientId, packet, "Erro interno no servidor.");
+        if (err instanceof MoveActorPositionError) {
+            sendTo(clientId, {
+                id: packetId,
+                data: {
+                    success: false,
+                    lastValid: err.lastValid,
+                },
+            });
+
+            return;
+        }
+
+        error(`Erro inesperado no moveActor: ${err}`);
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: false,
+                message: "Erro interno no servidor.",
+            },
+        });
     }
 }

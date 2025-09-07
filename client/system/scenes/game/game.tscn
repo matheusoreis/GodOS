@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://csseo0na21fc2"]
+[gd_scene load_steps=3 format=3 uid="uid://csseo0na21fc2"]
 
-[node name="Game" type="Node2D"]
+[ext_resource type="Script" uid="uid://dab4r7or6gak4" path="res://system/scenes/game/game.gd" id="1_g6v5q"]
+[ext_resource type="Script" uid="uid://c17msvflby1f6" path="res://system/scenes/game/spawner.gd" id="2_prdbc"]
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("actor_spawner")]
+script = ExtResource("1_g6v5q")
+actor_spawner = NodePath("ActorSpawner")
+
+[node name="ActorSpawner" type="Node" parent="."]
+script = ExtResource("2_prdbc")

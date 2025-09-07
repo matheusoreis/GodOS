@@ -13,6 +13,7 @@ export type TileMap = {
 export type Map = {
     id: number;
     identifier: string;
+    file: string;
     layers: Record<string, TileMap[]>;
     createdAt: Date;
     updatedAt: Date;

@@ -14,4 +14,8 @@ enum {
 	
 	ACTORS_TO_ME,
 	ME_TO_ACTORS,
+	
+	MOVE_ACTOR,
+	
+	DISCONNECT,
 }

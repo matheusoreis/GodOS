@@ -14,12 +14,18 @@ signal movement_finished
 
 @export_group("Nodes")
 @export var sprite: Sprite2D
+@export var camera: Camera2D
 @export var current_map: Map = null
 
 
 var is_moving: bool = false
 var current_direction: Vector2 = Vector2.ZERO
 var target_position: Vector2 = Vector2.ZERO
+
+
+func _ready() -> void:
+	if not controllable:
+		camera.enabled = false
 
 
 func _process(delta: float) -> void:
@@ -52,3 +58,9 @@ func move_to(direction: Vector2) -> void:
 		is_moving = true
 		current_direction = direction
 		target_position = new_world_position
+		
+		if controllable:
+			Network.send_packet(Packets.MOVE_ACTOR, {
+				"directionX": direction.x,
+				"directionY": direction.y
+			})

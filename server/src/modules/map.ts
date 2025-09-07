@@ -1,4 +1,8 @@
-import { mapDatabase, type Map } from "../database/services/map.js";
+import {
+    mapDatabase,
+    type Map,
+    type TileMap,
+} from "../database/services/map.js";
 import { info } from "../shared/logger.js";
 import { hasPlayersInMap } from "./actor.js";
 
@@ -40,6 +44,23 @@ export function updateMap(mapId: number, data: Partial<Map>): Map | undefined {
 
     maps.set(mapId, updated);
     return updated;
+}
+
+export function getTile(map: Map, x: number, y: number): TileMap | undefined {
+    const layer = map.layers["ground"] ?? [];
+    return layer.find((t) => t.x === x && t.y === y);
+}
+
+export function isBlocked(map: Map, x: number, y: number): boolean {
+    const tile = getTile(map, x, y);
+    return tile?.data.block === true;
+}
+
+export function isInsideBounds(map: Map, x: number, y: number): boolean {
+    const layer = map.layers["ground"] ?? [];
+    const maxX = Math.max(...layer.map((t) => t.x));
+    const maxY = Math.max(...layer.map((t) => t.y));
+    return x >= 0 && y >= 0 && x <= maxX && y <= maxY;
 }
 
 export function mapLoop() {

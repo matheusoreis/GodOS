@@ -8,6 +8,7 @@ import { handleActorList } from "./packets/actor-list.js";
 import { handleCreateActor } from "./packets/create-actor.js";
 import { handleDeleteActor } from "./packets/delete-actor.js";
 import { handleSelectActor } from "./packets/select-actor.js";
+import { handleMoveActor } from "./packets/move-actor.js";
 
 export enum Packets {
     Ping,
@@ -22,6 +23,8 @@ export enum Packets {
 
     ActorsToMe,
     MeToActors,
+
+    MoveActor,
 
     Disconnect,
 }
@@ -41,6 +44,7 @@ const handlers: Record<number, PacketHandler> = {
     [Packets.CreateActor]: handleCreateActor,
     [Packets.DeleteActor]: handleDeleteActor,
     [Packets.SelectActor]: handleSelectActor,
+    [Packets.MoveActor]: handleMoveActor,
 };
 
 /**

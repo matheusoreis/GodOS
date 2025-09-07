@@ -85,7 +85,6 @@ func _handle_packet(json_string: String) -> void:
 		return
 
 	var packet_id = packet_data.id as int
-	print(packet_id)
 
 	if !_registry.has(packet_id):
 		logger.emit('Nenhum handler registrado para o pacote: %s' % packet_id)
@@ -94,6 +93,4 @@ func _handle_packet(json_string: String) -> void:
 	var handler = _registry[packet_id] as Callable
 	var data = packet_data.get("data", {})
 	
-	print(data)
-
 	handler.call(data)

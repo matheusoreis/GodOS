@@ -1,4 +1,5 @@
 import type { Actor } from "../database/services/actor.js";
+import { getMap, isBlocked, isInsideBounds } from "./map.js";
 
 const actors = new Map<number, Actor>();
 
@@ -48,4 +49,37 @@ export function updateActor(
 
     actors.set(clientId, updated);
     return updated;
+}
+
+export function moveActor(
+    clientId: number,
+    direction: { x: number; y: number },
+): Actor | undefined {
+    const actor = actors.get(clientId);
+    if (!actor) {
+        return undefined;
+    }
+
+    const map = getMap(actor.mapId);
+    if (!map) {
+        return undefined;
+    }
+
+    const newX = actor.positionX + direction.x;
+    const newY = actor.positionY + direction.y;
+
+    if (!isInsideBounds(map, newX, newY)) {
+        return undefined;
+    }
+
+    if (isBlocked(map, newX, newY)) {
+        return undefined;
+    }
+
+    return updateActor(clientId, {
+        positionX: newX,
+        positionY: newY,
+        directionX: direction.x,
+        directionY: direction.y,
+    });
 }

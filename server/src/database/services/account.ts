@@ -23,37 +23,31 @@ export type UpdateAccount = {
     password?: string;
 };
 
-export async function getAccountById(
-    accountId: number,
-): Promise<Account | undefined> {
+async function getById(accountId: number): Promise<Account | undefined> {
     return await sqlite<Account>("accounts").where({ id: accountId }).first();
 }
 
-export async function getAllAccounts(): Promise<Account[]> {
+async function getAll(): Promise<Account[]> {
     return await sqlite<Account>("accounts")
         .select("*")
         .orderBy("createdAt", "desc");
 }
 
-export async function getAccountByEmail(
-    email: string,
-): Promise<Account | undefined> {
+async function getByEmail(email: string): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
         .select("*")
         .where("email", email)
         .first();
 }
 
-export async function getAccountByUsername(
-    username: string,
-): Promise<Account | undefined> {
+async function getByUsername(username: string): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
         .select("*")
         .where("username", username)
         .first();
 }
 
-export async function getAccountByUsernameOrEmail(
+async function getByUsernameOrEmail(
     identifier: string,
 ): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
@@ -62,7 +56,7 @@ export async function getAccountByUsernameOrEmail(
         .first();
 }
 
-export async function createAccount(data: CreateAccount): Promise<void> {
+async function create(data: CreateAccount): Promise<void> {
     const { username, email, password } = data;
 
     await sqlite<Account>("accounts").insert({
@@ -74,7 +68,7 @@ export async function createAccount(data: CreateAccount): Promise<void> {
     });
 }
 
-export async function updateAccount(
+async function updateById(
     accountId: number,
     data: UpdateAccount,
 ): Promise<void> {
@@ -91,3 +85,13 @@ export async function updateAccount(
 
     await sqlite<Account>("accounts").where({ id: accountId }).update(updates);
 }
+
+export const accountDatabase = {
+    getById,
+    getAll,
+    getByEmail,
+    getByUsername,
+    getByUsernameOrEmail,
+    create,
+    updateById,
+};

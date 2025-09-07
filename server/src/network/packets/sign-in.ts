@@ -1,5 +1,4 @@
 import { compare } from "bcrypt";
-import { getAccountByUsernameOrEmail } from "../../database/services/account.js";
 import { addAccount } from "../../modules/account.js";
 import { error } from "../../shared/logger.js";
 import {
@@ -49,10 +48,15 @@ export async function handleSignIn(
 
         const lowerIdentifier = identifier.toLowerCase();
 
-        const account = await getAccountByUsernameOrEmail(lowerIdentifier);
-        if (account === undefined) {
-            throw new SignInError("Usuário ou e-mail não encontrado.");
+        const account = await getAccountById(accountId);
+        if (!account) {
+            throw new Error("Conta não encontrada");
         }
+
+        // const account = await getByUsernameOrEmail(lowerIdentifier);
+        // if (account === undefined) {
+        //     throw new SignInError("Usuário ou e-mail não encontrado.");
+        // }
 
         const isPasswordValid = await compare(password, account.password);
         if (isPasswordValid === false) {

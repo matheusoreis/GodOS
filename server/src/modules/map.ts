@@ -4,7 +4,6 @@ import {
     type TileMap,
 } from "../database/services/map.js";
 import { info } from "../shared/logger.js";
-import { hasPlayersInMap } from "./actor.js";
 
 const maps = new Map<number, Map>();
 
@@ -61,12 +60,4 @@ export function isInsideBounds(map: Map, x: number, y: number): boolean {
     const maxX = Math.max(...layer.map((t) => t.x));
     const maxY = Math.max(...layer.map((t) => t.y));
     return x >= 0 && y >= 0 && x <= maxX && y <= maxY;
-}
-
-export function mapLoop() {
-    for (const map of getAllMaps()) {
-        if (hasPlayersInMap(map.id) === false) {
-            continue;
-        }
-    }
 }

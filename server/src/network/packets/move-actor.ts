@@ -1,6 +1,8 @@
 import type { Account } from "../../database/services/account.js";
+import type { Actor } from "../../database/services/actor.js";
 import { getAccount } from "../../modules/account.js";
-import { getActor, moveActor } from "../../modules/actor.js";
+import { getActor, updateActor } from "../../modules/actor.js";
+import { getMap, isBlocked, isInsideBounds } from "../../modules/map.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
 import { sendToMapBut } from "../sender.js";
@@ -24,8 +26,6 @@ export async function handleMoveActor(
 ): Promise<void> {
     const packet: number = Packets.MoveActor;
 
-    console.log(data);
-
     try {
         const account: Account | undefined = getAccount(clientId);
         if (!account) {
@@ -37,29 +37,42 @@ export async function handleMoveActor(
             throw new MoveActorError("Personagem não encontrado.");
         }
 
-        const direction = { x: data.directionX, y: data.directionY };
-
-        const moved = moveActor(clientId, direction);
-        if (!moved) {
-            throw new MoveActorError("Movimento inválido.");
+        const map = getMap(actor.mapId);
+        if (!map) {
+            throw new MoveActorError("Mapa não encontrado.");
         }
 
-        // sendSuccess(clientId, packet, {
-        //     actorId: moved.id,
-        //     positionX: moved.positionX,
-        //     positionY: moved.positionY,
-        //     directionX: moved.directionX,
-        //     directionY: moved.directionY,
-        // });
+        const { directionX, directionY } = data;
+
+        const newPositionX = actor.positionX + directionX;
+        const newPositionY = actor.positionY + directionY;
+
+        // if (isInsideBounds(map, newPositionX, newPositionY) === false) {
+        //     throw new MoveActorError("Fora dos limites do mapa.");
+        // }
+
+        if (isBlocked(map, newPositionX, newPositionY)) {
+            throw new MoveActorError("Tile bloqueada.");
+        }
+
+        const moved: Actor | undefined = updateActor(clientId, {
+            positionX: newPositionX,
+            positionY: newPositionY,
+            directionX: directionX,
+            directionY: directionY,
+        });
+        if (moved === undefined) {
+            throw new MoveActorError("Erro ao atualizar posição.");
+        }
 
         sendToMapBut(moved.mapId, clientId, {
             id: packet,
             data: {
                 actorId: moved.id,
-                positionX: moved.positionX,
-                positionY: moved.positionY,
-                directionX: moved.directionX,
-                directionY: moved.directionY,
+                positionX: newPositionX,
+                positionY: newPositionY,
+                directionX: directionX,
+                directionY: directionY,
             },
         });
     } catch (err) {

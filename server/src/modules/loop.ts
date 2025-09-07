@@ -1,6 +1,11 @@
-import { mapLoop } from "./map.js";
+import { hasPlayersInMap } from "./actor.js";
+import { getAllMaps } from "./map.js";
 
 let tickCount = 0;
+
+export function startLoop() {
+    setInterval(gameLoop, 1000 / 60);
+}
 
 function gameLoop() {
     tickCount++;
@@ -27,6 +32,10 @@ function gameLoop() {
     }
 }
 
-export function startLoop() {
-    setInterval(gameLoop, 1000 / 60);
+export function mapLoop() {
+    for (const map of getAllMaps()) {
+        if (hasPlayersInMap(map.id) === false) {
+            continue;
+        }
+    }
 }

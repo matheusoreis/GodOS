@@ -1,8 +1,8 @@
 import { hash } from "bcrypt";
 import {
     createAccount,
-    getAccountByEmail,
-    getAccountByUsername,
+    readAccountByEmail,
+    readAccountByUsername,
 } from "../../database/services/account.js";
 import { error } from "../../shared/logger.js";
 import {
@@ -11,8 +11,7 @@ import {
     validateUsername,
 } from "../../shared/validation.js";
 import { Packets } from "../handler.js";
-import { sendError } from "./error.js";
-import { sendSuccess } from "./success.js";
+import { sendTo } from "../sender.js";
 
 type SignUp = {
     username: string;
@@ -31,7 +30,7 @@ export async function handleSignUp(
     clientId: number,
     data: SignUp,
 ): Promise<void> {
-    const packet: number = Packets.SignUp;
+    const packetId: number = Packets.SignUp;
 
     try {
         const { username, email, password } = data;
@@ -52,8 +51,8 @@ export async function handleSignUp(
         const lowerEmail = email.toLowerCase();
 
         const existing =
-            (await getAccountByEmail(lowerEmail)) ??
-            (await getAccountByUsername(lowerUsername));
+            (await readAccountByEmail(lowerEmail)) ??
+            (await readAccountByUsername(lowerUsername));
 
         if (existing !== undefined) {
             throw new SignUpError(
@@ -69,15 +68,31 @@ export async function handleSignUp(
             password: hashedPassword,
         });
 
-        return sendSuccess(clientId, packet, {
-            message: "Conta criada com sucesso!",
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: true,
+                message: `Seja bem vindo ${username}, sua conta foi criada com sucesso!`,
+            },
         });
     } catch (err) {
         if (err instanceof SignUpError) {
-            return sendError(clientId, packet, err.message);
+            sendTo(clientId, {
+                id: packetId,
+                data: {
+                    success: false,
+                    message: err.message,
+                },
+            });
         }
 
         error(`Erro inesperado no signUp: ${err}`);
-        return sendError(clientId, packet, "Erro interno do servidor.");
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: false,
+                message: "Erro interno no servidor.",
+            },
+        });
     }
 }

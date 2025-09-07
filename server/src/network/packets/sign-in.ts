@@ -1,4 +1,5 @@
 import { compare } from "bcrypt";
+import { readAccountByUsernameOrEmail } from "../../database/services/account.js";
 import { setAccount } from "../../module/account.js";
 import { error } from "../../shared/logger.js";
 import {
@@ -7,6 +8,7 @@ import {
     validatePassword,
 } from "../../shared/validation.js";
 import { Packets } from "../handler.js";
+import { sendTo } from "../sender.js";
 
 type SignIn = {
     identifier: string;
@@ -27,7 +29,7 @@ export async function handleSignIn(
     clientId: number,
     data: SignIn,
 ): Promise<void> {
-    const packet: number = Packets.SignIn;
+    const packetId: number = Packets.SignIn;
 
     try {
         const { identifier, password, major, minor, revision } = data;
@@ -46,8 +48,7 @@ export async function handleSignIn(
 
         const lowerIdentifier = identifier.toLowerCase();
 
-        const account =
-            await accountDatabase.getByUsernameOrEmail(lowerIdentifier);
+        const account = await readAccountByUsernameOrEmail(lowerIdentifier);
         if (account === undefined) {
             throw new SignInError("Usuário ou e-mail não encontrado.");
         }
@@ -59,15 +60,32 @@ export async function handleSignIn(
 
         setAccount(clientId, account);
 
-        return sendSuccess(clientId, packet, {
-            message: `Bem-vindo ${account.username} ao ${process.env.SERVER_NAME}! Leia as regras!`,
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: true,
+                message: `Bem-vindo ${account.username} ao ${process.env.SERVER_NAME}! Leia as regras!`,
+                account: account,
+            },
         });
     } catch (err) {
         if (err instanceof SignInError) {
-            return sendError(clientId, packet, err.message);
+            sendTo(clientId, {
+                id: packetId,
+                data: {
+                    success: false,
+                    message: err.message,
+                },
+            });
         }
 
         error(`Erro inesperado no signIn: ${err}`);
-        return sendError(clientId, packet, "Erro interno no servidor.");
+        sendTo(clientId, {
+            id: packetId,
+            data: {
+                success: false,
+                message: "Erro interno no servidor.",
+            },
+        });
     }
 }

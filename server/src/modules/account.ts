@@ -2,7 +2,7 @@ import type { Account } from "../database/services/account.js";
 
 const accounts = new Map<number, Account>();
 
-export function addAccount(clientId: number, account: Account): void {
+export function setAccount(clientId: number, account: Account): void {
     accounts.set(clientId, account);
 }
 
@@ -18,7 +18,7 @@ export function removeAccount(clientId: number): void {
     accounts.delete(clientId);
 }
 
-export function updateAccount(
+export function patchAccount(
     clientId: number,
     data: Partial<Account>,
 ): Account | undefined {

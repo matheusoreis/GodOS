@@ -1,14 +1,6 @@
-import sqlite from "../connectors/sqlite.js";
 import fs from "fs/promises";
 import path from "path";
-
-export type TileMap = {
-    data: {
-        block: boolean;
-    };
-    x: number;
-    y: number;
-};
+import sqlite from "../connectors/sqlite.js";
 
 export type Map = {
     id: number;
@@ -17,6 +9,14 @@ export type Map = {
     layers: Record<string, TileMap[]>;
     createdAt: Date;
     updatedAt: Date;
+};
+
+export type TileMap = {
+    data: {
+        block: boolean;
+    };
+    x: number;
+    y: number;
 };
 
 export type CreateMap = {
@@ -37,7 +37,7 @@ async function loadLayers(file: string): Promise<Record<string, TileMap[]>> {
     return JSON.parse(content) as Record<string, TileMap[]>;
 }
 
-async function getById(mapId: number): Promise<Map | undefined> {
+export async function readMapById(mapId: number): Promise<Map | undefined> {
     const row = await sqlite<any>("maps").where({ id: mapId }).first();
     if (!row) {
         {
@@ -49,7 +49,7 @@ async function getById(mapId: number): Promise<Map | undefined> {
     return { ...row, layers } as Map;
 }
 
-async function getAll(): Promise<Map[]> {
+export async function readAllMaps(): Promise<Map[]> {
     const rows = await sqlite<any>("maps")
         .select("*")
         .orderBy("createdAt", "desc");
@@ -63,7 +63,9 @@ async function getAll(): Promise<Map[]> {
     return result;
 }
 
-async function getByIdentifier(identifier: string): Promise<Map | undefined> {
+export async function readMapByIdentifier(
+    identifier: string,
+): Promise<Map | undefined> {
     const row = await sqlite<any>("maps").where({ identifier }).first();
     if (!row) {
         return undefined;
@@ -73,7 +75,7 @@ async function getByIdentifier(identifier: string): Promise<Map | undefined> {
     return { ...row, layers } as Map;
 }
 
-async function create(data: CreateMap): Promise<void> {
+export async function createMap(data: CreateMap): Promise<void> {
     await sqlite("maps").insert({
         ...data,
         createdAt: new Date(),
@@ -81,7 +83,10 @@ async function create(data: CreateMap): Promise<void> {
     });
 }
 
-async function update(mapId: number, data: UpdateMap): Promise<void> {
+export async function updateMapById(
+    mapId: number,
+    data: UpdateMap,
+): Promise<void> {
     await sqlite("maps")
         .where({ id: mapId })
         .update({
@@ -90,15 +95,6 @@ async function update(mapId: number, data: UpdateMap): Promise<void> {
         });
 }
 
-async function deleteById(mapId: number): Promise<void> {
+export async function deleteMapById(mapId: number): Promise<void> {
     await sqlite("maps").where({ id: mapId }).delete();
 }
-
-export const mapDatabase = {
-    getById,
-    getAll,
-    getByIdentifier,
-    create,
-    update,
-    deleteById,
-};

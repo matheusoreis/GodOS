@@ -33,21 +33,25 @@ export type UpdateActor = {
     mapId?: number;
 };
 
-async function getById(actorId: number): Promise<Actor | undefined> {
+export async function readActorById(
+    actorId: number,
+): Promise<Actor | undefined> {
     return await sqlite<Actor>("actors").where({ id: actorId }).first();
 }
 
-async function getAll(): Promise<Actor[]> {
+export async function readAllActors(): Promise<Actor[]> {
     return await sqlite<Actor>("actors")
         .select("*")
         .orderBy("createdAt", "desc");
 }
 
-async function getAllByAccountId(accountId: number): Promise<Actor[]> {
+export async function readAllActorsByAccountId(
+    accountId: number,
+): Promise<Actor[]> {
     return await sqlite<Actor>("actors").where({ accountId }).select("*");
 }
 
-async function getByIdentifier(
+export async function readActorByIdentifier(
     accountId: number,
     identifier: string,
 ): Promise<Actor | undefined> {
@@ -56,7 +60,10 @@ async function getByIdentifier(
         .first();
 }
 
-async function create(accountId: number, data: CreateActor): Promise<void> {
+export async function createActor(
+    accountId: number,
+    data: CreateActor,
+): Promise<void> {
     await sqlite<Actor>("actors").insert({
         ...data,
         accountId,
@@ -65,7 +72,7 @@ async function create(accountId: number, data: CreateActor): Promise<void> {
     });
 }
 
-async function updateById(
+export async function updateActorById(
     accountId: number,
     actorId: number,
     data: UpdateActor,
@@ -78,16 +85,9 @@ async function updateById(
         });
 }
 
-async function deleteById(accountId: number, actorId: number): Promise<void> {
+export async function deleteActorById(
+    accountId: number,
+    actorId: number,
+): Promise<void> {
     await sqlite<Actor>("actors").where({ id: actorId, accountId }).delete();
 }
-
-export const actorDatabase = {
-    getById,
-    getAll,
-    getAllByAccountId,
-    getByIdentifier,
-    create,
-    updateById,
-    deleteById,
-};

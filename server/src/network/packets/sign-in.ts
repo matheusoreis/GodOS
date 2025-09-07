@@ -1,5 +1,5 @@
 import { compare } from "bcrypt";
-import { addAccount } from "../../modules/account.js";
+import { setAccount } from "../../modules/account.js";
 import { error } from "../../shared/logger.js";
 import {
     validateClientVersion,
@@ -9,6 +9,7 @@ import {
 import { Packets } from "../handler.js";
 import { sendError } from "./error.js";
 import { sendSuccess } from "./success.js";
+import { accountDatabase } from "../../database/services/account.js";
 
 type SignIn = {
     identifier: string;
@@ -48,22 +49,18 @@ export async function handleSignIn(
 
         const lowerIdentifier = identifier.toLowerCase();
 
-        const account = await getAccountById(accountId);
-        if (!account) {
-            throw new Error("Conta não encontrada");
+        const account =
+            await accountDatabase.getByUsernameOrEmail(lowerIdentifier);
+        if (account === undefined) {
+            throw new SignInError("Usuário ou e-mail não encontrado.");
         }
-
-        // const account = await getByUsernameOrEmail(lowerIdentifier);
-        // if (account === undefined) {
-        //     throw new SignInError("Usuário ou e-mail não encontrado.");
-        // }
 
         const isPasswordValid = await compare(password, account.password);
         if (isPasswordValid === false) {
             throw new SignInError("A senha informada está incorreta.");
         }
 
-        addAccount(clientId, account);
+        setAccount(clientId, account);
 
         return sendSuccess(clientId, packet, {
             message: `Bem-vindo ${account.username} ao ${process.env.SERVER_NAME}! Leia as regras!`,

@@ -9,7 +9,7 @@ export const clients: Array<Client | undefined> = Array(
     Number(process.env.CAPACITY ?? 0),
 ).fill(undefined);
 
-export function addClient(socket: WebSocket): Client | undefined {
+export function setClient(socket: WebSocket): Client | undefined {
     const id = clients.findIndex((c) => c === undefined);
     if (id === -1) {
         return undefined;
@@ -41,13 +41,13 @@ export function removeClient(clientId: number): void {
     }
 }
 
-export function isConnected(clientId: number): boolean {
+export function isClientConnected(clientId: number): boolean {
     const client = getClient(clientId);
     return client !== undefined && client.socket.readyState === WebSocket.OPEN;
 }
 
 export function disconnectClient(id: number): void {
-    if (isConnected(id) === false) {
+    if (isClientConnected(id) === false) {
         return;
     }
 

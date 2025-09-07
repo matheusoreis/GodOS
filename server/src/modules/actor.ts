@@ -2,7 +2,7 @@ import type { Actor } from "../database/services/actor.js";
 
 const actors = new Map<number, Actor>();
 
-export function addActor(clientId: number, actor: Actor): void {
+export function setActor(clientId: number, actor: Actor): void {
     actors.set(clientId, actor);
 }
 
@@ -18,7 +18,7 @@ export function getAllActorsInMap(mapId: number): Actor[] {
     return Array.from(actors.values()).filter((actor) => actor.mapId === mapId);
 }
 
-export function hasPlayersInMap(mapId: number): boolean {
+export function hasActorsInMap(mapId: number): boolean {
     return getAllActorsInMap(mapId).length > 0;
 }
 
@@ -33,7 +33,7 @@ export function removeActor(clientId: number): void {
     // });
 }
 
-export function updateActor(
+export function patchActor(
     clientId: number,
     data: Partial<Actor>,
 ): Actor | undefined {

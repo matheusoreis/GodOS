@@ -1,5 +1,5 @@
 import {
-    mapDatabase,
+    readAllMaps,
     type Map,
     type TileMap,
 } from "../database/services/map.js";
@@ -8,18 +8,18 @@ import { info } from "../shared/logger.js";
 const maps = new Map<number, Map>();
 
 export async function loadMaps() {
-    const allMaps: Map[] = await mapDatabase.getAll();
+    const allMaps: Map[] = await readAllMaps();
     for (const map of allMaps) {
         info(`Mapa ${map.identifier} carregado com sucesso!`);
-        addMap(map);
+        setMap(map);
     }
 }
 
-export function addMap(map: Map): void {
+export function setMap(map: Map): void {
     maps.set(map.id, map);
 }
 
-export function getMap(mapId: number): Map | undefined {
+export function getMapById(mapId: number): Map | undefined {
     return maps.get(mapId);
 }
 
@@ -31,7 +31,10 @@ export function removeMap(mapId: number): void {
     maps.delete(mapId);
 }
 
-export function updateMap(mapId: number, data: Partial<Map>): Map | undefined {
+export function patchMapById(
+    mapId: number,
+    data: Partial<Map>,
+): Map | undefined {
     const existing = maps.get(mapId);
     if (!existing) return undefined;
 
@@ -45,17 +48,21 @@ export function updateMap(mapId: number, data: Partial<Map>): Map | undefined {
     return updated;
 }
 
-export function getTile(map: Map, x: number, y: number): TileMap | undefined {
+export function getTileMap(
+    map: Map,
+    x: number,
+    y: number,
+): TileMap | undefined {
     const layer = map.layers["ground"] ?? [];
     return layer.find((t) => t.x === x && t.y === y);
 }
 
-export function isBlocked(map: Map, x: number, y: number): boolean {
-    const tile = getTile(map, x, y);
+export function isTileMapBlocked(map: Map, x: number, y: number): boolean {
+    const tile = getTileMap(map, x, y);
     return tile?.data.block === true;
 }
 
-export function isInsideBounds(map: Map, x: number, y: number): boolean {
+export function isInsideMapBounds(map: Map, x: number, y: number): boolean {
     const layer = map.layers["ground"] ?? [];
     const maxX = Math.max(...layer.map((t) => t.x));
     const maxY = Math.max(...layer.map((t) => t.y));

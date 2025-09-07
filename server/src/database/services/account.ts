@@ -23,31 +23,37 @@ export type UpdateAccount = {
     password?: string;
 };
 
-async function getById(accountId: number): Promise<Account | undefined> {
+export async function readAccountById(
+    accountId: number,
+): Promise<Account | undefined> {
     return await sqlite<Account>("accounts").where({ id: accountId }).first();
 }
 
-async function getAll(): Promise<Account[]> {
+export async function readAllAccounts(): Promise<Account[]> {
     return await sqlite<Account>("accounts")
         .select("*")
         .orderBy("createdAt", "desc");
 }
 
-async function getByEmail(email: string): Promise<Account | undefined> {
+export async function readAccountByEmail(
+    email: string,
+): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
         .select("*")
         .where("email", email)
         .first();
 }
 
-async function getByUsername(username: string): Promise<Account | undefined> {
+export async function readAccountByUsername(
+    username: string,
+): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
         .select("*")
         .where("username", username)
         .first();
 }
 
-async function getByUsernameOrEmail(
+export async function readAccountByUsernameOrEmail(
     identifier: string,
 ): Promise<Account | undefined> {
     return await sqlite<Account>("accounts")
@@ -56,7 +62,7 @@ async function getByUsernameOrEmail(
         .first();
 }
 
-async function create(data: CreateAccount): Promise<void> {
+export async function createAccount(data: CreateAccount): Promise<void> {
     const { username, email, password } = data;
 
     await sqlite<Account>("accounts").insert({
@@ -68,7 +74,7 @@ async function create(data: CreateAccount): Promise<void> {
     });
 }
 
-async function updateById(
+export async function updateAccountById(
     accountId: number,
     data: UpdateAccount,
 ): Promise<void> {
@@ -85,13 +91,3 @@ async function updateById(
 
     await sqlite<Account>("accounts").where({ id: accountId }).update(updates);
 }
-
-export const accountDatabase = {
-    getById,
-    getAll,
-    getByEmail,
-    getByUsername,
-    getByUsernameOrEmail,
-    create,
-    updateById,
-};

@@ -1,8 +1,12 @@
 import type { Account } from "../../database/services/account.js";
 import type { Actor } from "../../database/services/actor.js";
 import { getAccount } from "../../modules/account.js";
-import { getActor, updateActor } from "../../modules/actor.js";
-import { getMap, isBlocked, isInsideBounds } from "../../modules/map.js";
+import { getActor, patchActor } from "../../modules/actor.js";
+import {
+    getMapById,
+    isTileMapBlocked,
+    isInsideMapBounds,
+} from "../../modules/map.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
 import { sendToMapBut } from "../sender.js";
@@ -37,7 +41,7 @@ export async function handleMoveActor(
             throw new MoveActorError("Personagem não encontrado.");
         }
 
-        const map = getMap(actor.mapId);
+        const map = getMapById(actor.mapId);
         if (!map) {
             throw new MoveActorError("Mapa não encontrado.");
         }
@@ -51,11 +55,11 @@ export async function handleMoveActor(
         //     throw new MoveActorError("Fora dos limites do mapa.");
         // }
 
-        if (isBlocked(map, newPositionX, newPositionY)) {
+        if (isTileMapBlocked(map, newPositionX, newPositionY)) {
             throw new MoveActorError("Tile bloqueada.");
         }
 
-        const moved: Actor | undefined = updateActor(clientId, {
+        const moved: Actor | undefined = patchActor(clientId, {
             positionX: newPositionX,
             positionY: newPositionY,
             directionX: directionX,

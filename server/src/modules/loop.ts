@@ -1,4 +1,4 @@
-import { hasPlayersInMap } from "./actor.js";
+import { hasActorsInMap } from "./actor.js";
 import { getAllMaps } from "./map.js";
 
 let tickCount = 0;
@@ -34,7 +34,7 @@ function gameLoop() {
 
 export function mapLoop() {
     for (const map of getAllMaps()) {
-        if (hasPlayersInMap(map.id) === false) {
+        if (hasActorsInMap(map.id) === false) {
             continue;
         }
     }

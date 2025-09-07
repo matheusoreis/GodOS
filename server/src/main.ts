@@ -1,4 +1,4 @@
-import { startLoop } from "./modules/loop.js";
+import { startLoop } from "./loop.js";
 import { loadMaps } from "./modules/map.js";
 import { start } from "./network/network.js";
 import { error, info, warning } from "./shared/logger.js";

@@ -1,12 +1,12 @@
 import type { Account } from "../../database/services/account.js";
 import type { Actor } from "../../database/services/actor.js";
-import { getAccount } from "../../modules/account.js";
-import { getActor, patchActor } from "../../modules/actor.js";
+import { getAccount } from "../../module/account.js";
+import { getActor, patchActor } from "../../module/actor.js";
 import {
     getMapById,
     isTileMapBlocked,
     isInsideMapBounds,
-} from "../../modules/map.js";
+} from "../../module/map.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
 import { sendToMapBut } from "../sender.js";

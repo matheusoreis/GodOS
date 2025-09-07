@@ -3,7 +3,7 @@ import {
     getAllActorsByAccountId,
     type Actor,
 } from "../../database/services/actor.js";
-import { getAccount } from "../../modules/account.js";
+import { getAccount } from "../../module/account.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
 import { sendError } from "./error.js";

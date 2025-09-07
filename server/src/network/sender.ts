@@ -1,9 +1,9 @@
-import { getActor } from "../modules/actor.js";
+import { getActor } from "../module/actor.js";
 import {
     getAllClients,
     isClientConnected,
     type Client,
-} from "../modules/client.js";
+} from "../module/client.js";
 import type { Packet } from "./handler.js";
 
 type ClientFilter = (client: Client) => boolean;

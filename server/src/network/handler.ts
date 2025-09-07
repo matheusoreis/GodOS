@@ -1,5 +1,5 @@
 import type { RawData } from "ws";
-import { disconnectClient, isClientConnected } from "../modules/client.js";
+import { disconnectClient, isClientConnected } from "../module/client.js";
 import { error, warning } from "../shared/logger.js";
 import { handlePing } from "./packets/ping.js";
 import { handleSignIn } from "./packets/sign-in.js";

@@ -1,9 +1,9 @@
 import type { Account } from "../../database/services/account.js";
 import { getActorById, type Actor } from "../../database/services/actor.js";
 import type { Map } from "../../database/services/map.js";
-import { getAccount } from "../../modules/account.js";
-import { setActor, getAllActorsInMap } from "../../modules/actor.js";
-import { getMapById } from "../../modules/map.js";
+import { getAccount } from "../../module/account.js";
+import { setActor, getAllActorsInMap } from "../../module/actor.js";
+import { getMapById } from "../../module/map.js";
 import { error } from "../../shared/logger.js";
 import { Packets } from "../handler.js";
 import { sendTo, sendToMapBut } from "../sender.js";

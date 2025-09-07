@@ -1,11 +1,11 @@
-import { hasActorsInMap } from "./modules/actor.js";
-import { getAllMaps } from "./modules/map.js";
-import { timesPerSecond } from "./shared/time.js";
+import { hasActorsInMap } from "./module/actor.js";
+import { getAllMaps } from "./module/map.js";
+import { TICKS_PER_SECOND, timesPerSecond } from "./shared/time.js";
 
 let tickCount = 0;
 
 export function startLoop() {
-    setInterval(gameLoop, 1000 / 60);
+    setInterval(gameLoop, 1000 / TICKS_PER_SECOND);
 }
 
 function gameLoop() {

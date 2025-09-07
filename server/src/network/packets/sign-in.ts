@@ -1,5 +1,5 @@
 import { compare } from "bcrypt";
-import { setAccount } from "../../modules/account.js";
+import { setAccount } from "../../module/account.js";
 import { error } from "../../shared/logger.js";
 import {
     validateClientVersion,
@@ -7,9 +7,6 @@ import {
     validatePassword,
 } from "../../shared/validation.js";
 import { Packets } from "../handler.js";
-import { sendError } from "./error.js";
-import { sendSuccess } from "./success.js";
-import { accountDatabase } from "../../database/services/account.js";
 
 type SignIn = {
     identifier: string;

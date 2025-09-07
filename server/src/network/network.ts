@@ -1,9 +1,9 @@
 import { WebSocket, WebSocketServer, type RawData } from "ws";
-import { setClient, removeClient, type Client } from "../modules/client.js";
+import { setClient, removeClient, type Client } from "../module/client.js";
 import { info, warning } from "../shared/logger.js";
 import { handler } from "./handler.js";
-import { removeAccount } from "../modules/account.js";
-import { removeActor } from "../modules/actor.js";
+import { removeAccount } from "../module/account.js";
+import { removeActor } from "../module/actor.js";
 
 /**
  * Inicia o servidor WebSocket.

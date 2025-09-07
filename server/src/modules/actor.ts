@@ -1,4 +1,6 @@
 import type { Actor } from "../database/services/actor.js";
+import { Packets } from "../network/handler.js";
+import { sendToMapBut } from "../network/sender.js";
 
 const actors = new Map<number, Actor>();
 
@@ -23,14 +25,19 @@ export function hasActorsInMap(mapId: number): boolean {
 }
 
 export function removeActor(clientId: number): void {
-    actors.delete(clientId);
+    var actor: Actor | undefined = getActor(clientId);
+    if (actor === undefined) {
+        return;
+    }
 
-    // sendToAllBut(clientId, {
-    //     id: Packets.Disconnect,
-    //     data: {
-    //         clientId: clientId,
-    //     },
-    // });
+    sendToMapBut(actor.mapId, clientId, {
+        id: Packets.Disconnect,
+        data: {
+            actorId: actor.id,
+        },
+    });
+
+    actors.delete(clientId);
 }
 
 export function patchActor(

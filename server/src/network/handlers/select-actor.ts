@@ -78,6 +78,8 @@ export async function handleSelectActor(
                     message: err.message,
                 },
             });
+
+            return;
         }
 
         error(`Erro inesperado no deleteActor: ${err}`);

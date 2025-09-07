@@ -61,6 +61,8 @@ export async function handleDeleteActor(
                     message: err.message,
                 },
             });
+
+            return;
         }
 
         error(`Erro inesperado no deleteActor: ${err}`);

@@ -45,6 +45,8 @@ export async function handleActorList(
                     message: err.message,
                 },
             });
+
+            return;
         }
 
         error(`Erro inesperado no actorList: ${err}`);

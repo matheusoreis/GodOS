@@ -77,6 +77,8 @@ export async function handleSignIn(
                     message: err.message,
                 },
             });
+
+            return;
         }
 
         error(`Erro inesperado no signIn: ${err}`);

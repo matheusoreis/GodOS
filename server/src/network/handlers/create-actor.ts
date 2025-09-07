@@ -78,6 +78,8 @@ export async function handleCreateActor(
                     message: err.message,
                 },
             });
+
+            return;
         }
 
         error(`Erro inesperado no createActor: ${err}`);

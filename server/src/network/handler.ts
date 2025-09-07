@@ -1,14 +1,16 @@
 import type { RawData } from "ws";
 import { disconnectClient, isClientConnected } from "../module/client.js";
 import { error, warning } from "../shared/logger.js";
-import { handlePing } from "./packets/ping.js";
-import { handleSignIn } from "./packets/sign-in.js";
-import { handleSignUp } from "./packets/sign-up.js";
-import { handleActorList } from "./packets/actor-list.js";
-import { handleCreateActor } from "./packets/create-actor.js";
-import { handleDeleteActor } from "./packets/delete-actor.js";
-import { handleSelectActor } from "./packets/select-actor.js";
-import { handleMoveActor } from "./packets/move-actor.js";
+import { handlePing } from "./handlers/ping.js";
+import { handleSignIn } from "./handlers/sign-in.js";
+import { handleSignUp } from "./handlers/sign-up.js";
+import { handleActorList } from "./handlers/actor-list.js";
+import { handleCreateActor } from "./handlers/create-actor.js";
+import { handleDeleteActor } from "./handlers/delete-actor.js";
+import { handleSelectActor } from "./handlers/select-actor.js";
+import { handleMoveActor } from "./handlers/move-actor.js";
+import { handleMapData } from "./handlers/map-data.js";
+import { handleWarpActor } from "./handlers/warp-actor.js";
 
 export enum Packets {
     Ping,
@@ -47,7 +49,9 @@ const handlers: Record<number, PacketHandler> = {
     [Packets.CreateActor]: handleCreateActor,
     [Packets.DeleteActor]: handleDeleteActor,
     [Packets.SelectActor]: handleSelectActor,
+    [Packets.MapData]: handleMapData,
     [Packets.MoveActor]: handleMoveActor,
+    [Packets.WarpActor]: handleWarpActor,
 };
 
 /**

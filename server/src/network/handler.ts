@@ -10,7 +10,6 @@ import { handleDeleteActor } from "./handlers/delete-actor.js";
 import { handleSelectActor } from "./handlers/select-actor.js";
 import { handleMoveActor } from "./handlers/move-actor.js";
 import { handleMapData } from "./handlers/map-data.js";
-import { handleWarpActor } from "./handlers/warp-actor.js";
 
 export enum Packets {
     Ping,
@@ -51,7 +50,6 @@ const handlers: Record<number, PacketHandler> = {
     [Packets.SelectActor]: handleSelectActor,
     [Packets.MapData]: handleMapData,
     [Packets.MoveActor]: handleMoveActor,
-    [Packets.WarpActor]: handleWarpActor,
 };
 
 /**

@@ -1,11 +1,11 @@
 import { Packets } from "../handler.js";
 import { sendTo } from "../sender.js";
 
-export async function handlePing(id: number, _: any): Promise<void> {
-    const packet: number = Packets.Ping;
+export async function handlePing(clientId: number, _: any): Promise<void> {
+    const packetId: number = Packets.Ping;
 
-    sendTo(id, {
-        id: packet,
+    sendTo(clientId, {
+        id: packetId,
         data: {},
     });
 }

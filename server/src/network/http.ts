@@ -1,17 +1,25 @@
-import { compare } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import express from "express";
 import { createServer } from "http";
 import jwt from "jsonwebtoken";
-import { readAccountByUsernameOrEmail } from "../database/services/account.js";
+import {
+    createAccount,
+    readAccountByEmail,
+    readAccountByUsername,
+    readAccountByUsernameOrEmail,
+} from "../database/services/account.js";
 import {
     validateClientVersion,
+    validateEmail,
     validateIdentifier,
     validatePassword,
+    validateUsername,
 } from "../shared/validation.js";
+
+const JWT_SECRET = process.env.JWT_SECRET ?? "";
 
 export function startHttpServer() {
     const app = express();
-
     app.use(express.json());
 
     app.post("/sign-in", async (req, res) => {
@@ -48,7 +56,7 @@ export function startHttpServer() {
 
             const token = jwt.sign(
                 { accountId: account.id, username: account.username },
-                process.env.JWT_SECRET ?? "",
+                JWT_SECRET,
                 { expiresIn: "1h" },
             );
 
@@ -61,8 +69,51 @@ export function startHttpServer() {
         }
     });
 
-    app.post("/sign-up", (req, res) => {});
+    app.post("/sign-up", async (req, res) => {
+        try {
+            const { username, email, password } = req.body;
+
+            if (!validateUsername(username).isValid) {
+                return res
+                    .status(400)
+                    .json({ error: "Nome de usuário inválido." });
+            }
+            if (!validateEmail(email).isValid) {
+                return res.status(400).json({ error: "E-mail inválido." });
+            }
+            if (!validatePassword(password).isValid) {
+                return res.status(400).json({ error: "Senha inválida." });
+            }
+
+            const lowerUsername = username.toLowerCase();
+            const lowerEmail = email.toLowerCase();
+
+            const existing =
+                (await readAccountByEmail(lowerEmail)) ??
+                (await readAccountByUsername(lowerUsername));
+
+            if (existing) {
+                return res.status(409).json({
+                    error: "Este e-mail ou nome de usuário já está em uso.",
+                });
+            }
+
+            const hashedPassword = await hash(password, 10);
+
+            await createAccount({
+                username: lowerUsername,
+                email: lowerEmail,
+                password: hashedPassword,
+            });
+
+            return res.status(201).json({
+                message: `Seja bem-vindo ${username}, sua conta foi criada com sucesso!`,
+            });
+        } catch (err) {
+            return res.status(500).json({ error: "Erro interno no servidor." });
+        }
+    });
 
     const server = createServer(app);
-    return server;
+    return { app, server };
 }

@@ -16,9 +16,18 @@ async function main() {
         startLoop();
 
         info("Iniciando o servidor HTTP...");
-        const server = startHttpServer();
+        const { app, server } = startHttpServer();
         server.listen(port, () => {
             info(`Servidor HTTP ouvindo na porta ${port}`);
+
+            app.router.stack.forEach(function (r: any) {
+                if (r.route && r.route.path) {
+                    const methods = Object.keys(r.route.methods)
+                        .map((m) => m.toUpperCase())
+                        .join(", ");
+                    info(`Rota HTTP registrada: [${methods}] ${r.route.path}`);
+                }
+            });
         });
 
         info("Iniciando servidor WebSocket...");

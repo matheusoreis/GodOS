@@ -1,6 +1,7 @@
-import type { Actor } from "../database/services/actor.js";
+import { updateActorById, type Actor } from "../database/services/actor.js";
 import { Packets } from "../network/handler.js";
 import { sendToMapBut } from "../network/sender.js";
+import { getAccount } from "./account.js";
 
 const actors = new Map<number, Actor>();
 
@@ -24,9 +25,14 @@ export function hasActorsInMap(mapId: number): boolean {
     return getAllActorsInMap(mapId).length > 0;
 }
 
-export function removeActor(clientId: number): void {
-    var actor: Actor | undefined = getActor(clientId);
+export async function removeActor(clientId: number): Promise<void> {
+    var actor = getActor(clientId);
     if (actor === undefined) {
+        return;
+    }
+
+    var account = getAccount(clientId);
+    if (account === undefined) {
         return;
     }
 
@@ -35,6 +41,14 @@ export function removeActor(clientId: number): void {
         data: {
             actorId: actor.id,
         },
+    });
+
+    await updateActorById(account.id, actor.id, {
+        positionX: actor.positionX,
+        positionY: actor.positionY,
+        directionX: actor.directionX,
+        directionY: actor.directionY,
+        mapId: actor.mapId,
     });
 
     actors.delete(clientId);

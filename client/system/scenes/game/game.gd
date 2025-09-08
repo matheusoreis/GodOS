@@ -78,7 +78,10 @@ func _handle_map_data(data: Dictionary) -> void:
 		return
 	
 	var map = data.get("map")
+	
 	var actor = data.get("actor")
+	Globals.actor = actor
+	
 	var actors = data.get("actors", [])
 	#var npcs = data.get("npcs", [])
 	#var items = data.get("items", [])

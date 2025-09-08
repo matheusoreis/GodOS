@@ -41,7 +41,7 @@ export function start(port: number) {
         ws.on("close", async () => {
             info(`Cliente ${client.id} deixou o servidor.`);
 
-            removeActor(client.id);
+            await removeActor(client.id);
             removeAccount(client.id);
             removeClient(client.id);
         });

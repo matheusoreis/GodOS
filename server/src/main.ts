@@ -9,16 +9,18 @@ async function main() {
         const port = Number(process.env.PORT ?? 7001);
         const capacity = Number(process.env.CAPACITY ?? 0);
 
-        info("Carregando dados do jogo...");
+        info("Carregando dados do banco de dados...");
         await loadMaps();
+        info("Dados do banco de dados carregados com sucesso!");
 
         info("Iniciando o loop...");
         startLoop();
+        info("Loop iniciado com sucesso!");
 
         info("Iniciando o servidor HTTP...");
         const { app, server } = startHttpServer();
         server.listen(port, () => {
-            info(`Servidor HTTP ouvindo na porta ${port}`);
+            info(`Servidor HTTP iniciado na porta ${port}`);
 
             app.router.stack.forEach(function (r: any) {
                 if (r.route && r.route.path) {
@@ -30,7 +32,7 @@ async function main() {
             });
         });
 
-        info("Iniciando servidor WebSocket...");
+        info("Iniciando o servidor WebSocket...");
         startWebSocketServer(server);
 
         info(`Capacidade máxima: ${capacity} clientes`);

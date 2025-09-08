@@ -60,4 +60,6 @@ export function startWebSocketServer(server: Server) {
             removeClient(client.id);
         });
     });
+
+    info("Servidor WebSocket iniciado com sucesso!");
 }

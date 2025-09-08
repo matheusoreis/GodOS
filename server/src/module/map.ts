@@ -10,9 +10,10 @@ const maps = new Map<number, Map>();
 export async function loadMaps() {
     const allMaps: Map[] = await readAllMaps();
     for (const map of allMaps) {
-        info(`Mapa ${map.identifier} carregado com sucesso!`);
         setMap(map);
     }
+
+    info(`Mapas carregados com sucesso: ${allMaps.length}`);
 }
 
 export function setMap(map: Map): void {

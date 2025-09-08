@@ -2,8 +2,6 @@ import type { RawData } from "ws";
 import { disconnectClient, isClientConnected } from "../module/client.js";
 import { error, warning } from "../shared/logger.js";
 import { handlePing } from "./handlers/ping.js";
-import { handleSignIn } from "./handlers/sign-in.js";
-import { handleSignUp } from "./handlers/sign-up.js";
 import { handleActorList } from "./handlers/actor-list.js";
 import { handleCreateActor } from "./handlers/create-actor.js";
 import { handleDeleteActor } from "./handlers/delete-actor.js";
@@ -39,8 +37,6 @@ type PacketHandler<T = any> = (id: number, data: T) => Promise<void>;
 
 const handlers: Record<number, PacketHandler> = {
     [Packets.Ping]: handlePing,
-    [Packets.SignIn]: handleSignIn,
-    [Packets.SignUp]: handleSignUp,
     [Packets.ActorList]: handleActorList,
     [Packets.CreateActor]: handleCreateActor,
     [Packets.DeleteActor]: handleDeleteActor,

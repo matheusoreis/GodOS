@@ -1,46 +1,60 @@
+import type { Server } from "http";
+import jwt from "jsonwebtoken";
 import { WebSocket, WebSocketServer, type RawData } from "ws";
-import { setClient, removeClient, type Client } from "../module/client.js";
-import { info, warning } from "../shared/logger.js";
-import { handler } from "./handler.js";
 import { removeAccount } from "../module/account.js";
 import { removeActor } from "../module/actor.js";
+import { removeClient, setClient, type Client } from "../module/client.js";
+import { info, warning } from "../shared/logger.js";
+import { handler } from "./handler.js";
 
-/**
- * Inicia o servidor WebSocket.
- *
- * @param {number} port - A porta na qual o servidor WebSocket deve escutar.
- */
-export function start(port: number) {
-    const wss = new WebSocketServer({ port: port });
+export function startWebSocketServer(server: Server) {
+    const wss = new WebSocketServer({ noServer: true });
 
-    // Evento disparado quando um cliente se conecta
-    wss.on("connection", (ws: WebSocket) => {
-        // Adiciona um novo cliente no servidor e obtem o id do mesmo.
+    server.on("upgrade", (req, socket, head) => {
+        const url = new URL(req.url ?? "", "http://godos");
+        const token = url.searchParams.get("token");
+
+        if (!token) {
+            socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+            socket.destroy();
+            return;
+        }
+
+        try {
+            const payload = jwt.verify(token, process.env.JWT_SECRET ?? "");
+            (req as any).user = payload;
+            wss.handleUpgrade(req, socket, head, (ws) => {
+                wss.emit("connection", ws, req);
+            });
+        } catch {
+            socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+            socket.destroy();
+        }
+    });
+
+    wss.on("connection", (ws: WebSocket, req) => {
+        const user = (req as any).user;
+
         const client: Client | undefined = setClient(ws);
         if (client === undefined) {
             warning("O servidor está cheio!");
             return ws.close();
         }
 
-        info(`Cliente ${client.id} entrou no servidor.`);
+        info(`Cliente ${client.id} (${user.username}) entrou no servidor.`);
 
-        // Evento disparado quando o cliente envia uma mensagem
         ws.on("message", async (data: RawData, isBinary: boolean) => {
-            if (isBinary === true) {
+            if (isBinary) {
                 warning(
                     `O cliente ${client.id} enviou um pacote não suportado!`,
                 );
-
                 return ws.close();
             }
-
             await handler(client.id, data);
         });
 
-        // Evento disparado quando o cliente encerra a conexão
         ws.on("close", async () => {
             info(`Cliente ${client.id} deixou o servidor.`);
-
             await removeActor(client.id);
             removeAccount(client.id);
             removeClient(client.id);

@@ -1,6 +1,7 @@
 import { startLoop } from "./loop.js";
 import { loadMaps } from "./module/map.js";
-import { start } from "./network/network.js";
+import { startHttpServer } from "./network/http.js";
+import { startWebSocketServer } from "./network/network.js";
 import { error, info, warning } from "./shared/logger.js";
 
 async function main() {
@@ -14,10 +15,15 @@ async function main() {
         info("Iniciando o loop...");
         startLoop();
 
-        info("Iniciando servidor...");
-        start(port);
+        info("Iniciando o servidor HTTP...");
+        const server = startHttpServer();
+        server.listen(port, () => {
+            info(`Servidor HTTP ouvindo na porta ${port}`);
+        });
 
-        info(`Servidor rodando em ws://localhost:${port}`);
+        info("Iniciando servidor WebSocket...");
+        startWebSocketServer(server);
+
         info(`Capacidade máxima: ${capacity} clientes`);
 
         process.on("SIGINT", () => {

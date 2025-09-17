@@ -1,7 +1,7 @@
 extends Node
 
 
-const host := "187.103.168.149"
+const host := "127.0.0.1"
 const port := 7001
 const secure := false
 

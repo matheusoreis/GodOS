@@ -4,8 +4,17 @@ export interface ValidationResult {
 }
 
 export function validateEmail(email: string): ValidationResult {
+    var emailMinLength = Number(process.env.EMAIL_MIN_LENGTH ?? 0);
+
     if (!email) {
         return { isValid: false, error: "E-mail é obrigatório." };
+    }
+
+    if (email.length < emailMinLength) {
+        return {
+            isValid: false,
+            error: `O email deve ter pelo menos ${emailMinLength} caracteres.`,
+        };
     }
 
     const emailLower = email.toLowerCase();

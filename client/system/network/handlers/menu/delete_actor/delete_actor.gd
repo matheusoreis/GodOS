@@ -17,7 +17,7 @@ func _handle_delete_actor(data: Dictionary) -> void:
 		Alert.show(data.get("message"))
 		return
 
-	var message = data.get("message")
+	var message = data.get("message", false)
 	if message != null:
 		Alert.show(message)
 

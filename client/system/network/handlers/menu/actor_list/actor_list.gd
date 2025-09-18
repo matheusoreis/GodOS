@@ -16,10 +16,13 @@ func _handle_actor_list(data: Dictionary) -> void:
 		Alert.show(data.get("message"))
 		return
 
-	var max_actors = data.get("maxActors")
-	var actors = data.get("actors")
-	if max_actors == null or actors == null:
-		Alert.show("Dados da lista de personagens inválidos.")
+	var max_actors = data.get("maxActors", 1)
+	if max_actors == null:
+		Alert.show("Quantidade máxima de personagens não informada!")
+
+	var actors = data.get("actors", null)
+	if actors == null:
+		Alert.show("Dados dos personagens não foi informado!")
 		return
 
 	actor_list_ui.update_slots(max_actors, actors)

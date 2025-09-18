@@ -19,14 +19,14 @@ func _handle_sign_in(data: Dictionary) -> void:
 		Alert.show(data.get("message", "Erro ao entrar."))
 		return
 
-	var account = data.get("account")
+	var account = data.get("account", null)
 	if account == null:
 		Alert.show("Erro! Os dados da conta não foram recebidos.")
 		return
 
 	Globals.account = account
 
-	var message = data.get("message")
+	var message = data.get("message", null)
 	if message != null:
 		Alert.show(message)
 

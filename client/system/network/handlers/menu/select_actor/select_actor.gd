@@ -16,7 +16,7 @@ func _handle_select_actor(data: Dictionary) -> void:
 		Alert.show(data.get("message"))
 		return
 
-	var message = data.get("message")
+	var message = data.get("message", null)
 	if message != null:
 		Alert.show(message)
 

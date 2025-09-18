@@ -19,7 +19,7 @@ func _handle_sign_up(data: Dictionary) -> void:
 		Alert.show(data.get("message", "Erro ao criar a conta."))
 		return
 
-	var message = data.get("message")
+	var message = data.get("message", null)
 	if message != null:
 		Alert.show(message)
 

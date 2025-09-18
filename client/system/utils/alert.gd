@@ -5,7 +5,7 @@ var alert: AlertUi
 
 
 func show(message: String) -> void:
-	var alert_scene: PackedScene = load("res://database/interfaces/shared/alert.tscn")
+	var alert_scene: PackedScene = load("uid://dkmdxpcd75kxh")
 	alert = alert_scene.instantiate()
 	alert.add_message(message)
 

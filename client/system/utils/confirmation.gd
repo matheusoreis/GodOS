@@ -8,7 +8,7 @@ var confirmation: ConfirmationUi
 
 
 func show(message: String) -> void:
-	var alert_scene: PackedScene = load("res://database/interfaces/shared/confirmation.tscn")
+	var alert_scene: PackedScene = load("uid://bw7i4o1jv04qc")
 	confirmation = alert_scene.instantiate()
 	confirmation.add_message(message)
 

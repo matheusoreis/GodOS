@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bv3bkrexqgese"]
+
+[ext_resource type="Script" uid="uid://wmg2cjqjkte5" path="res://system/network/handlers/game/me_to_actors/me_to_actors.gd" id="1_gm1o5"]
+
+[node name="MeToActors" type="Node"]
+script = ExtResource("1_gm1o5")

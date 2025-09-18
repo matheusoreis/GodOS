@@ -11,6 +11,8 @@ layers = [NodePath("Ground/Ground1"), NodePath("Object/Object1"), NodePath("Abov
 spawn_location = NodePath("Spawn")
 entities = Array[PackedScene]([ExtResource("3_7q6rn")])
 
+[node name="Handlers" type="Node" parent="."]
+
 [node name="Ground" type="Node2D" parent="."]
 
 [node name="Ground1" type="TileMapLayer" parent="Ground"]

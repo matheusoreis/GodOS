@@ -1,7 +1,7 @@
 import type { Account } from "../../database/services/account.js";
 import type { Actor } from "../../database/services/actor.js";
 import { getAccount } from "../../module/account.js";
-import { getActor, patchActor } from "../../module/actor.js";
+import { getActor, getAllActorsInMap, patchActor } from "../../module/actor.js";
 import {
     getMapById,
     isInsideMapBounds,
@@ -72,6 +72,7 @@ export async function handleMoveActor(
         const newPositionX = actor.positionX + directionX;
         const newPositionY = actor.positionY + directionY;
 
+        // fora dos limites
         if (!isInsideMapBounds(map, newPositionX, newPositionY)) {
             throw new MoveActorPositionError(
                 "Fora dos limites do mapa.",
@@ -79,11 +80,27 @@ export async function handleMoveActor(
             );
         }
 
+        // tile bloqueado
         if (isTileMapBlocked(map, newPositionX, newPositionY)) {
-            console.log("movimento inválido");
             throw new MoveActorPositionError("Tile bloqueado.", actor);
         }
 
+        // célula ocupada
+        const actorsInMap = getAllActorsInMap(actor.mapId);
+        const occupied = actorsInMap.some(
+            (a) =>
+                a.id !== actor.id &&
+                a.positionX === newPositionX &&
+                a.positionY === newPositionY,
+        );
+        if (occupied) {
+            throw new MoveActorPositionError(
+                "Tile ocupado por outro jogador.",
+                actor,
+            );
+        }
+
+        // aplica movimento
         const moved = patchActor(clientId, {
             positionX: newPositionX,
             positionY: newPositionY,
@@ -97,7 +114,7 @@ export async function handleMoveActor(
             );
         }
 
-        // notifica outros personagens do mapa
+        // notifica outros jogadores no mapa
         sendToMapBut(moved.mapId, clientId, {
             id: packetId,
             data: {

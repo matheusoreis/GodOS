@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://l6bqo352wjwm"]
+
+[ext_resource type="Script" uid="uid://bvqjdjmn7a51r" path="res://system/network/handlers/game/map_data/map_data.gd" id="1_ixhge"]
+
+[node name="MapData" type="Node"]
+script = ExtResource("1_ixhge")

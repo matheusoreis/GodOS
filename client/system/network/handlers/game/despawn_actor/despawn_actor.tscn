@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://0y01oevevtgm"]
+
+[ext_resource type="Script" uid="uid://bo01sf8nxhsrd" path="res://system/network/handlers/game/despawn_actor/despawn_actor.gd" id="1_5ebyc"]
+
+[node name="DisconnectActor" type="Node"]
+script = ExtResource("1_5ebyc")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddl4uu0iw2xi4"]
+
+[ext_resource type="Script" uid="uid://b52aad0nmy03m" path="res://system/network/handlers/game/move_actor/move_actor.gd" id="1_vopgj"]
+
+[node name="MoveActor" type="Node"]
+script = ExtResource("1_vopgj")

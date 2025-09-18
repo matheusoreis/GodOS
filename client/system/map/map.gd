@@ -221,3 +221,18 @@ func remove_entity_by_id(entity_id: int) -> void:
 
 func remove_entity(entity: Entity) -> void:
 	remove_entity_by_id(int(entity.name))
+
+
+func spawn_entity(scene: PackedScene, data: Dictionary, controllable: bool = false) -> Entity:
+	if not scene:
+		return null
+
+	var entity: Entity = scene.instantiate()
+	entity.setup_from_data(data, controllable, self)
+	add_entity(entity, entity.map_position)
+	return entity
+
+
+func spawn_actor(data: Dictionary, controllable: bool = false) -> Entity:
+	var actor_scene: PackedScene = load("res://system/entity/entity.tscn")
+	return spawn_entity(actor_scene, data, controllable)

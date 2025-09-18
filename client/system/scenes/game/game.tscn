@@ -1,6 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://csseo0na21fc2"]
+[gd_scene load_steps=6 format=3 uid="uid://csseo0na21fc2"]
 
 [ext_resource type="Script" uid="uid://dab4r7or6gak4" path="res://system/scenes/game/game.gd" id="1_g6v5q"]
+[ext_resource type="PackedScene" uid="uid://l6bqo352wjwm" path="res://system/network/handlers/game/map_data/map_data.tscn" id="2_prdbc"]
+[ext_resource type="PackedScene" uid="uid://bv3bkrexqgese" path="res://system/network/handlers/game/me_to_actors/me_to_actors.tscn" id="3_limkq"]
+[ext_resource type="PackedScene" uid="uid://ddl4uu0iw2xi4" path="res://system/network/handlers/game/move_actor/move_actor.tscn" id="4_pojso"]
+[ext_resource type="PackedScene" uid="uid://0y01oevevtgm" path="res://system/network/handlers/game/despawn_actor/despawn_actor.tscn" id="5_juxcj"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_g6v5q")
+
+[node name="Handlers" type="Node" parent="."]
+
+[node name="MapData" parent="Handlers" node_paths=PackedStringArray("game") instance=ExtResource("2_prdbc")]
+game = NodePath("../..")
+
+[node name="MeToActors" parent="Handlers" node_paths=PackedStringArray("game") instance=ExtResource("3_limkq")]
+game = NodePath("../..")
+
+[node name="MoveActor" parent="Handlers" node_paths=PackedStringArray("game") instance=ExtResource("4_pojso")]
+game = NodePath("../..")
+
+[node name="DisconnectActor" parent="Handlers" node_paths=PackedStringArray("game") instance=ExtResource("5_juxcj")]
+game = NodePath("../..")

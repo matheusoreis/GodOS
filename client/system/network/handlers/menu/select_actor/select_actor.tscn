@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://6hgps55ule22"]
+
+[ext_resource type="Script" uid="uid://c7cy7sbrsgsb4" path="res://system/network/handlers/menu/select_actor/select_actor.gd" id="1_5a8yh"]
+
+[node name="SelectActor" type="Node"]
+script = ExtResource("1_5a8yh")

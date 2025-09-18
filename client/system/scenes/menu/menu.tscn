@@ -1,0 +1,73 @@
+[gd_scene load_steps=13 format=3 uid="uid://bgfy1ta2owasm"]
+
+[ext_resource type="Script" uid="uid://cx7lmaf65j1na" path="res://system/scenes/menu/menu.gd" id="1_r41a6"]
+[ext_resource type="PackedScene" uid="uid://ddw8tdpavix2w" path="res://system/network/handlers/menu/sign_in/sign_in.tscn" id="2_kd1vr"]
+[ext_resource type="PackedScene" uid="uid://csseo0na21fc2" path="res://system/scenes/game/game.tscn" id="3_2wjto"]
+[ext_resource type="PackedScene" uid="uid://dblklaselbw2w" path="res://system/network/handlers/menu/sign_up/sign_up.tscn" id="3_vim23"]
+[ext_resource type="PackedScene" uid="uid://d00axkeuxjtf8" path="res://database/ui/menu/sign_in/sign_in.tscn" id="4_v4uh6"]
+[ext_resource type="PackedScene" uid="uid://ch3hnxf4nqp0g" path="res://database/ui/menu/sign_up/sign_up.tscn" id="5_2wjto"]
+[ext_resource type="PackedScene" uid="uid://ekikwm0cbc4e" path="res://system/network/handlers/menu/actor_list/actor_list.tscn" id="5_7263f"]
+[ext_resource type="PackedScene" uid="uid://cl865uy4vo2hw" path="res://system/network/handlers/menu/create_actor/create_actor.tscn" id="6_kdptk"]
+[ext_resource type="PackedScene" uid="uid://b5j0y086yny48" path="res://system/network/handlers/menu/delete_actor/delete_actor.tscn" id="7_a4pw3"]
+[ext_resource type="PackedScene" uid="uid://6hgps55ule22" path="res://system/network/handlers/menu/select_actor/select_actor.tscn" id="8_mrh7v"]
+[ext_resource type="PackedScene" uid="uid://3o5kymj45w2m" path="res://database/ui/menu/actor_list/actor_list.tscn" id="11_a4pw3"]
+[ext_resource type="PackedScene" uid="uid://b8fn4c5kiel6v" path="res://database/ui/menu/create_actor/create_actor.tscn" id="12_mrh7v"]
+
+[node name="Menu" type="Control" node_paths=PackedStringArray("sign_in_ui", "sign_up_ui")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r41a6")
+sign_in_ui = NodePath("Center/SignIn")
+sign_up_ui = NodePath("Center/SignUp")
+
+[node name="Handlers" type="Node" parent="."]
+
+[node name="SignIn" parent="Handlers" node_paths=PackedStringArray("sign_in_ui", "actor_list_ui") instance=ExtResource("2_kd1vr")]
+sign_in_ui = NodePath("../../Center/SignIn")
+actor_list_ui = NodePath("../../Center/ActorList")
+
+[node name="SignUp" parent="Handlers" node_paths=PackedStringArray("sign_up_ui", "sign_in_ui") instance=ExtResource("3_vim23")]
+sign_up_ui = NodePath("../../Center/SignUp")
+sign_in_ui = NodePath("../../Center/SignIn")
+
+[node name="ActorList" parent="Handlers" node_paths=PackedStringArray("actor_list_ui") instance=ExtResource("5_7263f")]
+actor_list_ui = NodePath("../../Center/ActorList")
+
+[node name="CreateActor" parent="Handlers" node_paths=PackedStringArray("actor_list_ui", "create_actor_ui") instance=ExtResource("6_kdptk")]
+actor_list_ui = NodePath("../../Center/ActorList")
+create_actor_ui = NodePath("../../Center/CreateActor")
+
+[node name="DeleteActor" parent="Handlers" node_paths=PackedStringArray("actor_list_ui", "create_actor_ui") instance=ExtResource("7_a4pw3")]
+actor_list_ui = NodePath("../../Center/ActorList")
+create_actor_ui = NodePath("../../Center/CreateActor")
+
+[node name="SelectActor" parent="Handlers" instance=ExtResource("8_mrh7v")]
+game_scene = ExtResource("3_2wjto")
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SignIn" parent="Center" instance=ExtResource("4_v4uh6")]
+layout_mode = 2
+
+[node name="SignUp" parent="Center" instance=ExtResource("5_2wjto")]
+visible = false
+layout_mode = 2
+
+[node name="ActorList" parent="Center" instance=ExtResource("11_a4pw3")]
+visible = false
+layout_mode = 2
+
+[node name="CreateActor" parent="Center" node_paths=PackedStringArray("actor_list_ui") instance=ExtResource("12_mrh7v")]
+visible = false
+layout_mode = 2
+actor_list_ui = NodePath("../ActorList")

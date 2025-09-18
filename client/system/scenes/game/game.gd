@@ -6,7 +6,7 @@ var current_map: Map
 
 
 func _ready() -> void:
-	Network.registry = [
+	Network.handlers = [
 		[Packets.MAP_DATA, _handle_map_data],
 		[Packets.ME_TO_ACTORS, _handle_me_to_actors],
 		[Packets.MOVE_ACTOR, _handle_move_actor],

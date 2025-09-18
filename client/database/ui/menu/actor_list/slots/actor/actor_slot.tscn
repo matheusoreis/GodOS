@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcp4kc2kh5e57"]
+
+[ext_resource type="Script" uid="uid://trwkyc2qm71l" path="res://database/ui/menu/actor_list/slots/actor/actor_slot.gd" id="1_duqj2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajcrb"]
+region = Rect2(0, 0, 64, 96)
+
+[node name="ActorSlot" type="PanelContainer" node_paths=PackedStringArray("identifier", "sprite")]
+custom_minimum_size = Vector2(150, 105)
+offset_right = 141.0
+offset_bottom = 104.0
+size_flags_horizontal = 3
+script = ExtResource("1_duqj2")
+identifier = NodePath("Margin/Content/NameLabel")
+sprite = NodePath("Margin/Content/Sprite")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="NameLabel" type="Label" parent="Margin/Content"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite" type="TextureRect" parent="Margin/Content"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_ajcrb")
+stretch_mode = 2
+
+[node name="Buttons" type="VBoxContainer" parent="Margin/Content"]
+layout_mode = 2
+
+[node name="AccessButton" type="Button" parent="Margin/Content/Buttons"]
+layout_mode = 2
+text = "Acessar"
+
+[node name="DeleteButton" type="Button" parent="Margin/Content/Buttons"]
+layout_mode = 2
+text = "Apagar"
+
+[connection signal="pressed" from="Margin/Content/Buttons/AccessButton" to="." method="_on_access_button_pressed"]
+[connection signal="pressed" from="Margin/Content/Buttons/DeleteButton" to="." method="_on_delete_button_pressed"]

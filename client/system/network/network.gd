@@ -1,16 +1,13 @@
 extends Node
 
-
 signal logger(message: String)
 
-
-var _registry: Dictionary = {}
+var _handlers: Dictionary = {}
 var _socket: WebSocketPeer
 var _packets: BoundedQueue
 
-
-var registry: Array:
-	set(value): _set_registry(value)
+var handlers: Array:
+	set(value): _set_handlers(value)
 
 
 func _ready():
@@ -33,18 +30,20 @@ func send_packet(id: int, data: Dictionary) -> void:
 		"id": id,
 		"data": data
 	}
-
 	var json_string = JSON.stringify(packet)
 	_socket.send_text(json_string)
 
 
-func _set_registry(value: Array) -> void:
-	_registry.clear()
+func _set_handlers(value: Array) -> void:
 	if value == null:
 		return
 
 	for info in value:
-		_registry[info[0]] = info[1]
+		_handlers[info[0]] = info[1]
+
+
+func clear_handlers() -> void:
+	_handlers.clear()
 
 
 func _process(_delta: float):
@@ -66,7 +65,7 @@ func _handle_open_state():
 		if result == FAILED:
 			logger.emit("A fila de pacotes está cheia, descartando pacotes")
 
-	if _packets.count > 0 && _registry.size() > 0:
+	if _packets.count > 0 && _handlers.size() > 0:
 		_handle_packet(_packets.dequeue())
 
 
@@ -86,11 +85,11 @@ func _handle_packet(json_string: String) -> void:
 
 	var packet_id = packet_data.id as int
 
-	if !_registry.has(packet_id):
+	if !_handlers.has(packet_id):
 		logger.emit('Nenhum handler registrado para o pacote: %s' % packet_id)
 		return
 
-	var handler = _registry[packet_id] as Callable
+	var handler = _handlers[packet_id] as Callable
 	var data = packet_data.get("data", {})
-	
+
 	handler.call(data)

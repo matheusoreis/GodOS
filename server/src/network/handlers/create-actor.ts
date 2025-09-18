@@ -34,6 +34,9 @@ export async function handleCreateActor(
             throw new CreateActorError("Usuário não está logado.");
         }
 
+        var teste = validateUsername(identifier).isValid;
+        console.log(teste);
+
         if (!validateUsername(identifier).isValid) {
             throw new CreateActorError("Nome do personagem inválido.");
         }

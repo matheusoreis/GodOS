@@ -27,8 +27,8 @@ export function validateEmail(email: string): ValidationResult {
 }
 
 export function validateUsername(user: string): ValidationResult {
-    var userMinLength = Number(process.env.USER_MIN_LENGTH ?? 0);
-    var userMaxLength = Number(process.env.USER_MAX_LENGTH ?? 0);
+    var userMinLength = Number(process.env.IDENTIFIER_MIN_LENGTH ?? 0);
+    var userMaxLength = Number(process.env.IDENTIFIER_MAX_LENGTH ?? 0);
 
     if (!user) {
         return { isValid: false, error: "Nome de usuário é obrigatório." };

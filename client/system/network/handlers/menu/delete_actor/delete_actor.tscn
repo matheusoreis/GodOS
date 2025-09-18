@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5j0y086yny48"]
+
+[ext_resource type="Script" uid="uid://wkxxovua2gxo" path="res://system/network/handlers/menu/delete_actor/delete_actor.gd" id="1_qkapr"]
+
+[node name="DeleteActor" type="Node"]
+script = ExtResource("1_qkapr")

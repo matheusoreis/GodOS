@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d00axkeuxjtf8"]
 
-[ext_resource type="Script" uid="uid://b076krk8tpbvp" path="res://database/ui/menu/sign_in/sign_in.gd" id="1_hcfk8"]
+[ext_resource type="Script" uid="uid://b076krk8tpbvp" path="res://database/interfaces/menu/sign_in/sign_in.gd" id="1_hcfk8"]
 
 
 [node name="SignIn" type="PanelContainer" node_paths=PackedStringArray("identifier_line", "password_line", "sign_up_button", "confirm_button")]

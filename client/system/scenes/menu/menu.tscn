@@ -4,14 +4,14 @@
 [ext_resource type="PackedScene" uid="uid://ddw8tdpavix2w" path="res://system/network/handlers/menu/sign_in/sign_in.tscn" id="2_kd1vr"]
 [ext_resource type="PackedScene" uid="uid://csseo0na21fc2" path="res://system/scenes/game/game.tscn" id="3_2wjto"]
 [ext_resource type="PackedScene" uid="uid://dblklaselbw2w" path="res://system/network/handlers/menu/sign_up/sign_up.tscn" id="3_vim23"]
-[ext_resource type="PackedScene" uid="uid://d00axkeuxjtf8" path="res://database/ui/menu/sign_in/sign_in.tscn" id="4_v4uh6"]
-[ext_resource type="PackedScene" uid="uid://ch3hnxf4nqp0g" path="res://database/ui/menu/sign_up/sign_up.tscn" id="5_2wjto"]
+[ext_resource type="PackedScene" uid="uid://d00axkeuxjtf8" path="res://database/interfaces/menu/sign_in/sign_in.tscn" id="4_v4uh6"]
+[ext_resource type="PackedScene" uid="uid://ch3hnxf4nqp0g" path="res://database/interfaces/menu/sign_up/sign_up.tscn" id="5_2wjto"]
 [ext_resource type="PackedScene" uid="uid://ekikwm0cbc4e" path="res://system/network/handlers/menu/actor_list/actor_list.tscn" id="5_7263f"]
 [ext_resource type="PackedScene" uid="uid://cl865uy4vo2hw" path="res://system/network/handlers/menu/create_actor/create_actor.tscn" id="6_kdptk"]
 [ext_resource type="PackedScene" uid="uid://b5j0y086yny48" path="res://system/network/handlers/menu/delete_actor/delete_actor.tscn" id="7_a4pw3"]
 [ext_resource type="PackedScene" uid="uid://6hgps55ule22" path="res://system/network/handlers/menu/select_actor/select_actor.tscn" id="8_mrh7v"]
-[ext_resource type="PackedScene" uid="uid://3o5kymj45w2m" path="res://database/ui/menu/actor_list/actor_list.tscn" id="11_a4pw3"]
-[ext_resource type="PackedScene" uid="uid://b8fn4c5kiel6v" path="res://database/ui/menu/create_actor/create_actor.tscn" id="12_mrh7v"]
+[ext_resource type="PackedScene" uid="uid://3o5kymj45w2m" path="res://database/interfaces/menu/actor_list/actor_list.tscn" id="11_a4pw3"]
+[ext_resource type="PackedScene" uid="uid://b8fn4c5kiel6v" path="res://database/interfaces/menu/create_actor/create_actor.tscn" id="12_mrh7v"]
 
 [node name="Menu" type="Control" node_paths=PackedStringArray("sign_in_ui", "sign_up_ui")]
 layout_mode = 3

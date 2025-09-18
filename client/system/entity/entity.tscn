@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbdtm44j8vrfb"]
+[gd_scene load_steps=5 format=3 uid="uid://dbdtm44j8vrfb"]
 
 [ext_resource type="Script" uid="uid://2f7hv7cjmak1" path="res://system/entity/entity.gd" id="1_fop73"]
 [ext_resource type="Texture2D" uid="uid://detr85ubohpgd" path="res://assets/graphics/entities/001-Fighter01.png" id="2_ubaeu"]
-[ext_resource type="PackedScene" uid="uid://g5710w241ow6" path="res://system/entity/controller/controller.tscn" id="3_qp5xl"]
+[ext_resource type="PackedScene" uid="uid://g5710w241ow6" path="res://system/entity/components/controller/controller.tscn" id="3_qp5xl"]
+[ext_resource type="PackedScene" uid="uid://clyr1265yuikc" path="res://system/entity/components/camera/camera_2d.tscn" id="4_u8s2e"]
 
-[node name="Entity" type="Node2D" node_paths=PackedStringArray("sprite", "camera")]
+[node name="Entity" type="Node2D" node_paths=PackedStringArray("sprite")]
 script = ExtResource("1_fop73")
 sprite = NodePath("Sprite")
-camera = NodePath("Camera2D")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(32, 0)
@@ -20,4 +20,5 @@ vframes = 4
 [node name="Controller" parent="." node_paths=PackedStringArray("entity") instance=ExtResource("3_qp5xl")]
 entity = NodePath("..")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" parent="." instance=ExtResource("4_u8s2e")]
+position = Vector2(32, 6)

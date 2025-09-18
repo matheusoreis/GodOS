@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dcp4kc2kh5e57"]
 
-[ext_resource type="Script" uid="uid://trwkyc2qm71l" path="res://database/ui/menu/actor_list/slots/actor/actor_slot.gd" id="1_duqj2"]
+[ext_resource type="Script" uid="uid://trwkyc2qm71l" path="res://database/interfaces/menu/actor_list/slots/actor/actor_slot.gd" id="1_duqj2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajcrb"]
 region = Rect2(0, 0, 64, 96)

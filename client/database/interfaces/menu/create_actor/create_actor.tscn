@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b8fn4c5kiel6v"]
 
-[ext_resource type="Script" uid="uid://cvho3x1evh7ny" path="res://database/ui/menu/create_actor/create_actor.gd" id="1_ym5ss"]
+[ext_resource type="Script" uid="uid://cvho3x1evh7ny" path="res://database/interfaces/menu/create_actor/create_actor.gd" id="1_ym5ss"]
 [ext_resource type="Texture2D" uid="uid://detr85ubohpgd" path="res://assets/graphics/entities/001-Fighter01.png" id="2_0n87f"]
 [ext_resource type="Texture2D" uid="uid://8gy7eq23gtc1" path="res://assets/graphics/entities/002-Fighter02.png" id="3_45pvg"]
 [ext_resource type="Texture2D" uid="uid://7xjkprucsr3k" path="res://assets/graphics/entities/003-Fighter03.png" id="4_hs4yv"]

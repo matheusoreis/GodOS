@@ -1,15 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dkmdxpcd75kxh"]
+[gd_scene load_steps=2 format=3 uid="uid://bw7i4o1jv04qc"]
 
-[ext_resource type="Script" uid="uid://c4ns1xdoagoax" path="res://database/ui/shared/alert.gd" id="1_rsikj"]
+[ext_resource type="Script" uid="uid://c7kvl8fq53x3q" path="res://database/interfaces/shared/confirmation.gd" id="1_jvxxg"]
 
-[node name="Alert" type="Control" node_paths=PackedStringArray("message_label")]
+[node name="Confirmation" type="Control" node_paths=PackedStringArray("message_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_rsikj")
+script = ExtResource("1_jvxxg")
 message_label = NodePath("Alert/M1/V1/Message")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -54,4 +54,9 @@ autowrap_mode = 2
 layout_mode = 2
 text = "Confirmar"
 
+[node name="Back" type="Button" parent="Alert/M1/V1"]
+layout_mode = 2
+text = "Voltar"
+
 [connection signal="pressed" from="Alert/M1/V1/Confirm" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="Alert/M1/V1/Back" to="." method="_on_back_pressed"]

@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://3o5kymj45w2m"]
 
-[ext_resource type="Script" uid="uid://deydjqqlnfm3k" path="res://database/ui/menu/actor_list/actor_list.gd" id="1_rhbxq"]
-[ext_resource type="PackedScene" uid="uid://diyvc41jscm7a" path="res://database/ui/menu/actor_list/slots/empty/empty_slot.tscn" id="2_3beo6"]
-[ext_resource type="PackedScene" uid="uid://dcp4kc2kh5e57" path="res://database/ui/menu/actor_list/slots/actor/actor_slot.tscn" id="3_2cnxg"]
+[ext_resource type="Script" uid="uid://deydjqqlnfm3k" path="res://database/interfaces/menu/actor_list/actor_list.gd" id="1_rhbxq"]
+[ext_resource type="PackedScene" uid="uid://diyvc41jscm7a" path="res://database/interfaces/menu/actor_list/slots/empty/empty_slot.tscn" id="2_3beo6"]
+[ext_resource type="PackedScene" uid="uid://dcp4kc2kh5e57" path="res://database/interfaces/menu/actor_list/slots/actor/actor_slot.tscn" id="3_2cnxg"]
 
 [node name="ActorList" type="PanelContainer" node_paths=PackedStringArray("slots_location")]
 custom_minimum_size = Vector2(0, 160)

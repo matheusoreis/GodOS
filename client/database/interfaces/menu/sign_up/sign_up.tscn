@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ch3hnxf4nqp0g"]
 
-[ext_resource type="Script" uid="uid://cna08rw8j8qj0" path="res://database/ui/menu/sign_up/sign_up.gd" id="1_n7o0s"]
+[ext_resource type="Script" uid="uid://cna08rw8j8qj0" path="res://database/interfaces/menu/sign_up/sign_up.gd" id="1_n7o0s"]
 
 [node name="SignUp" type="PanelContainer" node_paths=PackedStringArray("username_line", "email_line", "password_line", "re_password_line", "sign_in_button", "confirm_button")]
 custom_minimum_size = Vector2(300, 130)

@@ -4,7 +4,7 @@ const knexConfig: { [key: string]: Knex.Config } = {
     sqlite: {
         client: "sqlite3",
         connection: {
-            filename: process.env.SQLITE_DB_FILE ?? "./dev.sqlite3",
+            filename: process.env.SQLITE_DB_FILE ?? "./database.sqlite3",
         },
         useNullAsDefault: true,
         migrations: {

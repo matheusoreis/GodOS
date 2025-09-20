@@ -24,6 +24,10 @@ Network="*res://system/network/network.gd"
 Alert="*res://system/utils/alert.gd"
 Confirmation="*res://system/utils/confirmation.gd"
 
+[display]
+
+window/dpi/allow_hidpi=false
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

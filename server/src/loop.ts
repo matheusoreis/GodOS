@@ -3,9 +3,19 @@ import { getAllMaps } from "./module/map.js";
 import { TICKS_PER_SECOND, timesPerSecond } from "./shared/time.js";
 
 let tickCount = 0;
+let intervalId: NodeJS.Timeout | null = null;
 
 export function startLoop() {
-    setInterval(gameLoop, 1000 / TICKS_PER_SECOND);
+    if (intervalId === null) {
+        intervalId = setInterval(gameLoop, 1000 / TICKS_PER_SECOND);
+    }
+}
+
+export function stopLoop() {
+    if (intervalId !== null) {
+        clearInterval(intervalId);
+        intervalId = null;
+    }
 }
 
 function gameLoop() {

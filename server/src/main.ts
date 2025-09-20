@@ -1,6 +1,6 @@
-import { startLoop } from "./loop.js";
+import { startLoop, stopLoop } from "./loop.js";
 import { loadMaps } from "./module/map.js";
-import { start } from "./network/network.js";
+import { startNetwork, stopNetwork } from "./network/network.js";
 import { error, info, warning } from "./shared/logger.js";
 
 async function main() {
@@ -15,17 +15,22 @@ async function main() {
         startLoop();
 
         info("Iniciando servidor...");
-        start(port);
+        startNetwork(port);
 
         info(`Servidor rodando em ws://localhost:${port}`);
         info(`Capacidade máxima: ${capacity} clientes`);
 
         process.on("SIGINT", () => {
             warning("Desligando servidor...");
+
             process.exit(0);
         });
     } catch (e) {
         error(`Erro ao iniciar servidor: ${e}`);
+
+        stopLoop();
+        stopNetwork();
+
         process.exit(1);
     }
 }

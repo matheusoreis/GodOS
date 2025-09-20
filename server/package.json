@@ -7,7 +7,8 @@
     "type": "module",
     "keywords": [],
     "scripts": {
-        "dev": "tsx watch --env-file .env src/main.ts",
+        "dev": "tsx --env-file .env src/main.ts",
+        "dev:watch": "tsx watch --env-file .env src/main.ts",
         "build": "tsc",
         "start": "node --env-file .env dist/main.js",
         "format": "npx prettier . --write",

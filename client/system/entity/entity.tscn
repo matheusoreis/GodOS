@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dbdtm44j8vrfb"]
 
 [ext_resource type="Script" uid="uid://2f7hv7cjmak1" path="res://system/entity/entity.gd" id="1_fop73"]
-[ext_resource type="Texture2D" uid="uid://detr85ubohpgd" path="res://assets/graphics/entities/001-Fighter01.png" id="2_ubaeu"]
+[ext_resource type="SpriteFrames" uid="uid://bywr250ymcar4" path="res://assets/graphics/entities/001-Fighter01.tres" id="2_8w7kk"]
 [ext_resource type="PackedScene" uid="uid://g5710w241ow6" path="res://system/entity/components/controller/controller.tscn" id="3_qp5xl"]
 [ext_resource type="PackedScene" uid="uid://clyr1265yuikc" path="res://system/entity/components/camera/camera_2d.tscn" id="4_u8s2e"]
 
@@ -10,13 +10,10 @@ script = ExtResource("1_fop73")
 sprite = NodePath("Sprite")
 camera = NodePath("Camera2D")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(32, 0)
-texture = ExtResource("2_ubaeu")
-hframes = 4
-vframes = 4
-
-[node name="Animation" type="AnimationPlayer" parent="."]
+sprite_frames = ExtResource("2_8w7kk")
+animation = &"walking_up"
 
 [node name="Controller" parent="." node_paths=PackedStringArray("entity") instance=ExtResource("3_qp5xl")]
 entity = NodePath("..")

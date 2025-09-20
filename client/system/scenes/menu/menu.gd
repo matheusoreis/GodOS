@@ -12,8 +12,6 @@ func _ready() -> void:
 	sign_in_ui.sign_up_pressed.connect(_show_sign_up_ui)
 	sign_up_ui.sign_in_pressed.connect(_show_sign_in_ui)
 
-	Network.connect_to_host(Constants.host, Constants.port, Constants.secure)
-
 
 func _on_network_logger(message: String) -> void:
 	Alert.show(message)

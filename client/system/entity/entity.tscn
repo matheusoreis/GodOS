@@ -1,14 +1,44 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbdtm44j8vrfb"]
+[gd_scene load_steps=7 format=3 uid="uid://dbdtm44j8vrfb"]
 
 [ext_resource type="Script" uid="uid://2f7hv7cjmak1" path="res://system/entity/entity.gd" id="1_fop73"]
 [ext_resource type="SpriteFrames" uid="uid://bywr250ymcar4" path="res://assets/graphics/entities/001-Fighter01.tres" id="2_8w7kk"]
 [ext_resource type="PackedScene" uid="uid://g5710w241ow6" path="res://system/entity/components/controller/controller.tscn" id="3_qp5xl"]
 [ext_resource type="PackedScene" uid="uid://clyr1265yuikc" path="res://system/entity/components/camera/camera_2d.tscn" id="4_u8s2e"]
 
-[node name="Entity" type="Node2D" node_paths=PackedStringArray("sprite", "camera")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u8s2e"]
+bg_color = Color(0.105882354, 0.105882354, 0.105882354, 0.39215687)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_u8s2e"]
+font_size = 18
+
+[node name="Entity" type="Node2D" node_paths=PackedStringArray("identifier_label", "sprite", "camera")]
 script = ExtResource("1_fop73")
+identifier_label = NodePath("Name")
 sprite = NodePath("Sprite")
 camera = NodePath("Camera2D")
+
+[node name="Name" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -80.0
+offset_right = 61.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_u8s2e")
+label_settings = SubResource("LabelSettings_u8s2e")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(32, 0)

@@ -9,6 +9,7 @@ extends Node2D
 @export var move_speed: float = 150.0
 
 @export_group("Nodes")
+@export var identifier_label: Label
 @export var sprite: AnimatedSprite2D
 @export var camera: Camera2D
 @export var current_map: Map = null
@@ -40,6 +41,8 @@ func setup_from_data(data: Dictionary, is_controllable: bool, map: Map) -> void:
 	identifier = data.get("identifier", "unknown")
 
 	name = str(int(data.get("id", -1)))
+
+	identifier_label.text = identifier
 
 	map_position = Vector2i(
 		data.get("positionX", 1),

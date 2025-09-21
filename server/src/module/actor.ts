@@ -37,7 +37,7 @@ export async function removeActor(clientId: number): Promise<void> {
     }
 
     sendToMapBut(actor.mapId, clientId, {
-        id: Packets.Disconnect,
+        id: Packets.DespawnActor,
         data: {
             actorId: actor.id,
         },

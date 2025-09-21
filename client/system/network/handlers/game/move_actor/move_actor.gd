@@ -2,7 +2,7 @@ extends Node
 
 
 @export_group("References")
-@export var game: Game
+@export var map: Map
 
 
 func _ready() -> void:
@@ -11,7 +11,7 @@ func _ready() -> void:
 	]
 
 func _handle_move_actor(data: Dictionary) -> void:
-	if not game.current_map:
+	if not map:
 		return
 
 	var actor_id: int
@@ -25,14 +25,14 @@ func _handle_move_actor(data: Dictionary) -> void:
 			return
 
 		actor_id = int(last_valid.get("actorId", -1))
-		entity = game.current_map.get_entity_by_id(actor_id)
+		entity = map.get_entity_by_id(actor_id)
 		if entity:
 			entity.apply_server_correction(last_valid)
 		return
 
 	# Movimento válido
 	actor_id = int(data.get("actorId", -1))
-	entity = game.current_map.get_entity_by_id(actor_id)
+	entity = map.get_entity_by_id(actor_id)
 	if entity:
 		var direction := Vector2(
 			data.get("directionX", 0),

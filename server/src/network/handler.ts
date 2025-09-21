@@ -27,7 +27,7 @@ export enum Packets {
     MoveActor,
     WarpActor,
 
-    Disconnect,
+    DespawnActor,
 }
 
 export type Packet = {

@@ -2,7 +2,7 @@ extends Node
 
 
 @export_group("References")
-@export var game: Game
+@export var map: Map
 
 
 func _ready() -> void:
@@ -12,7 +12,7 @@ func _ready() -> void:
 
 
 func _handle_me_to_actors(data: Dictionary) -> void:
-	if data == null or not game.current_map:
+	if data == null or not map:
 		return
 
-	game.current_map.spawn_actor(data, false)
+	map.spawn_actor(data, false)

@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bllojqlhu10d7"]
+[gd_scene load_steps=7 format=3 uid="uid://bllojqlhu10d7"]
 
 [ext_resource type="Script" uid="uid://cc6cp5s01ngc6" path="res://system/map/map.gd" id="1_1bm8w"]
 [ext_resource type="TileSet" uid="uid://bdkdxjsujutla" path="res://system/map/tilesets/exterior.tres" id="2_m2m8r"]
 [ext_resource type="PackedScene" uid="uid://dbdtm44j8vrfb" path="res://system/entity/entity.tscn" id="3_7q6rn"]
+[ext_resource type="PackedScene" uid="uid://bv3bkrexqgese" path="res://system/network/handlers/game/me_to_actors/me_to_actors.tscn" id="3_bie34"]
+[ext_resource type="PackedScene" uid="uid://ddl4uu0iw2xi4" path="res://system/network/handlers/game/move_actor/move_actor.tscn" id="4_ldt56"]
+[ext_resource type="PackedScene" uid="uid://0y01oevevtgm" path="res://system/network/handlers/game/despawn_actor/despawn_actor.tscn" id="5_ldt56"]
 
 [node name="Map" type="Node2D" node_paths=PackedStringArray("layers", "spawn_location")]
 script = ExtResource("1_1bm8w")
@@ -12,6 +15,15 @@ spawn_location = NodePath("Spawn")
 entities = Array[PackedScene]([ExtResource("3_7q6rn")])
 
 [node name="Handlers" type="Node" parent="."]
+
+[node name="MeToActors" parent="Handlers" node_paths=PackedStringArray("map") instance=ExtResource("3_bie34")]
+map = NodePath("../..")
+
+[node name="MoveActor" parent="Handlers" node_paths=PackedStringArray("map") instance=ExtResource("4_ldt56")]
+map = NodePath("../..")
+
+[node name="DisconnectActor" parent="Handlers" node_paths=PackedStringArray("map") instance=ExtResource("5_ldt56")]
+map = NodePath("../..")
 
 [node name="Ground" type="Node2D" parent="."]
 

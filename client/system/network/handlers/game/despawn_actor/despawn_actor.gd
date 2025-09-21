@@ -2,18 +2,18 @@ extends Node
 
 
 @export_group("References")
-@export var game: Game
+@export var map: Map
 
 
 func _ready() -> void:
 	Network.handlers = [
-		[Packets.DISCONNECT_ACTOR, _handle_disconnect_actor],
+		[Packets.DESPAWN_ACTOR, _handle_despawn_actor],
 	]
 
 
-func _handle_disconnect_actor(data: Dictionary) -> void:
-	if not game.current_map:
+func _handle_despawn_actor(data: Dictionary) -> void:
+	if not map:
 		return
 
 	var actor_id: int = int(data.get("actorId", -1))
-	game.current_map.remove_entity_by_id(actor_id)
+	map.remove_entity_by_id(actor_id)

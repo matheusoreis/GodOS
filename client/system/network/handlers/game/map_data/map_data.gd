@@ -1,8 +1,7 @@
 extends Node
 
 
-@export_group("References")
-@export var game: Game
+var current_map: Map
 
 
 func _ready() -> void:
@@ -25,10 +24,26 @@ func _handle_map_data(data: Dictionary) -> void:
 		Alert.show("Dados do mapa ou do personagem não foram recebidos.")
 		return
 
-	game.load_map(map["file"], map["identifier"])
+	_load_map(map["file"], map["identifier"])
 
-	game.current_map.spawn_actor(actor, true)
+	current_map.spawn_actor(actor, true)
 
 	for other_actor in actors:
 		if other_actor["id"] != actor["id"]:
-			game.current_map.spawn_actor(other_actor, false)
+			current_map.spawn_actor(other_actor, false)
+
+
+func _load_map(map_file: String, identifier: String) -> void:
+	if current_map:
+		current_map.queue_free()
+		current_map = null
+
+	var packed_map: PackedScene = load("res://database/maps/%s.tscn" % map_file)
+	if not packed_map:
+		push_error("Falha ao carregar o mapa %s" % map_file)
+		return
+
+	current_map = packed_map.instantiate()
+	current_map.identifier = identifier
+
+	add_child(current_map)

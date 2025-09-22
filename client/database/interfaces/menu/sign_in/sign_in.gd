@@ -18,14 +18,6 @@ func _on_sign_up_pressed() -> void:
 
 
 func _on_confirm_pressed() -> void:
-	Network.connect_to_host(
-		Constants.host,
-		Constants.port,
-		Constants.secure
-	)
-
-	await Network.connected
-
 	var identifier: String = identifier_line.text
 	var password: String = password_line.text
 

@@ -9,6 +9,14 @@ extends Control
 func _ready() -> void:
 	Network.logger.connect(_on_network_logger)
 
+	Network.connect_to_host(
+		Constants.host,
+		Constants.port,
+		Constants.secure
+	)
+
+	await Network.connected
+
 	sign_in_ui.sign_up_pressed.connect(_show_sign_up_ui)
 	sign_up_ui.sign_in_pressed.connect(_show_sign_in_ui)
 

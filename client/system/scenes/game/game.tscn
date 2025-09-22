@@ -1,7 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://csseo0na21fc2"]
+[gd_scene load_steps=5 format=3 uid="uid://csseo0na21fc2"]
 
 [ext_resource type="Script" uid="uid://dab4r7or6gak4" path="res://system/scenes/game/game.gd" id="1_g6v5q"]
 [ext_resource type="PackedScene" uid="uid://l6bqo352wjwm" path="res://system/network/handlers/game/map_data/map_data.tscn" id="2_prdbc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prdbc"]
+bg_color = Color(0.38431373, 0.6784314, 0.4117647, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yo55a"]
+bg_color = Color(0.10980392, 0.34117648, 0.7058824, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_g6v5q")
@@ -9,3 +23,225 @@ script = ExtResource("1_g6v5q")
 [node name="Handlers" type="Node" parent="."]
 
 [node name="MapData" parent="Handlers" instance=ExtResource("2_prdbc")]
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Inventory" type="PanelContainer" parent="Interface"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -183.0
+offset_top = -42.0
+offset_right = 183.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Margin" type="MarginContainer" parent="Interface/Inventory"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBox" type="VBoxContainer" parent="Interface/Inventory/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Hotbar" type="HBoxContainer" parent="Interface/Inventory/Margin/VBox"]
+layout_mode = 2
+
+[node name="Slot1" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot2" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot3" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot4" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot5" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot6" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot7" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot8" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot9" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot10" type="Panel" parent="Interface/Inventory/Margin/VBox/Hotbar"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Interface/Inventory/Margin/VBox"]
+layout_mode = 2
+columns = 10
+
+[node name="Slot11" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot12" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot13" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot14" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot15" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot16" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot17" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot18" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot19" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot20" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot21" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot22" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot23" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot24" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot25" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot26" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot27" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot28" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot29" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot30" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot31" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot32" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot33" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot34" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot35" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot36" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot37" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot38" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot39" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="Slot40" type="Panel" parent="Interface/Inventory/Margin/VBox/GridContainer"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+
+[node name="StatusPanel" type="PanelContainer" parent="Interface"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 230.0
+offset_bottom = 88.0
+
+[node name="Margin" type="MarginContainer" parent="Interface/StatusPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Interface/StatusPanel/Margin"]
+layout_mode = 2
+
+[node name="HpBar" type="ProgressBar" parent="Interface/StatusPanel/Margin/VBox"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_prdbc")
+value = 100.0
+rounded = true
+
+[node name="MpBar" type="ProgressBar" parent="Interface/StatusPanel/Margin/VBox"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_yo55a")
+value = 100.0
+rounded = true
